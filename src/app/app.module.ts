@@ -3,17 +3,17 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { PostsComponent } from './posts/posts.component';
-import { PostListComponent } from './posts/post-list/post-list.component';
 import {HttpClientModule} from "@angular/common/http";
 import { NavigationHeaderComponent } from './navigation-header/navigation-header.component';
+import { TopicComponent } from './topic/topic.component';
+import { TopicListComponent } from './topic/topic-list/topic-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PostsComponent,
-    PostListComponent,
-    NavigationHeaderComponent
+    NavigationHeaderComponent,
+    TopicComponent,
+    TopicListComponent
   ],
   imports: [
     BrowserModule,

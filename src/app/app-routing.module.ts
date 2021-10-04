@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {PostsComponent} from "./posts/posts.component";
+import {TopicComponent} from "./topic/topic.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: '/posts', pathMatch: 'full'},
-  {path: 'posts', component: PostsComponent}
+  {path: '', redirectTo: '/topic', pathMatch: 'full'},
+  {path: 'topic', component: TopicComponent}
 ];
 
 @NgModule({
