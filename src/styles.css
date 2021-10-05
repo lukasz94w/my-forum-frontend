@@ -1,3 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
 
+.container-fluid{
+  padding-right:77px;
+  padding-left:0;
+  margin-right:auto;
+  margin-left:auto
+}
+
+
