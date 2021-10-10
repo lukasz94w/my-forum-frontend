@@ -1,0 +1,13 @@
+<div class="card">
+  <div class="card-header">
+    Leave post:
+  </div>
+  <div class="card-body">
+    <form ngForm (ngSubmit)="addNewPost(f)" #f="ngForm">
+      <div class ="form group">
+        <textarea class="form-control" rows="4" required ngModel name="postContent"></textarea>
+      </div>
+    <button type="submit" class="btn btn-primary mt-2">Add new post</button>
+    </form>
+  </div>
+</div>
