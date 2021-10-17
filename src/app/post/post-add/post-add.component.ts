@@ -5,6 +5,7 @@ import {PostService} from "../../service/post.service";
 import {TopicViewComponent} from "../../topic/topic-view/topic-view.component";
 import {Post} from "../../model/post";
 import {Router} from "@angular/router";
+import {User} from "../../model/user";
 
 @Component({
   selector: 'app-post-add',
@@ -13,14 +14,16 @@ import {Router} from "@angular/router";
 })
 export class PostAddComponent {
   topic = {} as Topic;
+  user: User;
 
   constructor(private postService: PostService, private topicViewComponent: TopicViewComponent, private router: Router) {
+    this.user = new User("Janek", "Kowalski");
     // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   addNewPost(f: NgForm) {
     const value = f.value;
-    const newPost = new Post(value.postContent, this.topicViewComponent.topic);
+    const newPost = new Post(value.postContent, this.topicViewComponent.topic, this.user);
     this.postService.addPost(newPost);
     this.router.navigate(['topic/', this.topicViewComponent.id]).then(page => window.location.reload());
     // this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=> this.router.navigate(['topic/', this.topicViewComponent.id]));

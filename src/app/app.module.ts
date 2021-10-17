@@ -12,6 +12,7 @@ import {PostComponent} from "./post/post.component";
 import { PostAddComponent } from './post/post-add/post-add.component';
 import {FormsModule} from "@angular/forms";
 import { TopicAddComponent } from './topic/topic-add/topic-add.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,8 @@ import { TopicAddComponent } from './topic/topic-add/topic-add.component';
         PostComponent,
         PostComponent,
         PostAddComponent,
-        TopicAddComponent
+        TopicAddComponent,
+        SignupComponent
     ],
     imports: [
         BrowserModule,

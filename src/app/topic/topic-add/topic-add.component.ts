@@ -4,6 +4,7 @@ import {Post} from "../../model/post";
 import {Topic} from "../../model/topic";
 import {TopicService} from "../../service/topic.service";
 import {Router} from "@angular/router";
+import {User} from "../../model/user";
 
 @Component({
   selector: 'app-topic-add',
@@ -12,23 +13,19 @@ import {Router} from "@angular/router";
 })
 export class TopicAddComponent implements OnInit {
 
-  constructor(private topicService: TopicService, private router: Router) { }
+  user: User;
+
+  constructor(private topicService: TopicService, private router: Router) {
+    this.user = new User("Janek", "Kowalski");
+  }
 
   ngOnInit(): void {
   }
 
   addNewTopic(f: NgForm) {
     const value = f.value;
-    const newTopic = new Topic(value.title, value.content);
+    const newTopic = new Topic(value.title, value.content, this.user);
     this.topicService.addNewTopic(newTopic);
     this.router.navigate(['topic']);
   }
-
-  // addNewPost(f: NgForm) {
-  //   const value = f.value;
-  //   const newPost = new Post(value.postContent, this.topicViewComponent.topic);
-  //   this.postService.addPost(newPost);
-  //   this.router.navigate(['topic/', this.topicViewComponent.id]).then(page => window.location.reload());
-  //   // this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=> this.router.navigate(['topic/', this.topicViewComponent.id]));
-  // }
 }
