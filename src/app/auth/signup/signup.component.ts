@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../auth.service";
+import {Router} from "@angular/router";
+import {TokenStorageService} from "../../token/token-storage.service";
 
 @Component({
   selector: 'app-signup',
@@ -13,21 +15,42 @@ export class SignupComponent implements OnInit {
     password: null
   }
 
-  constructor(private authService: AuthService) {
+  isSuccessfulRegistration = false;
+  isSignupFailed = false;
+  errorMessage = '';
+
+  constructor(private authService: AuthService, private router: Router) {
   }
 
   ngOnInit(): void {
   }
 
   onSubmit(): void {
-    const { username, email, password } = this.form;
+    const {username, email, password} = this.form;
     this.authService.register(username, email, password).subscribe(
       data => {
         console.log(data);
+        this.isSuccessfulRegistration = true;
+        this.navigateToLoginPage();
       },
-      error => {
-        console.log("registration failed!")
+      err => {
+        this.errorMessage = err.error.message;
+        this.isSignupFailed = true;
+        this.reloadPage();
       }
     )
+  }
+
+  navigateToLoginPage(): void {
+    setTimeout(() => {
+      this.router.navigate(['auth/signin'])
+    }, 5000);
+  }
+
+  reloadPage(): void {
+    setTimeout(() => {
+      // this.router.navigate(['auth/signup']).then(page => window.location.reload());
+      window.location.reload();
+    }, 5000);
   }
 }

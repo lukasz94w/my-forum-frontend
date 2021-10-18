@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {NgForm} from "@angular/forms";
-import {Post} from "../../model/post";
+import {Component, OnInit} from '@angular/core';
 import {Topic} from "../../model/topic";
 import {TopicService} from "../../service/topic.service";
 import {Router} from "@angular/router";
@@ -12,19 +10,22 @@ import {User} from "../../model/user";
   styleUrls: ['./topic-add.component.css']
 })
 export class TopicAddComponent implements OnInit {
+  form: any = {
+    title: null, content: null
+  }
 
   user: User;
 
   constructor(private topicService: TopicService, private router: Router) {
-    this.user = new User("Janek", "Kowalski");
+    this.user = new User("admin", "admin");
   }
 
   ngOnInit(): void {
   }
 
-  addNewTopic(f: NgForm) {
-    const value = f.value;
-    const newTopic = new Topic(value.title, value.content, this.user);
+  addNewTopic() {
+    const {title, content} = this.form;
+    const newTopic = new Topic(title, content, this.user);
     this.topicService.addNewTopic(newTopic);
     this.router.navigate(['topic']);
   }

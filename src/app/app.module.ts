@@ -13,6 +13,7 @@ import { PostAddComponent } from './post/post-add/post-add.component';
 import {FormsModule} from "@angular/forms";
 import { TopicAddComponent } from './topic/topic-add/topic-add.component';
 import { SignupComponent } from './auth/signup/signup.component';
+import { SigninComponent } from './auth/signin/signin.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { SignupComponent } from './auth/signup/signup.component';
         PostComponent,
         PostAddComponent,
         TopicAddComponent,
-        SignupComponent
+        SignupComponent,
+        SigninComponent
     ],
     imports: [
         BrowserModule,
