@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {Topic} from "../model/topic";
 import {Post} from "../model/post";
 import {error} from "@angular/compiler/src/util";
+import {TopicContent} from "../model/topic-content";
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,8 @@ export class TopicService {
   constructor(private httpClient: HttpClient) {
   }
 
-  addNewTopic(topic: Topic) {
-    return this.httpClient.post(`${this.apiServerUrl}/topic/addTopic`, topic).subscribe(
+  createNewTopic(topicContent: TopicContent) {
+    return this.httpClient.post(`${this.apiServerUrl}/topic/addTopic`, topicContent).subscribe(
       (response) => {
         console.log(response);
       },

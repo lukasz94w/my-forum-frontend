@@ -3,11 +3,35 @@
     Leave post:
   </div>
   <div class="card-body">
-    <form ngForm (ngSubmit)="addNewPost(f)" #f="ngForm">
-      <div class ="form group">
-        <textarea class="form-control" rows="4" required ngModel name="postContent"></textarea>
+    <form
+      name="form"
+      ngForm (ngSubmit)="f.form.valid && addNewPost()"
+      #f="ngForm"
+      novalidate>
+      <div class ="form-group">
+        <textarea
+          type="text"
+          class="form-control"
+          id = "post_content"
+          [placeholder]="!tokenStorageService.isLoggedIn() ? 'Login to add new post.' : ''"
+          [disabled]="!tokenStorageService.isLoggedIn()"
+          name="content"
+          [(ngModel)] = "form.content"
+          rows="4"
+          required
+          minlength="5"
+          maxlength="500"
+          #content = "ngModel"
+        ></textarea>
+        <div class="alert-danger" *ngIf ="content.errors && f.submitted">
+          <div *ngIf ="content.errors.required">Content is required</div>
+          <div *ngIf ="content.errors.minlength || content.errors.maxlength">Content must have at least 5 characters (max 500)</div>
+        </div>
       </div>
-    <button type="submit" class="btn btn-primary mt-2">Add new post</button>
+    <button
+      [disabled]="!tokenStorageService.isLoggedIn()"
+      type="submit"
+      class="btn btn-primary mt-2">Add new post</button>
     </form>
   </div>
 </div>

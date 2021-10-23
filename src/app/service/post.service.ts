@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Post} from "../model/post";
 import {error} from "@angular/compiler/src/util";
+import {PostContent} from "../model/post-content";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class PostService{
   constructor(private httpClient: HttpClient) {
   }
 
-  addPost(newPost: Post) {
+  createNewPost(newPost: PostContent) {
     return this.httpClient.post(`${this.apiServerUrl}/post/addPost`, newPost).subscribe(
       (response) => {
         console.log(response);

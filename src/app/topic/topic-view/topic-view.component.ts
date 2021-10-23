@@ -11,7 +11,7 @@ import {ActivatedRoute, Params} from "@angular/router";
 export class TopicViewComponent implements OnInit {
 
   topic = {} as Topic;
-  id: number | undefined;
+  id: number = 0;
 
   constructor(private topicService: TopicService, private router: ActivatedRoute) { }
 

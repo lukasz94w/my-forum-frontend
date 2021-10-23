@@ -34,9 +34,9 @@ export class SignupComponent implements OnInit {
         this.navigateToLoginPage();
       },
       err => {
-        this.errorMessage = err.error.message;
+        this.errorMessage = err.error;
         this.isSignupFailed = true;
-        this.reloadPage();
+        // this.reloadPage();
       }
     )
   }
