@@ -16,6 +16,7 @@ import {SignupComponent} from './auth/signup/signup.component';
 import {SigninComponent} from './auth/signin/signin.component';
 
 import {interceptorProviders} from './auth/interceptor/interceptor';
+import { TopicCategoriesComponent } from './topic/topic-categories/topic-categories.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {interceptorProviders} from './auth/interceptor/interceptor';
     PostAddComponent,
     TopicAddComponent,
     SignupComponent,
-    SigninComponent],
+    SigninComponent,
+    TopicCategoriesComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

@@ -3,7 +3,6 @@ import {User} from "./user";
 
 export class Post {
 
-  id: number | undefined;
   content: string;
   topic: Topic;
   user: User;

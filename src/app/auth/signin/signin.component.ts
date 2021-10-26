@@ -54,27 +54,12 @@ export class SigninComponent implements OnInit {
         console.log("This is the token: " + data.token);
         console.log("This is the user  " + data);
 
-        this.navigateToTopicsList();
+        this.router.navigate(['topic-categories']);
       },
       err => {
         this.isLoginFailed = true;
-        this.reloadPage();
       }
     )
     return false;
-  }
-
-  navigateToTopicsList(): void {
-    setTimeout(() => {
-        this.router.navigate(['topic-list'])
-      }, 1000
-    )
-  }
-
-  reloadPage(): void {
-    setTimeout(() => {
-        window.location.reload();
-      }, 2000
-    )
   }
 }

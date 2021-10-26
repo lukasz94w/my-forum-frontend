@@ -16,19 +16,11 @@ export class PostService{
   constructor(private httpClient: HttpClient) {
   }
 
-  createNewPost(newPost: PostContent) {
-    return this.httpClient.post(`${this.apiServerUrl}/post/addPost`, newPost).subscribe(
-      (response) => {
-        console.log(response);
-      },
-     (error) => {
-        console.log(error)
-       alert("Błędne dane");
-     },
-    )
+  createNewPost(newPost: PostContent):Observable<void> {
+    return this.httpClient.post<void>(`${this.apiServerUrl}/post/addPost`, newPost);
   }
 
-  getPostsByTopicId(id: number | undefined): Observable<any[]> {
-    return this.httpClient.get<any>(`${this.apiServerUrl}/post/getPostsByTopicId/` + id);
+  getPostsByTopicId(id: number): Observable<Post[]> {
+    return this.httpClient.get<Post[]>(`${this.apiServerUrl}/post/getPostsByTopicId/` + id);
   }
 }

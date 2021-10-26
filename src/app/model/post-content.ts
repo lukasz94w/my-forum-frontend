@@ -1,9 +1,9 @@
 export class PostContent {
 
   content: string;
-  topicId: number | undefined;
+  topicId: number;
 
-  constructor(content: string, topicId: number | undefined) {
+  constructor(content: string, topicId: number) {
     this.content = content;
     this.topicId = topicId;
   }

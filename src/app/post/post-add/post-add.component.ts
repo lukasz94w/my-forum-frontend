@@ -24,7 +24,15 @@ export class PostAddComponent {
 
     const newPost = new PostContent(content, this.topicViewComponent.id);
 
-    this.postService.createNewPost(newPost);
-    this.router.navigate(['topic/', this.topicViewComponent.id]).then(page => window.location.reload());
+    this.postService.createNewPost(newPost).subscribe(
+      (response) => {
+        this.router.navigate(['topic/', this.topicViewComponent.id]).then(page => window.location.reload());
+        console.log(response);
+      },
+      (error) => {
+        console.log(error)
+        alert("Błędne dane");
+      },
+    )
   }
 }

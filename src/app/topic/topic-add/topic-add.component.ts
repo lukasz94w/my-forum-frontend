@@ -23,7 +23,15 @@ export class TopicAddComponent implements OnInit {
   addNewTopic() {
     const {title, content} = this.form;
     const newTopic = new TopicContent(title, content);
-    this.topicService.createNewTopic(newTopic);
-    this.router.navigate(['/']);
+    this.topicService.createNewTopic(newTopic).subscribe(
+      (response) => {
+        console.log(response);
+        this.router.navigate(['/']);
+      },
+      (error) => {
+        console.log(error)
+        alert("Błędne dane panie!");
+      }
+    )
   }
 }
