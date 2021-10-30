@@ -17,6 +17,7 @@ import {SigninComponent} from './auth/signin/signin.component';
 
 import {interceptorProviders} from './auth/interceptor/interceptor';
 import { TopicCategoriesComponent } from './topic/topic-categories/topic-categories.component';
+import {NgxPaginationModule} from "ngx-pagination";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { TopicCategoriesComponent } from './topic/topic-categories/topic-categor
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule
   ],
   providers: [interceptorProviders],
   bootstrap: [AppComponent]

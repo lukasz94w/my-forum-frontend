@@ -12,9 +12,6 @@
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" routerLink="/topic-categories">Main page</a>
       </li>
-      <li class="nav-item" routerLinkActive="active" *ngIf = tokenStorage.isLoggedIn()>
-        <a class="nav-link" routerLink="/topic-add">+Add new topic</a>
-      </li>
     </ul>
 
     <ul class="navbar-nav me-2" *ngIf = !tokenStorage.isLoggedIn()>

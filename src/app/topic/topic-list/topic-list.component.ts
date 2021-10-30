@@ -12,27 +12,43 @@ import {ActivatedRoute, Params} from "@angular/router";
 export class TopicListComponent implements OnInit {
 
   topics: Topic[] = [];
+  topicsLength = -1;
+  category = '';
 
-  constructor(private topicService: TopicService, private tokenStorageService: TokenStorageService, private router: ActivatedRoute) {
+  currentPage = 1;
+  totalTopics = 0;
+  totalPages = 0;
+  numberOfTopicsOnOnePage = 10;
+
+  constructor(private topicService: TopicService, public tokenStorageService: TokenStorageService, private router: ActivatedRoute) {
   }
 
   ngOnInit() {
-
-    console.log("Is logged in: " + this.tokenStorageService.isLoggedIn());
-
     this.router.params.subscribe(
-      (params: Params) => {
-        const categoryName = params['category'];
-        console.log("Category name: " + categoryName);
-        this.topicService.findAllTopicsByCategory(categoryName).subscribe(
-          (topics: any[]) => {
-            this.topics = topics;
-          },
-          (error) =>
-            console.log(error)
-        );
+      (param: Params) => {
+        this.category = param['category'];
+        this.findAllTopicsByCategory();
       }
     )
   }
 
+  findAllTopicsByCategory(): void {
+    const params = {'page' : this.currentPage - 1, 'category': this.category}
+    this.topicService.findAllTopicsByCategory(params).subscribe(
+      (data: any) => {
+        this.topics = data.topics
+        this.topicsLength = this.topics.length
+        this.totalTopics = data.totalTopics
+        this.totalPages = data.totalPages
+        console.log(data)
+      },
+      (error) =>
+        console.log(error)
+    );
+  }
+
+  handlePageChange($event: number) {
+    this.currentPage = $event;
+    this.findAllTopicsByCategory();
+  }
 }

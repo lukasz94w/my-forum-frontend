@@ -30,8 +30,8 @@ export class TopicService {
     return this.httpClient.get<Topic>(`${this.apiServerUrl}/topic/getTopicById/` + id);
   }
 
-  findAllTopicsByCategory(categoryName: string): Observable<Topic[]> {
-    return this.httpClient.get<Topic[]>(`${this.apiServerUrl}/topic/findAllTopicsByCategory/` + categoryName);
+  findAllTopicsByCategory(params: any): Observable<Topic[]> {
+    return this.httpClient.get<Topic[]>(`${this.apiServerUrl}/topic/findAllTopicsByCategory`, {params});
   }
 
   countTopicsAndPostsByCategory(): Observable<Summary> {

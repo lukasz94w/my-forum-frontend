@@ -1,19 +1,66 @@
 <div class="row mt-4">
-  <div class="col-lg-10" *ngIf="topics.length > 0">
-    <h4>Latest topics: </h4>
-    <ul class="list-group mb-5 mt-10 list-group-item-light">
-      <li *ngFor="let topic of topics" class="d-flex border p-3" id="postsList">
-        <img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png" alt="John Doe"
-             class="flex-shrink-0 me-3 mt-3 rounded-circle" style="width:60px;height:60px;">
-        <div>
-          <a class="text-black" style="color: orange"
-             [routerLink]="['/topic/', topic.id]">
-            <h6>{{topic.title}}</h6>
-          </a>
-          <p>{{topic.content}}</p>
-          <small>Posted on February 19, 2016, Last answered on March 28, 2021</small>
-        </div>
-      </li>
-    </ul>
+  <div class="col-lg-10">
+
+    <div class="d-flex mb-3">
+      <div class="me-auto">
+        <h4>Latest topics: </h4>
+      </div>
+
+      <div class="ms-auto">
+        <button
+          class="btn btn-success"
+          type="submit"
+          [disabled]="!tokenStorageService.isLoggedIn()"
+          [routerLink]="['/topic-add', category]">
+          Add new topic
+        </button>
+      </div>
+    </div>
+
+    <div class="topics-list" *ngIf="topicsLength > 0">
+
+      <div class="col-md-12" *ngIf="totalPages > 1">
+        <pagination-controls
+          previousLabel="Prev"
+          nextLabel="Next"
+          [responsive]="true"
+          (pageChange)="handlePageChange($event)"
+        ></pagination-controls>
+      </div>
+
+      <ul class="list-group mb-3 mt-10 list-group-item-light">
+        <li class="d-flex border p-3" id="postsList" *ngFor="let topic of topics |
+        paginate :{
+        itemsPerPage: numberOfTopicsOnOnePage,
+        currentPage: currentPage,
+        totalItems: totalTopics
+        }">
+          <img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png" alt="John Doe"
+               class="flex-shrink-0 me-3 mt-3 rounded-circle" style="width:60px;height:60px;">
+          <div>
+            <a class="text-black" style="color: orange"
+               [routerLink]="['/topic/', topic.id]">
+              <h6>{{topic.title}}</h6>
+            </a>
+            <p>{{topic.content}}</p>
+            <small>Posted on February 19, 2016, Last answered on March 28, 2021</small>
+          </div>
+        </li>
+      </ul>
+
+      <div class="col-md-12" *ngIf="totalPages > 1">
+        <pagination-controls
+          previousLabel="Prev"
+          nextLabel="Next"
+          [responsive]="true"
+          (pageChange)="handlePageChange($event)"
+        ></pagination-controls>
+      </div>
+    </div>
+
+    <div class="text-center mt-10" *ngIf="topicsLength == 0">
+      No topics in this section yet.
+    </div>
+
   </div>
 </div>

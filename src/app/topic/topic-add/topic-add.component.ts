@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TopicService} from "../../service/topic.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {TopicContent} from "../../model/topic-content";
 
 @Component({
@@ -13,16 +13,21 @@ export class TopicAddComponent implements OnInit {
   form: any = {
     title: null, content: null
   }
+  category = ''
 
-  constructor(private topicService: TopicService, private router: Router) {
+  constructor(private topicService: TopicService, private router: Router, private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(
+      (params: Params) =>
+        this.category = params['category']
+    )
   }
 
   addNewTopic() {
     const {title, content} = this.form;
-    const newTopic = new TopicContent(title, content);
+    const newTopic = new TopicContent(title, content, this.category);
     this.topicService.createNewTopic(newTopic).subscribe(
       (response) => {
         console.log(response);

@@ -13,7 +13,7 @@ const routes: Routes = [
   {path: 'topic-categories', component: TopicComponent},
   {path: 'topic-list/:category', component: TopicListComponent},
   {path: 'topic/:id', component: TopicViewComponent},
-  {path: 'topic-add', component: TopicAddComponent},
+  {path: 'topic-add/:category', component: TopicAddComponent},
   {path: 'auth/signup', component: SignupComponent},
   {path: 'auth/signin', component: SigninComponent}
 ];
