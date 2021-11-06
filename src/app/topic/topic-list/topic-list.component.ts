@@ -12,6 +12,7 @@ import {ActivatedRoute, Params} from "@angular/router";
 export class TopicListComponent implements OnInit {
 
   topics: Topic[] = [];
+  lastTopicActivities: LastTopicActivity[] = [];
   topicsLength = -1;
   category = '';
 
@@ -33,10 +34,11 @@ export class TopicListComponent implements OnInit {
   }
 
   findAllTopicsByCategory(): void {
-    const params = {'page' : this.currentPage - 1, 'category': this.category}
+    const params = {'page': this.currentPage - 1, 'category': this.category}
     this.topicService.findAllTopicsByCategory(params).subscribe(
       (data: any) => {
         this.topics = data.topics
+        this.lastTopicActivities = data.lastTopicActivities;
         this.topicsLength = this.topics.length
         this.totalTopics = data.totalTopics
         this.totalPages = data.totalPages
@@ -51,4 +53,10 @@ export class TopicListComponent implements OnInit {
     this.currentPage = $event;
     this.findAllTopicsByCategory();
   }
+
+}
+
+export interface LastTopicActivity {
+  user: string
+  timeOfLastActivity: string
 }

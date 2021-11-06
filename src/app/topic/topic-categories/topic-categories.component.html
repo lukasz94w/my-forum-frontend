@@ -1,7 +1,7 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
   <div class="row">
-    <div class="col-lg-12 mt-3">
+    <div class="col-lg-10 mt-3">
       <div class="wrapper wrapper-content animated fadeInRight">
 
         <div class="ibox-content m-b-sm border-bottom">
@@ -25,7 +25,7 @@
 
           <div class="forum-item">
             <div class="row">
-              <div class="col-md-10">
+              <div class="col-md-9">
                 <div class="forum-icon">
                   <i class="fa fa-shield"></i>
                 </div>
@@ -41,6 +41,7 @@
                   <small>Topics</small>
                 </div>
               </div>
+
               <div class="col-md-1 forum-info">
                             <span class="views-number">
                                 {{summary.pprog}}
@@ -49,16 +50,34 @@
                   <small>Posts</small>
                 </div>
               </div>
+
+              <div class="col-md-1 forum-info">
+                <ng-container *ngIf="summary.latestTopProg != null; then showDataProg; else showEmptyProg"></ng-container>
+
+                <ng-template #showDataProg>
+                  {{summary.latestTopProg.title}}
+                </ng-template>
+                <ng-template #showEmptyProg>
+                  No data
+                </ng-template>
+                <div>
+                  <small>Topics</small>
+                </div>
+              </div>
+
+
             </div>
           </div>
           <div class="forum-item">
             <div class="row">
-              <div class="col-md-10">
+              <div class="col-md-9">
                 <div class="forum-icon">
                   <i class="fa fa-bolt"></i>
                 </div>
                 <a class="forum-item-title" [routerLink]="['/topic-list', 'sport']">Sport</a>
-                <div class="forum-sub-title">Interested in sport? Here you can talk with people which share your interest. Football, basketball, hockey - you find there everything you want. </div>
+                <div class="forum-sub-title">Interested in sport? Here you can talk with people which share your
+                  interest. Football, basketball, hockey - you find there everything you want.
+                </div>
               </div>
 
               <div class="col-md-1 forum-info">
@@ -77,16 +96,33 @@
                   <small>Posts</small>
                 </div>
               </div>
+
+              <div class="col-md-1 forum-info">
+                <ng-container *ngIf="summary.latestTopSport != null; then showDataSport; else showEmptySport"></ng-container>
+
+                <ng-template #showDataSport>
+                  {{summary.latestTopSport.title}}
+                </ng-template>
+                <ng-template #showEmptySport>
+                  No data
+                </ng-template>
+                <div>
+                  <small>Topics</small>
+                </div>
+              </div>
+
             </div>
           </div>
           <div class="forum-item">
             <div class="row">
-              <div class="col-md-10">
+              <div class="col-md-9">
                 <div class="forum-icon">
                   <i class="fa fa-calendar"></i>
                 </div>
                 <a class="forum-item-title" [routerLink]="['/topic-list', 'electronic']">Electronic</a>
-                <div class="forum-sub-title">Section where maniacs of electronic gathers. You can ask about mending electronic equipment and find interesting projects. </div>
+                <div class="forum-sub-title">Section where maniacs of electronic gathers. You can ask about mending
+                  electronic equipment and find interesting projects.
+                </div>
               </div>
 
               <div class="col-md-1 forum-info">
@@ -105,11 +141,26 @@
                   <small>Posts</small>
                 </div>
               </div>
+
+              <div class="col-md-1 forum-info">
+                <ng-container *ngIf="summary.latestTopElect != null; then showDataElect; else showEmptyElect"></ng-container>
+
+                <ng-template #showDataElect>
+                  {{summary.latestTopElect.title}}
+                </ng-template>
+                <ng-template #showEmptyElect>
+                  No data
+                </ng-template>
+                <div>
+                  <small>Topics</small>
+                </div>
+              </div>
+
             </div>
           </div>
           <div class="forum-item">
             <div class="row">
-              <div class="col-md-10">
+              <div class="col-md-9">
                 <div class="forum-icon">
                   <i class="fa fa-star"></i>
                 </div>
@@ -126,6 +177,7 @@
                   <small>Topics</small>
                 </div>
               </div>
+
               <div class="col-md-1 forum-info">
                             <span class="views-number">
                                 {{summary.pcar}}
@@ -134,6 +186,22 @@
                   <small>Posts</small>
                 </div>
               </div>
+
+              <div class="col-md-1 forum-info">
+                <ng-container *ngIf="summary.latestTopCar != null; then showDataCar; else showEmptyCar"></ng-container>
+
+                <ng-template #showDataCar>
+                  {{summary.latestTopCar.title}}
+                </ng-template>
+                <ng-template #showEmptyCar>
+                  No data
+                </ng-template>
+                <div>
+                  <small>Topics</small>
+                </div>
+              </div>
+
+
             </div>
           </div>
 
@@ -146,12 +214,14 @@
 
           <div class="forum-item">
             <div class="row">
-              <div class="col-md-10">
+              <div class="col-md-9">
                 <div class="forum-icon">
                   <i class="fa fa-clock-o"></i>
                 </div>
                 <a class="forum-item-title" [routerLink]="['/topic-list', 'introduction']">Introduction</a>
-                <div class="forum-sub-title">New to the community? Please stop by, say hi and tell us a bit about yourself.</div>
+                <div class="forum-sub-title">New to the community? Please stop by, say hi and tell us a bit about
+                  yourself.
+                </div>
               </div>
 
               <div class="col-md-1 forum-info">
@@ -170,17 +240,35 @@
                   <small>Posts</small>
                 </div>
               </div>
+
+              <div class="col-md-1 forum-info">
+                <ng-container *ngIf="summary.latestTopIntro != null; then showDataIntro; else showEmptyIntro"></ng-container>
+
+                <ng-template #showDataIntro>
+                  {{summary.latestTopIntro.title}}
+                </ng-template>
+                <ng-template #showEmptyIntro>
+                  No data
+                </ng-template>
+                <div>
+                  <small>Topics</small>
+                </div>
+              </div>
+
+
             </div>
           </div>
 
           <div class="forum-item">
             <div class="row">
-              <div class="col-md-10">
+              <div class="col-md-9">
                 <div class="forum-icon">
                   <i class="fa fa-bookmark"></i>
                 </div>
                 <a class="forum-item-title" [routerLink]="['/topic-list', 'advertisement']">Advertisement</a>
-                <div class="forum-sub-title">Do you have any equipment you want to get rid of? Here you can list it and sell it without intermediaries and no additional costs.</div>
+                <div class="forum-sub-title">Do you have any equipment you want to get rid of? Here you can list it and
+                  sell it without intermediaries and no additional costs.
+                </div>
               </div>
 
               <div class="col-md-1 forum-info">
@@ -199,17 +287,33 @@
                   <small>Posts</small>
                 </div>
               </div>
+
+              <div class="col-md-1 forum-info">
+                <ng-container *ngIf="summary.latestTopAdver != null; then showDataAdver; else showEmptyAdver"></ng-container>
+
+                <ng-template #showDataAdver>
+                  {{summary.latestTopAdver.title}}
+                </ng-template>
+                <ng-template #showEmptyAdver>
+                  No data
+                </ng-template>
+                <div>
+                  <small>Topics</small>
+                </div>
+              </div>
+
+
             </div>
           </div>
 
           <div class="forum-item">
             <div class="row">
-              <div class="col-md-10">
+              <div class="col-md-9">
                 <div class="forum-icon">
                   <i class="fa fa-bomb"></i>
                 </div>
                 <a class="forum-item-title" [routerLink]="['/topic-list', 'personallife']">Personal life</a>
-                <div class="forum-sub-title"> You can share here your life stories and read other. </div>
+                <div class="forum-sub-title"> You can share here your life stories and read other.</div>
               </div>
 
               <div class="col-md-1 forum-info">
@@ -228,6 +332,22 @@
                   <small>Posts</small>
                 </div>
               </div>
+
+              <div class="col-md-1 forum-info">
+                <ng-container *ngIf="summary.latestTopPers != null; then showDataPers; else showEmptyPers"></ng-container>
+
+                <ng-template #showDataPers>
+                  {{summary.latestTopPers.title}}
+                </ng-template>
+                <ng-template #showEmptyPers>
+                  No data
+                </ng-template>
+                <div>
+                  <small>Topics</small>
+                </div>
+              </div>
+
+
             </div>
           </div>
 

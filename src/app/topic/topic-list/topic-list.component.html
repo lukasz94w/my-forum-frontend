@@ -29,23 +29,33 @@
       </div>
 
       <ul class="list-group mb-3 mt-10 list-group-item-light">
-        <li class="d-flex border p-3" id="postsList" *ngFor="let topic of topics |
+        <li class="col-md-12 d-flex border p-3" id="postsList" *ngFor="let topic of topics |
         paginate :{
         itemsPerPage: numberOfTopicsOnOnePage,
         currentPage: currentPage,
         totalItems: totalTopics
-        }">
-          <img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png" alt="John Doe"
-               class="flex-shrink-0 me-3 mt-3 rounded-circle" style="width:60px;height:60px;">
-          <div>
-            <a class="text-black" style="color: orange"
-               [routerLink]="['/topic/', topic.id]">
-              <h6>{{topic.title}}</h6>
-            </a>
-            <p>{{topic.content}}</p>
-            <small>Posted on February 19, 2016, Last answered on March 28, 2021</small>
+        };
+        let i=index">
+          <div class="topic-info col-md-10">
+            <img src="https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png" alt="John Doe"
+                 class="flex-shrink-0 me-3 mt-3 rounded-circle" style="width:60px;height:60px;">
+            <div>
+              <a class="text-black" style="color: orange"
+                 [routerLink]="['/topic/', topic.id]">
+                <h6>{{topic.title}}</h6>
+              </a>
+              <p>{{topic.content}}</p>
+              <small>Posted on February 19, 2016, Last answered on March 28, 2021</small>
+            </div>
           </div>
+
+          <div class="latest_activity col md-2">
+            {{lastTopicActivities[i].timeOfLastActivity}}
+            {{lastTopicActivities[i].user}}
+          </div>
+
         </li>
+
       </ul>
 
       <div class="col-md-12" *ngIf="totalPages > 1">
