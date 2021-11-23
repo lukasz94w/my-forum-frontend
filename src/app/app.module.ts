@@ -16,8 +16,10 @@ import {SignupComponent} from './auth/signup/signup.component';
 import {SigninComponent} from './auth/signin/signin.component';
 
 import {interceptorProviders} from './auth/interceptor/interceptor';
-import { TopicCategoriesComponent } from './topic/topic-categories/topic-categories.component';
+import {TopicCategoriesComponent} from './topic/topic-categories/topic-categories.component';
 import {NgxPaginationModule} from "ngx-pagination";
+import {UserProfileComponent} from './user/user-profile/user-profile.component';
+import {TruncatePipe} from "./pipe/truncate-pipe";
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import {NgxPaginationModule} from "ngx-pagination";
     TopicAddComponent,
     SignupComponent,
     SigninComponent,
-    TopicCategoriesComponent],
+    TopicCategoriesComponent,
+    UserProfileComponent,
+    TruncatePipe],
   imports: [
     BrowserModule,
     AppRoutingModule,
