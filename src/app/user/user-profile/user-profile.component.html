@@ -1,0 +1,24 @@
+<div class="form-group">
+
+  <label class="btn btn-default">
+    <input type="file" accept=".jpg, .png" (change)="onFileSelected($event)"/>
+  </label>
+
+  <button
+    [disabled]="!isAllowedToUpload"
+    class="btn btn-success"
+    (click)="onUpload()">
+    Upload
+  </button>
+
+  <div *ngIf=imageError>{{ imageError }}</div>
+
+  <div class="container row">
+    <div class="col-md-12">
+      <div *ngIf=retrievedImage>
+        <img [src]="retrievedImage" alt="">
+      </div>
+    </div>
+  </div>
+
+</div>

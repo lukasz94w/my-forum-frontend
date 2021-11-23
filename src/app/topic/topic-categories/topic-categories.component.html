@@ -14,345 +14,127 @@
           </div>
         </div>
 
-        <div class="ibox-content forum-container">
+        <ng-container
+          [ngTemplateOutlet]="sectionOfCategories"
+          [ngTemplateOutletContext]="
+          {
+          startIndex:rangeOfGeneralSubjects[0],
+          endIndex: rangeOfGeneralSubjects[1],
+          headerSectionName: generalSubjectsName,
+          totalNumberOfComments: numberOfEntriesInGeneralSubjects
+          }">
+        </ng-container>
 
-          <div class="forum-title">
-            <div class="pull-right forum-desc">
-              <small>Total comments: {{summary.totalGSub}}</small>
-            </div>
-            <h3>General subjects</h3>
-          </div>
+        <ng-container
+          [ngTemplateOutlet]="sectionOfCategories"
+          [ngTemplateOutletContext]="
+          {
+          startIndex:rangeOfOtherSubjects[0],
+          endIndex: rangeOfOtherSubjects[1],
+          headerSectionName: otherSubjectsName,
+          totalNumberOfComments: numberOfEntriesInOtherSubjects
+          }">
+        </ng-container>
 
-          <div class="forum-item">
-            <div class="row">
-              <div class="col-md-9">
-                <div class="forum-icon">
-                  <i class="fa fa-shield"></i>
-                </div>
-                <a class="forum-item-title" [routerLink]="['/topic-list', 'programming']">Programming</a>
-                <div class="forum-sub-title">Talk about programming, backend, frontend technologies and so on.</div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{summary.tprog}}
-                            </span>
-                <div>
-                  <small>Topics</small>
-                </div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{summary.pprog}}
-                            </span>
-                <div>
-                  <small>Posts</small>
-                </div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                <ng-container *ngIf="summary.latestTopProg != null; then showDataProg; else showEmptyProg"></ng-container>
-
-                <ng-template #showDataProg>
-                  {{summary.latestTopProg.title}}
-                </ng-template>
-                <ng-template #showEmptyProg>
-                  No data
-                </ng-template>
-                <div>
-                  <small>Topics</small>
-                </div>
-              </div>
-
-
-            </div>
-          </div>
-          <div class="forum-item">
-            <div class="row">
-              <div class="col-md-9">
-                <div class="forum-icon">
-                  <i class="fa fa-bolt"></i>
-                </div>
-                <a class="forum-item-title" [routerLink]="['/topic-list', 'sport']">Sport</a>
-                <div class="forum-sub-title">Interested in sport? Here you can talk with people which share your
-                  interest. Football, basketball, hockey - you find there everything you want.
-                </div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{summary.tsport}}
-                            </span>
-                <div>
-                  <small>Topics</small>
-                </div>
-              </div>
-              <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{summary.psport}}
-                            </span>
-                <div>
-                  <small>Posts</small>
-                </div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                <ng-container *ngIf="summary.latestTopSport != null; then showDataSport; else showEmptySport"></ng-container>
-
-                <ng-template #showDataSport>
-                  {{summary.latestTopSport.title}}
-                </ng-template>
-                <ng-template #showEmptySport>
-                  No data
-                </ng-template>
-                <div>
-                  <small>Topics</small>
-                </div>
-              </div>
-
-            </div>
-          </div>
-          <div class="forum-item">
-            <div class="row">
-              <div class="col-md-9">
-                <div class="forum-icon">
-                  <i class="fa fa-calendar"></i>
-                </div>
-                <a class="forum-item-title" [routerLink]="['/topic-list', 'electronic']">Electronic</a>
-                <div class="forum-sub-title">Section where maniacs of electronic gathers. You can ask about mending
-                  electronic equipment and find interesting projects.
-                </div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{summary.telect}}
-                            </span>
-                <div>
-                  <small>Topics</small>
-                </div>
-              </div>
-              <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{summary.pelect}}
-                            </span>
-                <div>
-                  <small>Posts</small>
-                </div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                <ng-container *ngIf="summary.latestTopElect != null; then showDataElect; else showEmptyElect"></ng-container>
-
-                <ng-template #showDataElect>
-                  {{summary.latestTopElect.title}}
-                </ng-template>
-                <ng-template #showEmptyElect>
-                  No data
-                </ng-template>
-                <div>
-                  <small>Topics</small>
-                </div>
-              </div>
-
-            </div>
-          </div>
-          <div class="forum-item">
-            <div class="row">
-              <div class="col-md-9">
-                <div class="forum-icon">
-                  <i class="fa fa-star"></i>
-                </div>
-                <a class="forum-item-title" [routerLink]="['/topic-list', 'car']">Car</a>
-                <div class="forum-sub-title"> Here you can discuss cars. Old, new brands. From Mercedes to Lada.
-                </div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{summary.tcar}}
-                            </span>
-                <div>
-                  <small>Topics</small>
-                </div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{summary.pcar}}
-                            </span>
-                <div>
-                  <small>Posts</small>
-                </div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                <ng-container *ngIf="summary.latestTopCar != null; then showDataCar; else showEmptyCar"></ng-container>
-
-                <ng-template #showDataCar>
-                  {{summary.latestTopCar.title}}
-                </ng-template>
-                <ng-template #showEmptyCar>
-                  No data
-                </ng-template>
-                <div>
-                  <small>Topics</small>
-                </div>
-              </div>
-
-
-            </div>
-          </div>
-
-          <div class="forum-title">
-            <div class="pull-right forum-desc">
-              <small>Total comments: {{summary.totalOSub}}</small>
-            </div>
-            <h3>Other subjects</h3>
-          </div>
-
-          <div class="forum-item">
-            <div class="row">
-              <div class="col-md-9">
-                <div class="forum-icon">
-                  <i class="fa fa-clock-o"></i>
-                </div>
-                <a class="forum-item-title" [routerLink]="['/topic-list', 'introduction']">Introduction</a>
-                <div class="forum-sub-title">New to the community? Please stop by, say hi and tell us a bit about
-                  yourself.
-                </div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{summary.tintro}}
-                            </span>
-                <div>
-                  <small>Topics</small>
-                </div>
-              </div>
-              <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{summary.pintro}}
-                            </span>
-                <div>
-                  <small>Posts</small>
-                </div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                <ng-container *ngIf="summary.latestTopIntro != null; then showDataIntro; else showEmptyIntro"></ng-container>
-
-                <ng-template #showDataIntro>
-                  {{summary.latestTopIntro.title}}
-                </ng-template>
-                <ng-template #showEmptyIntro>
-                  No data
-                </ng-template>
-                <div>
-                  <small>Topics</small>
-                </div>
-              </div>
-
-
-            </div>
-          </div>
-
-          <div class="forum-item">
-            <div class="row">
-              <div class="col-md-9">
-                <div class="forum-icon">
-                  <i class="fa fa-bookmark"></i>
-                </div>
-                <a class="forum-item-title" [routerLink]="['/topic-list', 'advertisement']">Advertisement</a>
-                <div class="forum-sub-title">Do you have any equipment you want to get rid of? Here you can list it and
-                  sell it without intermediaries and no additional costs.
-                </div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{summary.tadver}}
-                            </span>
-                <div>
-                  <small>Topics</small>
-                </div>
-              </div>
-              <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{summary.padver}}
-                            </span>
-                <div>
-                  <small>Posts</small>
-                </div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                <ng-container *ngIf="summary.latestTopAdver != null; then showDataAdver; else showEmptyAdver"></ng-container>
-
-                <ng-template #showDataAdver>
-                  {{summary.latestTopAdver.title}}
-                </ng-template>
-                <ng-template #showEmptyAdver>
-                  No data
-                </ng-template>
-                <div>
-                  <small>Topics</small>
-                </div>
-              </div>
-
-
-            </div>
-          </div>
-
-          <div class="forum-item">
-            <div class="row">
-              <div class="col-md-9">
-                <div class="forum-icon">
-                  <i class="fa fa-bomb"></i>
-                </div>
-                <a class="forum-item-title" [routerLink]="['/topic-list', 'personallife']">Personal life</a>
-                <div class="forum-sub-title"> You can share here your life stories and read other.</div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{summary.tpers}}
-                            </span>
-                <div>
-                  <small>Topics</small>
-                </div>
-              </div>
-              <div class="col-md-1 forum-info">
-                            <span class="views-number">
-                                {{summary.ppers}}
-                            </span>
-                <div>
-                  <small>Posts</small>
-                </div>
-              </div>
-
-              <div class="col-md-1 forum-info">
-                <ng-container *ngIf="summary.latestTopPers != null; then showDataPers; else showEmptyPers"></ng-container>
-
-                <ng-template #showDataPers>
-                  {{summary.latestTopPers.title}}
-                </ng-template>
-                <ng-template #showEmptyPers>
-                  No data
-                </ng-template>
-                <div>
-                  <small>Topics</small>
-                </div>
-              </div>
-
-
-            </div>
-          </div>
-
-        </div>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #sectionOfCategories let-startIndex='startIndex' let-endIndex='endIndex'
+             let-headerSectionName='headerSectionName' let-totalNumberOfComments='totalNumberOfComments'>
+
+  <ul class="ibox-content forum-container">
+
+    <div class="forum-title">
+      <div class="pull-right forum-desc">
+        <small>Total comments: {{ totalNumberOfComments }}</small>
+      </div>
+      <h3>{{ headerSectionName }}</h3>
+    </div>
+
+    <li class="forum-item"
+        *ngFor="let topicCategory of topicsCategories | slice:startIndex:endIndex; let i = index ">
+      <div class="row align-items-center">
+        <div class="col-md-7">
+          <div class="forum-icon">
+            <i class="{{ topicIconNames[i + startIndex] }}"></i>
+          </div>
+          <a class="forum-item-title"
+             [routerLink]="['/topic-list', topicCategory.toLowerCase()]">{{ topicCategory }}</a>
+          <div class="forum-sub-title">{{ topicsDescription[i + startIndex] }}</div>
+        </div>
+
+        <div class="col-md-1 forum-info padding-0">
+                                      <span class="views-number">
+                                          {{ numberOfTopicsInEachCategory[i + startIndex] }}
+                                      </span>
+          <div>
+            <small>Topics</small>
+          </div>
+        </div>
+
+        <div class="col-md-1 forum-info padding-0">
+                                      <span class="views-number">
+                                          {{ numberOfPostsInEachCategory[i + startIndex] }}
+                                      </span>
+          <div>
+            <small>Posts</small>
+          </div>
+        </div>
+
+        <div class="col-md-3 forum-info padding-0">
+
+          <ng-container
+            *ngIf="lastTopicActivities[i + startIndex] != null; then showLastActivity; else showNoLastActivity">
+          </ng-container>
+
+          <ng-template #showLastActivity>
+            <div class="card border-0">
+              <div class="row align-items-center">
+                <div class="col-md-2">
+
+                  <ng-container
+                    *ngIf="lastTopicActivities[i + startIndex].profilePic !=null; then showUserAvatar; else showDefaultAvatar">
+                  </ng-container>
+
+                  <ng-template #showUserAvatar>
+                    <img [src]="'data:image/jpeg;base64,' + lastTopicActivities[i + startIndex].profilePic"
+                         alt="John Doe"
+                         class="user-avatar">
+                    <!--                         class = "rounded-circle"-->
+                  </ng-template>
+
+                  <ng-template #showDefaultAvatar>
+                    <div class="default-avatar-background">
+                      <div class="default-avatar-text">
+                        {{ lastTopicActivities[i + startIndex].user.charAt(0).toUpperCase() }}
+                      </div>
+                    </div>
+                  </ng-template>
+
+                </div>
+                <div class="col-md-10">
+                  <div class="card-body last-activity">
+                    <p
+                      class="card-text last-activity-title">{{ lastTopicActivities[i + startIndex].topic | truncate: 23 : '...' }}</p>
+                    <p class="card-text last-activity-title"><small
+                      class="text-muted">By {{ lastTopicActivities[i + startIndex].user }}
+                      , {{ lastTopicActivities[i + startIndex].timeOfLastActivity }} </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template #showNoLastActivity>
+            No topics in this category found
+          </ng-template>
+
+        </div>
+      </div>
+    </li>
+  </ul>
+
+</ng-template>

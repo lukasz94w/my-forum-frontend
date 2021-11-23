@@ -3,10 +3,7 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Topic} from "../model/topic";
-import {Post} from "../model/post";
-import {error} from "@angular/compiler/src/util";
 import {TopicContent} from "../model/topic-content";
-import {Summary} from "../model/summary";
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +31,7 @@ export class TopicService {
     return this.httpClient.get<Topic[]>(`${this.apiServerUrl}/topic/findAllTopicsByCategory`, {params});
   }
 
-  countTopicsAndPostsByCategory(): Observable<Summary> {
-    return this.httpClient.get<Summary>(`${this.apiServerUrl}/topic/countTopicsAndPostsByCategory`);
+  countTopicsAndPostsByCategory(): Observable<any> {
+    return this.httpClient.get<any>(`${this.apiServerUrl}/topic/countTopicsAndPostsByCategory`);
   }
 }
