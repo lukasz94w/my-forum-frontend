@@ -1,16 +1,16 @@
 export class LastTopicActivity {
 
-  topic: string;
-  user: string;
-  profilePic: [];
-  category: string;
-  timeOfLastActivity: string
+  topicName: string;
+  topicId: number;
+  userName: string;
+  userProfilePic: [];
+  timeOfLastActivity: Date
 
-  constructor(topic: string, user: string, profilePic: [], category: string, timeOfLastActivity: string) {
-    this.topic = topic;
-    this.user = user;
-    this.profilePic = profilePic;
-    this.category = category;
+  constructor(topicName: string, topicId: number, userName: string, userProfilePic: [], timeOfLastActivity: Date) {
+    this.topicName = topicName;
+    this.topicId = topicId;
+    this.userName = userName;
+    this.userProfilePic = userProfilePic;
     this.timeOfLastActivity = timeOfLastActivity;
   }
 }

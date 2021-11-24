@@ -20,6 +20,7 @@ import {TopicCategoriesComponent} from './topic/topic-categories/topic-categorie
 import {NgxPaginationModule} from "ngx-pagination";
 import {UserProfileComponent} from './user/user-profile/user-profile.component';
 import {TruncatePipe} from "./pipe/truncate-pipe";
+import {TimeAgoPipe} from "./pipe/time-ago-pipe";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {TruncatePipe} from "./pipe/truncate-pipe";
     SigninComponent,
     TopicCategoriesComponent,
     UserProfileComponent,
-    TruncatePipe],
+    TruncatePipe,
+    TimeAgoPipe],
   imports: [
     BrowserModule,
     AppRoutingModule,

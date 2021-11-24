@@ -95,11 +95,11 @@
                 <div class="col-md-2">
 
                   <ng-container
-                    *ngIf="lastTopicActivities[i + startIndex].profilePic !=null; then showUserAvatar; else showDefaultAvatar">
+                    *ngIf="lastTopicActivities[i + startIndex].userProfilePic !=null; then showUserAvatar; else showDefaultAvatar">
                   </ng-container>
 
                   <ng-template #showUserAvatar>
-                    <img [src]="'data:image/jpeg;base64,' + lastTopicActivities[i + startIndex].profilePic"
+                    <img [src]="'data:image/jpeg;base64,' + lastTopicActivities[i + startIndex].userProfilePic"
                          alt="John Doe"
                          class="user-avatar">
                     <!--                         class = "rounded-circle"-->
@@ -108,7 +108,7 @@
                   <ng-template #showDefaultAvatar>
                     <div class="default-avatar-background">
                       <div class="default-avatar-text">
-                        {{ lastTopicActivities[i + startIndex].user.charAt(0).toUpperCase() }}
+                        {{ lastTopicActivities[i + startIndex].userName.charAt(0).toUpperCase() }}
                       </div>
                     </div>
                   </ng-template>
@@ -116,11 +116,11 @@
                 </div>
                 <div class="col-md-10">
                   <div class="card-body last-activity">
-                    <p
-                      class="card-text last-activity-title">{{ lastTopicActivities[i + startIndex].topic | truncate: 23 : '...' }}</p>
+                    <a class="card-text last-activity-title" [routerLink]="['/topic/', lastTopicActivities[i + startIndex].topicId]">
+                      {{ lastTopicActivities[i + startIndex].topicName | truncate: 22 : '...' }}</a>
                     <p class="card-text last-activity-title"><small
-                      class="text-muted">By {{ lastTopicActivities[i + startIndex].user }}
-                      , {{ lastTopicActivities[i + startIndex].timeOfLastActivity }} </small>
+                      class="text-muted">{{ lastTopicActivities[i + startIndex].userName }},
+                      {{ lastTopicActivities[i + startIndex].timeOfLastActivity | timeAgo}} </small>
                     </p>
                   </div>
                 </div>
