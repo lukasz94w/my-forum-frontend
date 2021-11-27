@@ -3,6 +3,7 @@ import {Topic} from "../../model/topic";
 import {TopicService} from "../../service/topic.service";
 import {TokenStorageService} from "../../token/token-storage.service";
 import {ActivatedRoute, Params} from "@angular/router";
+import {LastTopicActivity} from "../../model/last-topic-activity";
 
 @Component({
   selector: 'app-topic-list',
@@ -11,8 +12,9 @@ import {ActivatedRoute, Params} from "@angular/router";
 })
 export class TopicListComponent implements OnInit {
 
-  topics: Topic[] = [];
-  lastTopicActivities: LastTopicActivity[] = [];
+  pageableTopics: Topic[] = [];
+  numberOfPostsInPageableTopics: number[] = [];
+  lastPageableTopicActivities: LastTopicActivity[] = [];
   topicsLength = -1;
   category = '';
 
@@ -28,21 +30,21 @@ export class TopicListComponent implements OnInit {
     this.router.params.subscribe(
       (param: Params) => {
         this.category = param['category'];
-        this.findAllTopicsByCategory();
+        this.findPageableTopicsInCategory();
       }
     )
   }
 
-  findAllTopicsByCategory(): void {
+  findPageableTopicsInCategory(): void {
     const params = {'page': this.currentPage - 1, 'category': this.category}
-    this.topicService.findAllTopicsByCategory(params).subscribe(
+    this.topicService.findPageableTopicsInCategory(params).subscribe(
       (data: any) => {
-        this.topics = data.topics
-        this.lastTopicActivities = data.lastTopicActivities;
-        this.topicsLength = this.topics.length
-        this.totalTopics = data.totalTopics
-        this.totalPages = data.totalPages
-        console.log(data)
+        this.pageableTopics = data.pageableTopics
+        this.numberOfPostsInPageableTopics = data.numberOfPostsInPageableTopics;
+        this.lastPageableTopicActivities = data.lastPageableTopicActivities;
+        this.topicsLength = this.pageableTopics.length;
+        this.totalTopics = data.totalTopics;
+        this.totalPages = data.totalPages;
       },
       (error) =>
         console.log(error)
@@ -51,12 +53,6 @@ export class TopicListComponent implements OnInit {
 
   handlePageChange($event: number) {
     this.currentPage = $event;
-    this.findAllTopicsByCategory();
+    this.findPageableTopicsInCategory();
   }
-
-}
-
-export interface LastTopicActivity {
-  user: string
-  timeOfLastActivity: string
 }

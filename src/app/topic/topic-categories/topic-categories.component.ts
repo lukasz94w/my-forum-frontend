@@ -14,7 +14,7 @@ export class TopicCategoriesComponent implements OnInit {
   numberOfPostsInEachCategory: number[] = [];
   numberOfEntriesInGeneralSubjects: number = 0;
   numberOfEntriesInOtherSubjects: number = 0;
-  lastTopicActivities: LastTopicActivity[] = [];
+  lastPageableTopicActivities: LastTopicActivity[] = [];
   topicsCategories: string[] = [];
   topicsDescription: string[] = [];
   topicIconNames: string[] = [];
@@ -34,7 +34,7 @@ export class TopicCategoriesComponent implements OnInit {
         this.numberOfPostsInEachCategory = data.numberOfPostsInEachCategory;
         this.numberOfEntriesInGeneralSubjects = data.numberOfEntriesInGeneralSubjects;
         this.numberOfEntriesInOtherSubjects = data.numberOfEntriesInOtherSubjects;
-        this.lastTopicActivities = data.lastTopicActivities;
+        this.lastPageableTopicActivities = data.lastTopicActivities;
         this.topicsCategories = this.dataService.getTopicsCategories();
         this.topicsDescription = this.dataService.getTopicsDescription();
         this.topicIconNames = this.dataService.getTopicIconNames();

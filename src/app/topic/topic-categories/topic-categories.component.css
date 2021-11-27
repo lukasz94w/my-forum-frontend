@@ -102,7 +102,6 @@ a.forum-item-title {
   font-weight: 600;
 }
 a.forum-item-title:hover {
-  color: inherit;
 }
 .forum-icon .fa {
   font-size: 30px;
@@ -205,6 +204,17 @@ a.forum-item-title:hover {
 }
 .m-b-sm {
   margin-bottom: 10px;
+}
+
+a:link {
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: dodgerblue;
+  background-color: transparent;
+  text-decoration: none;
 }
 
 

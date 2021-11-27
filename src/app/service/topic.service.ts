@@ -27,8 +27,8 @@ export class TopicService {
     return this.httpClient.get<Topic>(`${this.apiServerUrl}/topic/getTopicById/` + id);
   }
 
-  findAllTopicsByCategory(params: any): Observable<Topic[]> {
-    return this.httpClient.get<Topic[]>(`${this.apiServerUrl}/topic/findAllTopicsByCategory`, {params});
+  findPageableTopicsInCategory(params: any): Observable<Topic[]> {
+    return this.httpClient.get<Topic[]>(`${this.apiServerUrl}/topic/findPageableTopicsInCategory`, {params});
   }
 
   countTopicsAndPostsByCategory(): Observable<any> {
