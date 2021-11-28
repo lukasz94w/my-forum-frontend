@@ -1,4 +1,4 @@
-export class PostContent {
+export class NewPostContent {
 
   content: string;
   topicId: number;

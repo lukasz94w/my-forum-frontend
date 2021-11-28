@@ -3,7 +3,7 @@ import {PostService} from "../../service/post.service";
 import {TopicViewComponent} from "../../topic/topic-view/topic-view.component";
 import {Router} from "@angular/router";
 import {TokenStorageService} from "../../token/token-storage.service";
-import {PostContent} from "../../model/post-content";
+import {NewPostContent} from "../../model/new-post-content";
 
 @Component({
   selector: 'app-post-add',
@@ -19,19 +19,15 @@ export class PostAddComponent {
   constructor(private postService: PostService, private topicViewComponent: TopicViewComponent, private router: Router, public tokenStorageService: TokenStorageService) {
   }
 
-  addNewPost() {
-    const content = this.form.content;
-
-    const newPost = new PostContent(content, this.topicViewComponent.id);
-
+  onAddNewPost() {
+    const newPost = new NewPostContent(this.form.content, this.topicViewComponent.topicId);
     this.postService.createNewPost(newPost).subscribe(
-      (response) => {
-        this.router.navigate(['topic/', this.topicViewComponent.id]).then(page => window.location.reload());
-        console.log(response);
+      (data) => {
+        this.router.navigate(['topic/', this.topicViewComponent.topicId]).then(page => window.location.reload());
       },
       (error) => {
         console.log(error)
-        alert("Błędne dane");
+        alert("Invalid data");
       },
     )
   }

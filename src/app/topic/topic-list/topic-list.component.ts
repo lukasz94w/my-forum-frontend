@@ -13,7 +13,7 @@ import {LastTopicActivity} from "../../model/last-topic-activity";
 export class TopicListComponent implements OnInit {
 
   pageableTopics: Topic[] = [];
-  numberOfPostsInPageableTopics: number[] = [];
+  numberOfAnswersInPageableTopics: number[] = [];
   lastPageableTopicActivities: LastTopicActivity[] = [];
   topicsLength = -1;
   category = '';
@@ -40,7 +40,7 @@ export class TopicListComponent implements OnInit {
     this.topicService.findPageableTopicsInCategory(params).subscribe(
       (data: any) => {
         this.pageableTopics = data.pageableTopics
-        this.numberOfPostsInPageableTopics = data.numberOfPostsInPageableTopics;
+        this.numberOfAnswersInPageableTopics = data.numberOfPostsInPageableTopics;
         this.lastPageableTopicActivities = data.lastPageableTopicActivities;
         this.topicsLength = this.pageableTopics.length;
         this.totalTopics = data.totalTopics;

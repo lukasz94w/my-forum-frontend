@@ -1,4 +1,4 @@
-export class TopicContent {
+export class NewTopicContent {
 
   title: string;
   content: string;

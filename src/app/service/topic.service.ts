@@ -3,7 +3,7 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Topic} from "../model/topic";
-import {TopicContent} from "../model/topic-content";
+import {NewTopicContent} from "../model/new-topic-content";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class TopicService {
   constructor(private httpClient: HttpClient) {
   }
 
-  createNewTopic(topicContent: TopicContent): Observable<void> {
+  createNewTopic(topicContent: NewTopicContent): Observable<void> {
     return this.httpClient.post<void>(`${this.apiServerUrl}/topic/addTopic`, topicContent);
   }
 
@@ -28,7 +28,7 @@ export class TopicService {
   }
 
   findPageableTopicsInCategory(params: any): Observable<Topic[]> {
-    return this.httpClient.get<Topic[]>(`${this.apiServerUrl}/topic/findPageableTopicsInCategory`, {params});
+    return this.httpClient.get<any>(`${this.apiServerUrl}/topic/findPageableTopicsInCategory`, {params});
   }
 
   countTopicsAndPostsByCategory(): Observable<any> {

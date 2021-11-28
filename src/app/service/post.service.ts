@@ -3,7 +3,7 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Post} from "../model/post";
-import {PostContent} from "../model/post-content";
+import {NewPostContent} from "../model/new-post-content";
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +15,11 @@ export class PostService{
   constructor(private httpClient: HttpClient) {
   }
 
-  createNewPost(newPost: PostContent):Observable<void> {
+  createNewPost(newPost: NewPostContent):Observable<void> {
     return this.httpClient.post<void>(`${this.apiServerUrl}/post/addPost`, newPost);
   }
 
-  getPostsByTopicId(id: number): Observable<Post[]> {
-    return this.httpClient.get<Post[]>(`${this.apiServerUrl}/post/getPostsByTopicId/` + id);
+  findPageablePostsByTopicId(params: any): Observable<Post[]> {
+    return this.httpClient.get<any>(`${this.apiServerUrl}/post/findPageablePostsByTopicId/`, {params});
   }
 }

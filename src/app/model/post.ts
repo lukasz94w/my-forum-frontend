@@ -4,11 +4,13 @@ export class Post {
 
   content: string;
   topic: Topic;
-  username: string;
+  user: string;
+  profilePic: [];
 
-  constructor(content: string, topic: Topic, username: string) {
+  constructor(content: string, topic: Topic, user: string, profilePic: []) {
     this.content = content;
     this.topic = topic;
-    this.username = username;
+    this.user = user;
+    this.profilePic = profilePic;
   }
 }

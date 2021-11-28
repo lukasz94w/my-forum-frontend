@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TopicService} from "../../service/topic.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {TopicContent} from "../../model/topic-content";
+import {NewTopicContent} from "../../model/new-topic-content";
 
 @Component({
   selector: 'app-topic-add',
@@ -27,7 +27,7 @@ export class TopicAddComponent implements OnInit {
 
   addNewTopic() {
     const {title, content} = this.form;
-    const newTopic = new TopicContent(title, content, this.category);
+    const newTopic = new NewTopicContent(title, content, this.category);
     this.topicService.createNewTopic(newTopic).subscribe(
       (response) => {
         console.log(response);

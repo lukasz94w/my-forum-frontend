@@ -1,30 +1,73 @@
 <div class="row mt-4">
-
   <div class="col-lg-10">
-    <h3>{{topic.title}}</h3>
-    <div class="card mt-3 mb-3">
-      <div class="row g-0">
-        <div class="col-md-2">
-          <!--          <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-fluid rounded-start" alt="...">-->
-          <figure class="figure mb-0">
-            <img
-              class="img-fluid rounded-start"
-              src="https://bootdey.com/img/Content/avatar/avatar1.png"
-              alt="{{ topic.title }}">
-            <figcaption class="figure-caption text-center mt-1"> username
-            </figcaption>
-          </figure>
-        </div>
-        <div class="col-md-10">
-          <div class="card-body">
-            <p class="card-text"> {{ topic.content }} </p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-          </div>
-        </div>
-      </div>
+
+    <div class="mb-3">
+      <h3>{{ topic.title }}</h3>
     </div>
-    <app-post></app-post>
+
+    <ng-container [ngTemplateOutlet]="pagination"></ng-container>
+
+    <div class="col-md-12 mt-3">
+      <ul class="list-group">
+        <li class="card mb-3" *ngFor="let post of pageablePosts |
+        paginate: {
+         itemsPerPage: numberOfPostsOnOnePage,
+         currentPage: currentPage,
+         totalItems: totalPosts
+          };">
+
+          <div class="row g-0">
+
+            <div class="col-md-2">
+              <figure class="figure mb-0">
+
+                <ng-container
+                  *ngIf="post.profilePic !=null; then showUserAvatar; else showDefaultAvatar">
+                </ng-container>
+
+                <ng-template #showUserAvatar>
+                  <img [src]="'data:image/jpeg;base64,' + post.profilePic"
+                       alt="{{ post.user }}"
+                       class="img-fluid rounded-start">
+                </ng-template>
+
+                <ng-template #showDefaultAvatar>
+                  <img class="img-fluid rounded-start"
+                    src="https://eu.ui-avatars.com/api/?size=256&name={{ post.user }}&length=1&color=FFFFFF&background=d4730b"
+                    alt="{{ post.user }}">
+                </ng-template>
+
+                <figcaption class="figure-caption text-center mt-1">{{ post.user }}
+                </figcaption>
+              </figure>
+            </div>
+
+            <div class="col-md-10">
+              <div class="card-body">
+                <p class="card-text"> {{ post.content }} </p>
+                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              </div>
+            </div>
+
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <ng-container [ngTemplateOutlet]="pagination"></ng-container>
+
+    <app-post-add></app-post-add>
+
   </div>
 </div>
 
-
+<ng-template #pagination>
+  <div class="col-md-12" *ngIf="totalPages > 1">
+    <pagination-controls
+      previousLabel="Prev"
+      nextLabel="Next"
+      [responsive]="true"
+      (pageChange)="handlePageChange($event)"
+    ></pagination-controls>
+  </div>
+</ng-template>

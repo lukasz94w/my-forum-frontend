@@ -8,7 +8,6 @@ import {NavigationHeaderComponent} from './navigation-header/navigation-header.c
 import {TopicComponent} from './topic/topic.component';
 import {TopicListComponent} from './topic/topic-list/topic-list.component';
 import {TopicViewComponent} from './topic/topic-view/topic-view.component';
-import {PostComponent} from "./post/post.component";
 import {PostAddComponent} from './post/post-add/post-add.component';
 import {FormsModule} from "@angular/forms";
 import {TopicAddComponent} from './topic/topic-add/topic-add.component';
@@ -29,8 +28,6 @@ import {TimeAgoPipe} from "./pipe/time-ago-pipe";
     TopicComponent,
     TopicListComponent,
     TopicViewComponent,
-    PostComponent,
-    PostComponent,
     PostAddComponent,
     TopicAddComponent,
     SignupComponent,

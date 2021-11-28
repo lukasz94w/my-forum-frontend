@@ -28,11 +28,13 @@ a:hover {
 
 .topic-title {
   color: inherit;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 400;
 }
 
 .topic-author-with-date {
+  margin-top: 4px;
+  font-size: 14px;
   padding: 0;
 }
 

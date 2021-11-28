@@ -34,18 +34,18 @@
         totalItems: totalTopics
         }; let i=index">
 
-            <div class="col-md-8">
+            <div class="col-md-8 align-items-center">
               <div class="topic-info">
                 <a class="topic-title" [routerLink]="['/topic/', pageableTopic.id]">
-                  <p>{{ pageableTopic.title }}</p>
+                  {{ pageableTopic.title }}
                 </a>
-                <small class="topic-author-with-date">posted by {{ pageableTopic.user }},
-                   {{ pageableTopic.dateTime | date: 'd MMMM y' }}</small>
+                <div class="topic-author-with-date">posted by {{ pageableTopic.user }},
+                   {{ pageableTopic.dateTime | date: 'd MMMM y' }}</div>
               </div>
             </div>
 
             <div class="col-md-1 topic-answers">
-              {{ numberOfPostsInPageableTopics[i] }} answers
+              {{ numberOfAnswersInPageableTopics[i] }} answers
             </div>
 
             <div class= "col md-3">
