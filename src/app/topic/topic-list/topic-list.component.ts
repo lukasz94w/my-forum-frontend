@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Topic} from "../../model/topic";
 import {TopicService} from "../../service/topic.service";
+import {TokenStorageService} from "../../token/token-storage.service";
+import {ActivatedRoute, Params} from "@angular/router";
+import {LastTopicActivity} from "../../model/last-topic-activity";
 
 @Component({
   selector: 'app-topic-list',
@@ -9,18 +12,47 @@ import {TopicService} from "../../service/topic.service";
 })
 export class TopicListComponent implements OnInit {
 
-  topics: Topic[] = [];
+  pageableTopics: Topic[] = [];
+  numberOfAnswersInPageableTopics: number[] = [];
+  lastPageableTopicActivities: LastTopicActivity[] = [];
+  topicsLength = -1;
+  category = '';
 
-  constructor(private topicService: TopicService) { }
+  currentPage = 1;
+  totalTopics = 0;
+  totalPages = 0;
+  numberOfTopicsOnOnePage = 10;
 
-  ngOnInit() {
-    return this.topicService.getTopics()
-      .subscribe(
-        (posts: any[]) => {
-          this.topics = posts;
-        },
-        (error) => console.log(error)
-      );
+  constructor(private topicService: TopicService, public tokenStorageService: TokenStorageService, private router: ActivatedRoute) {
   }
 
+  ngOnInit() {
+    this.router.params.subscribe(
+      (param: Params) => {
+        this.category = param['category'];
+        this.findPageableTopicsInCategory();
+      }
+    )
+  }
+
+  findPageableTopicsInCategory(): void {
+    const params = {'page': this.currentPage - 1, 'category': this.category}
+    this.topicService.findPageableTopicsInCategory(params).subscribe(
+      (data: any) => {
+        this.pageableTopics = data.pageableTopics
+        this.numberOfAnswersInPageableTopics = data.numberOfPostsInPageableTopics;
+        this.lastPageableTopicActivities = data.lastPageableTopicActivities;
+        this.topicsLength = this.pageableTopics.length;
+        this.totalTopics = data.totalTopics;
+        this.totalPages = data.totalPages;
+      },
+      (error) =>
+        console.log(error)
+    );
+  }
+
+  handlePageChange($event: number) {
+    this.currentPage = $event;
+    this.findPageableTopicsInCategory();
+  }
 }

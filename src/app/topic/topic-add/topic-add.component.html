@@ -1,6 +1,10 @@
 <div class="row mt-4">
-  <div class="col-lg-12">
-    <form ngForm (ngSubmit)="addNewTopic(f)" #f="ngForm">
+  <div class="col-lg-9">
+    <form
+      name="form"
+      ngForm (ngSubmit)="f.form.valid && addNewTopic()"
+      #f="ngForm"
+      novalidate>
       <h4>Add new topic:</h4>
       <div class="form-group">
         <label for="topic_title">Title</label>
@@ -8,12 +12,17 @@
           type="text"
           class="form-control"
           id="topic_title"
-          aria-describedby="emailHelp"
           placeholder="Enter title"
           name="title"
+          [(ngModel)]="form.title"
           required
-          ngModel>
-        <small id="titleHelp" class="form-text text-muted">Title must have at least 5 characters (max 100).</small>
+          minlength="5"
+          maxlength="100"
+          #title = "ngModel">
+        <div class="alert-danger" *ngIf ="title.errors && f.submitted">
+          <div *ngIf ="title.errors.required">Title is required</div>
+          <div *ngIf ="title.errors.minlength || title.errors.maxlength">Title must have at least 5 characters (max 100)</div>
+        </div>
       </div>
       <div class="form-group mt-1">
         <label for="topic_content">Content</label>
@@ -22,11 +31,18 @@
                   placeholder="Place content here"
                   rows="4"
                   name="content"
+                  [(ngModel)]="form.content"
                   required
-                  ngModel></textarea>
-        <small id="contentHelp" class="form-text text-muted">Size of content: from 5 up to 500 characters.</small>
+                  minlength="5"
+                  maxlength="500"
+                  #content = "ngModel">
+        </textarea>
+        <div class="alert-danger" *ngIf ="content.errors && f.submitted">
+          <div *ngIf ="content.errors.required">Content is required</div>
+          <div *ngIf ="content.errors.minlength || content.errors.maxlength">Size of content: between 5 and 500 characters</div>
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary mt-2">Submit</button>
+      <button type="submit" class="btn btn-success mt-2">Submit</button>
     </form>
   </div>
 </div>

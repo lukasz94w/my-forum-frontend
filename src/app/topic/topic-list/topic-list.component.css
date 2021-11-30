@@ -1,4 +1,95 @@
 ul {
-  margin: 0px;
-  padding: 0px
+  margin: 0;
+  padding: 0
+}
+
+li {
+  background-color: white;
+}
+
+a:link {
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: dodgerblue;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.topic-item-list {
+  margin: 0 0 5px 0;
+}
+
+.topic-info {
+  padding: 5px 5px 5px 20px;
+}
+
+.topic-title {
+  color: inherit;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.topic-author-with-date {
+  margin-top: 4px;
+  font-size: 14px;
+  padding: 0;
+}
+
+.topic-answers {
+  margin-right: -85px;
+  text-align: right;
+  font-size: 15px;
+}
+
+.user-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 25px;
+}
+
+.default-avatar-background {
+  width: 45px;
+  height: 45px;
+  border-radius: 25px;
+  background: #d4730b;
+}
+
+.default-avatar-text {
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 32px;
+  line-height: 43px;
+}
+
+.topic-last-activity {
+  padding: 0 0 0 120px;
+}
+
+.last-activity {
+  padding: 0;
+  text-align: left;
+  font-size: 16px;
+}
+
+.last-activity-user {
+  color: inherit;
+}
+
+.last-activity-time {
+  color: inherit;
+  padding: 0;
+  margin-top: -6px;
+}
+
+.avatar {
+  margin-right: -8px;
+}
+
+.padding-0{
+  padding-right:0;
+  padding-left:0;
 }

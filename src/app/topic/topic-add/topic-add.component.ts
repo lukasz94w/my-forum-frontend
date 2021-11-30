@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {NgForm} from "@angular/forms";
-import {Post} from "../../model/post";
-import {Topic} from "../../model/topic";
+import {Component, OnInit} from '@angular/core';
 import {TopicService} from "../../service/topic.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import {NewTopicContent} from "../../model/new-topic-content";
 
 @Component({
   selector: 'app-topic-add',
@@ -12,23 +10,33 @@ import {Router} from "@angular/router";
 })
 export class TopicAddComponent implements OnInit {
 
-  constructor(private topicService: TopicService, private router: Router) { }
+  form: any = {
+    title: null, content: null
+  }
+  category = ''
+
+  constructor(private topicService: TopicService, private router: Router, private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(
+      (params: Params) =>
+        this.category = params['category']
+    )
   }
 
-  addNewTopic(f: NgForm) {
-    const value = f.value;
-    const newTopic = new Topic(value.title, value.content);
-    this.topicService.addNewTopic(newTopic);
-    this.router.navigate(['topic']);
+  addNewTopic() {
+    const {title, content} = this.form;
+    const newTopic = new NewTopicContent(title, content, this.category);
+    this.topicService.createNewTopic(newTopic).subscribe(
+      (response) => {
+        console.log(response);
+        this.router.navigate(['/']);
+      },
+      (error) => {
+        console.log(error)
+        alert("Błędne dane panie!");
+      }
+    )
   }
-
-  // addNewPost(f: NgForm) {
-  //   const value = f.value;
-  //   const newPost = new Post(value.postContent, this.topicViewComponent.topic);
-  //   this.postService.addPost(newPost);
-  //   this.router.navigate(['topic/', this.topicViewComponent.id]).then(page => window.location.reload());
-  //   // this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=> this.router.navigate(['topic/', this.topicViewComponent.id]));
-  // }
 }

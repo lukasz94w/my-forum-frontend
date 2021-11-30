@@ -1,0 +1,44 @@
+.image-cropper {
+  background-color: #1ab394;
+}
+
+.my-test-class {
+
+  background-color: #ffffff;
+
+  border-style: dashed;
+
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  width: 512px;
+  height: 512px;
+  /*background-color: #999;*/
+}
+
+/*.test {*/
+/*  display: block;*/
+/*  margin-left: auto;*/
+/*  margin-right: auto;*/
+/*}*/
+
+.my-size {
+  border-style: dashed;
+  /*--cropper-overlay-color: black;*/
+
+  /*--cropper-overlay-color: #f1eaea;*/
+
+
+  /*--cropper-overlay-color: #eee;*/
+
+  --cropper-overlay-color: #ffffff;
+
+
+  /*--cropper-overlay-color: #eee;*/
+
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  width: 512px;
+  height: 512px;
+}

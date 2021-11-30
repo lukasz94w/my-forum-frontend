@@ -1,10 +1,9 @@
 import {Component} from '@angular/core';
-import {NgForm, ReactiveFormsModule} from "@angular/forms";
-import {Topic} from "../../model/topic";
 import {PostService} from "../../service/post.service";
 import {TopicViewComponent} from "../../topic/topic-view/topic-view.component";
-import {Post} from "../../model/post";
 import {Router} from "@angular/router";
+import {TokenStorageService} from "../../token/token-storage.service";
+import {NewPostContent} from "../../model/new-post-content";
 
 @Component({
   selector: 'app-post-add',
@@ -12,17 +11,24 @@ import {Router} from "@angular/router";
   styleUrls: ['./post-add.component.css']
 })
 export class PostAddComponent {
-  topic = {} as Topic;
 
-  constructor(private postService: PostService, private topicViewComponent: TopicViewComponent, private router: Router) {
-    // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  form: any = {
+    content: null
   }
 
-  addNewPost(f: NgForm) {
-    const value = f.value;
-    const newPost = new Post(value.postContent, this.topicViewComponent.topic);
-    this.postService.addPost(newPost);
-    this.router.navigate(['topic/', this.topicViewComponent.id]).then(page => window.location.reload());
-    // this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=> this.router.navigate(['topic/', this.topicViewComponent.id]));
+  constructor(private postService: PostService, private topicViewComponent: TopicViewComponent, private router: Router, public tokenStorageService: TokenStorageService) {
+  }
+
+  onAddNewPost() {
+    const newPost = new NewPostContent(this.form.content, this.topicViewComponent.topicId);
+    this.postService.createNewPost(newPost).subscribe(
+      (data) => {
+        this.router.navigate(['topic/', this.topicViewComponent.topicId]).then(page => window.location.reload());
+      },
+      (error) => {
+        console.log(error)
+        alert("Invalid data");
+      },
+    )
   }
 }

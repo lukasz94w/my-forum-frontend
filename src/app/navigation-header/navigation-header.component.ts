@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {TokenStorageService} from "../token/token-storage.service";
 
 @Component({
   selector: 'app-navigation-header',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationHeaderComponent implements OnInit {
 
-  constructor() { }
+  isLoggedIn = false;
+
+  constructor(public tokenStorage: TokenStorageService) { }
 
   ngOnInit(): void {
+    this.isLoggedIn = this.tokenStorage.isLoggedIn();
   }
 
+  logout() {
+    this.tokenStorage.signOut();
+    window.location.reload();
+  }
 }

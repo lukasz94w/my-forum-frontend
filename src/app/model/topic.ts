@@ -1,11 +1,14 @@
 export class Topic {
 
-  id: number | undefined;
+  id: number;
   title: string;
-  content: string;
+  user: string;
+  dateTime: Date
 
-  constructor(title: string, content: string) {
+  constructor(id: number, title: string, user: string, dateTime: Date) {
+    this.id = id;
     this.title = title;
-    this.content = content;
+    this.user = user;
+    this.dateTime = dateTime;
   }
 }

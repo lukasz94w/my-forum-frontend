@@ -1,0 +1,140 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 mt-3">
+      <div class="wrapper wrapper-content animated fadeInRight">
+
+        <div class="ibox-content m-b-sm border-bottom">
+          <div class="p-xs">
+            <div class="pull-left m-r-md">
+              <i class="fa fa-globe text-navy mid-icon"></i>
+            </div>
+            <h2>Welcome to forum</h2>
+            <span>Choose category you're interested in.</span>
+          </div>
+        </div>
+
+        <ng-container
+          [ngTemplateOutlet]="sectionOfCategories"
+          [ngTemplateOutletContext]="
+          {
+          startIndex:rangeOfGeneralSubjects[0],
+          endIndex: rangeOfGeneralSubjects[1],
+          headerSectionName: generalSubjectsName,
+          totalNumberOfComments: numberOfEntriesInGeneralSubjects
+          }">
+        </ng-container>
+
+        <ng-container
+          [ngTemplateOutlet]="sectionOfCategories"
+          [ngTemplateOutletContext]="
+          {
+          startIndex:rangeOfOtherSubjects[0],
+          endIndex: rangeOfOtherSubjects[1],
+          headerSectionName: otherSubjectsName,
+          totalNumberOfComments: numberOfEntriesInOtherSubjects
+          }">
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #sectionOfCategories let-startIndex='startIndex' let-endIndex='endIndex'
+             let-headerSectionName='headerSectionName' let-totalNumberOfComments='totalNumberOfComments'>
+
+  <ul class="ibox-content forum-container">
+
+    <div class="forum-title">
+      <div class="pull-right forum-desc">
+        <small>Total comments: {{ totalNumberOfComments }}</small>
+      </div>
+      <h3>{{ headerSectionName }}</h3>
+    </div>
+
+    <li class="forum-item"
+        *ngFor="let topicCategory of topicsCategories | slice:startIndex:endIndex; let i = index ">
+      <div class="row align-items-center">
+        <div class="col-md-7">
+          <div class="forum-icon">
+            <i class="{{ topicIconNames[i + startIndex] }}"></i>
+          </div>
+          <a class="forum-item-title"
+             [routerLink]="['/topic-list', topicCategory.toLowerCase()]">{{ topicCategory }}</a>
+          <div class="forum-sub-title">{{ topicsDescription[i + startIndex] }}</div>
+        </div>
+
+        <div class="col-md-1 forum-info padding-0">
+                                      <span class="views-number">
+                                          {{ numberOfTopicsInEachCategory[i + startIndex] }}
+                                      </span>
+          <div>
+            <small>Topics</small>
+          </div>
+        </div>
+
+        <div class="col-md-1 forum-info padding-0">
+                                      <span class="views-number">
+                                          {{ numberOfPostsInEachCategory[i + startIndex] }}
+                                      </span>
+          <div>
+            <small>Posts</small>
+          </div>
+        </div>
+
+        <div class="col-md-3 forum-info padding-0">
+
+          <ng-container
+            *ngIf="lastPageableTopicActivities[i + startIndex] != null; then showLastActivity; else showNoLastActivity">
+          </ng-container>
+
+          <ng-template #showLastActivity>
+            <div class="card border-0">
+              <div class="row align-items-center">
+                <div class="col-md-2">
+
+                  <ng-container
+                    *ngIf="lastPageableTopicActivities[i + startIndex].userProfilePic !=null; then showUserAvatar; else showDefaultAvatar">
+                  </ng-container>
+
+                  <ng-template #showUserAvatar>
+                    <img [src]="'data:image/jpeg;base64,' + lastPageableTopicActivities[i + startIndex].userProfilePic"
+                         alt="John Doe"
+                         class="user-avatar">
+                    <!--                         class = "rounded-circle"-->
+                  </ng-template>
+
+                  <ng-template #showDefaultAvatar>
+                    <div class="default-avatar-background">
+                      <div class="default-avatar-text">
+                        {{ lastPageableTopicActivities[i + startIndex].userName.charAt(0).toUpperCase() }}
+                      </div>
+                    </div>
+                  </ng-template>
+
+                </div>
+                <div class="col-md-10">
+                  <div class="card-body last-activity">
+                    <a class="card-text last-activity-title" [routerLink]="['/topic/', lastPageableTopicActivities[i + startIndex].topicId]">
+                      {{ lastPageableTopicActivities[i + startIndex].topicName | truncate: 22 : '...' }}</a>
+                    <p class="card-text last-activity-title"><small
+                      class="text-muted">{{ lastPageableTopicActivities[i + startIndex].userName }},
+                      {{ lastPageableTopicActivities[i + startIndex].timeOfLastActivity | timeAgo}} </small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template #showNoLastActivity>
+            No topics in this category found
+          </ng-template>
+
+        </div>
+      </div>
+    </li>
+  </ul>
+
+</ng-template>
