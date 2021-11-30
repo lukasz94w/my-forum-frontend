@@ -20,6 +20,7 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {UserProfileComponent} from './user/user-profile/user-profile.component';
 import {TruncatePipe} from "./pipe/truncate-pipe";
 import {TimeAgoPipe} from "./pipe/time-ago-pipe";
+import {ImageCropperModule} from "ngx-image-cropper";
 
 @NgModule({
   declarations: [
@@ -35,13 +36,15 @@ import {TimeAgoPipe} from "./pipe/time-ago-pipe";
     TopicCategoriesComponent,
     UserProfileComponent,
     TruncatePipe,
-    TimeAgoPipe],
+    TimeAgoPipe
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ImageCropperModule
   ],
   providers: [interceptorProviders],
   bootstrap: [AppComponent]

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
+import {ImageCroppedEvent, LoadedImage} from "ngx-image-cropper";
 
 @Component({
   selector: 'app-user-profile',
@@ -75,13 +76,67 @@ export class UserProfileComponent implements OnInit {
 
   onUpload() {
 
-
     let body = new FormData();
-    body.append('image', this.selectedFile);
+    console.log(this.croppedImage)
+    console.log(this.testFile)
+    console.log(this.selectedFile)
+
+    alert(this.testFile.size)
+
+    body.append('image', this.testFile);
     this.httpClient.post(`${this.apiServerUrl}/user/updateProfilePic`, body).subscribe(
       (data) => {
         console.log("success")
       }
     );
   }
+
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+
+  testFile: File = {} as File;
+
+
+  fileChangeEvent(event: any): void {
+    // this.imageError = 'Only images are allowed!'
+    // return;
+    this.imageChangedEvent = event;
+    // this.testFile = event.target.files[0];
+  }
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+    // let File = base64ToFile(this.croppedImage);
+    // file: File = new File([File], "image");
+
+    this.testFile = this.convertBase64ToFile(event.base64, this.imageChangedEvent.target.files[0].name)
+
+  }
+  imageLoaded(image: LoadedImage) {
+    alert(image.original.size.width)
+    // this.selectedFile = image.original.base64;
+    // show cropper
+  }
+  cropperReady() {
+    // cropper ready
+  }
+  loadImageFailed() {
+    alert("FUCK YOU")
+
+    // show message
+  }
+
+  convertBase64ToFile(data: any, filename: any) {
+    const arr = data.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    let u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, { type: mime });
+  }
+
 }
