@@ -1,0 +1,80 @@
+/*.nav-pills .nav-link.active, .nav-pills .show>.nav-link -> this also works */
+.nav-pills .nav-link.active {
+  background-color: #55a63c;
+  color:white;
+  /*font-weight:550;*/
+}
+
+/*.nav-pills .nav-link:not(.active) -> this also works */
+.nav-pills .nav-link {
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+.user-settings-panel {
+  background-color: #FFFFFF;
+  border-radius: 8px;
+}
+
+.user-settings-icon {
+  width: 15px;
+  margin-right: 10px;
+}
+
+.user-settings-panel-item-top {
+  margin: 15px 10px 3px;
+}
+
+.user-settings-panel-item-center {
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 3px;
+}
+
+.user-settings-panel-item-bottom {
+  margin-bottom: 15px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.user-settings-window-header {
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  font-size: 20px;
+  font-weight: 550;
+  padding: 15px 15px 15px 27px;
+  background-color: #e2e0e0;
+}
+
+.user-settings-window {
+  background-color: #FFFFFF;
+  border-radius: 8px;
+}
+.user-settings-window-password-change {
+  padding: 20px;
+  width: 400px;
+}
+
+
+.testt {
+  border-radius: 12px;
+  background-color: #FFFFFF;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

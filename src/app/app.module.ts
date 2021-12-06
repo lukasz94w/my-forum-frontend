@@ -21,6 +21,8 @@ import {UserProfileComponent} from './user/user-profile/user-profile.component';
 import {TruncatePipe} from "./pipe/truncate-pipe";
 import {TimeAgoPipe} from "./pipe/time-ago-pipe";
 import {ImageCropperModule} from "ngx-image-cropper";
+import {UserProfileSettingsComponent} from "./user/user-profile-settings/user-profile-settings.component";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import {ImageCropperModule} from "ngx-image-cropper";
     TopicCategoriesComponent,
     UserProfileComponent,
     TruncatePipe,
-    TimeAgoPipe
+    TimeAgoPipe,
+    UserProfileSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import {ImageCropperModule} from "ngx-image-cropper";
     HttpClientModule,
     FormsModule,
     NgxPaginationModule,
-    ImageCropperModule
+    ImageCropperModule,
+    NgbModule
   ],
   providers: [interceptorProviders],
   bootstrap: [AppComponent]
