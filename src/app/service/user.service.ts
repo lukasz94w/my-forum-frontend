@@ -13,21 +13,29 @@ export class UserService {
 
   constructor(private httpClient: HttpClient) { }
 
-  updateProfilePic(image: File): Observable<any> {
-    let formData = new FormData();
+  // updateProfilePic(image: File): Observable<any> {
+  //   let formData = new FormData();
+  //
+  //   formData.append("image", image);
+  //   console.log("hello")
+  //   console.log(image)
+  //   console.log(formData)
+  //
+  //   const HttpUploadOptions = {
+  //     headers: new HttpHeaders({ "Content-Type": "multipart/form-data" })
+  //   }
+  //
+  //   // return this.httpClient.post(`${this.apiServerUrl}/user/updateProfilePic`, image, { headers: {'Content-Type': 'multipart/form-data'}});
+  //
+  //   return this.httpClient.post(`${this.apiServerUrl}/user/updateProfilePic`, image, {observe: 'response'});
+  // }
 
-    formData.append("image", image);
-    console.log("hello")
-    console.log(image)
-    console.log(formData)
+  changeProfilePic(imageAsRequestBody: FormData): Observable<any> {
+    return this.httpClient.post(`${this.apiServerUrl}/user/changeProfilePic`, imageAsRequestBody)
+  }
 
-    const HttpUploadOptions = {
-      headers: new HttpHeaders({ "Content-Type": "multipart/form-data" })
-    }
-
-    // return this.httpClient.post(`${this.apiServerUrl}/user/updateProfilePic`, image, { headers: {'Content-Type': 'multipart/form-data'}});
-
-    return this.httpClient.post(`${this.apiServerUrl}/user/updateProfilePic`, image, {observe: 'response'});
+  getProfilePic(): Observable<any> {
+    return this.httpClient.get(`${this.apiServerUrl}/user/getProfilePic`)
   }
 
   changePassword(changePassword: ChangePassword): Observable<any> {

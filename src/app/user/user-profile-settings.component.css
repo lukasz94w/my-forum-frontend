@@ -37,30 +37,6 @@
   margin-left: 10px;
 }
 
-.user-settings-window-header {
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
-  font-size: 20px;
-  font-weight: 550;
-  padding: 15px 15px 15px 27px;
-  background-color: #e2e0e0;
-}
-
-.user-settings-window {
-  background-color: #FFFFFF;
-  border-radius: 8px;
-}
-.user-settings-window-password-change {
-  padding: 20px;
-  width: 400px;
-}
-
-
-.testt {
-  border-radius: 12px;
-  background-color: #FFFFFF;
-}
-
 
 
 

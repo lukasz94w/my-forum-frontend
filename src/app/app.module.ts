@@ -17,12 +17,13 @@ import {SigninComponent} from './auth/signin/signin.component';
 import {interceptorProviders} from './auth/interceptor/interceptor';
 import {TopicCategoriesComponent} from './topic/topic-categories/topic-categories.component';
 import {NgxPaginationModule} from "ngx-pagination";
-import {UserProfileComponent} from './user/user-profile/user-profile.component';
 import {TruncatePipe} from "./pipe/truncate-pipe";
 import {TimeAgoPipe} from "./pipe/time-ago-pipe";
 import {ImageCropperModule} from "ngx-image-cropper";
-import {UserProfileSettingsComponent} from "./user/user-profile-settings/user-profile-settings.component";
+import {UserProfileSettingsComponent} from "./user/user-profile-settings.component";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserProfileSettingsPasswordComponent } from './user/user-profile-settings-password/user-profile-settings-password.component';
+import { UserProfileSettingsAvatarComponent } from './user/user-profile-settings-avatar/user-profile-settings-avatar.component';
 
 @NgModule({
   declarations: [
@@ -36,10 +37,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SignupComponent,
     SigninComponent,
     TopicCategoriesComponent,
-    UserProfileComponent,
     TruncatePipe,
     TimeAgoPipe,
-    UserProfileSettingsComponent
+    UserProfileSettingsComponent,
+    UserProfileSettingsPasswordComponent,
+    UserProfileSettingsAvatarComponent
   ],
   imports: [
     BrowserModule,

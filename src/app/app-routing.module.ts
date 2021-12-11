@@ -5,10 +5,8 @@ import {TopicViewComponent} from "./topic/topic-view/topic-view.component";
 import {TopicAddComponent} from "./topic/topic-add/topic-add.component";
 import {SignupComponent} from "./auth/signup/signup.component";
 import {SigninComponent} from "./auth/signin/signin.component";
-import {TopicCategoriesComponent} from "./topic/topic-categories/topic-categories.component";
 import {TopicListComponent} from "./topic/topic-list/topic-list.component";
-import {UserProfileComponent} from "./user/user-profile/user-profile.component";
-import {UserProfileSettingsComponent} from "./user/user-profile-settings/user-profile-settings.component";
+import {UserProfileSettingsComponent} from "./user/user-profile-settings.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/topic-categories', pathMatch: 'full'},
@@ -18,7 +16,6 @@ const routes: Routes = [
   {path: 'topic-add/:category', component: TopicAddComponent},
   {path: 'auth/signup', component: SignupComponent},
   {path: 'auth/signin', component: SigninComponent},
-  {path: 'user-profile', component: UserProfileComponent},
   {path: 'user-profile-settings', component: UserProfileSettingsComponent}
 ];
 
