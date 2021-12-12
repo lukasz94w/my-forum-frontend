@@ -1,0 +1,60 @@
+.user-settings-window {
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  padding-bottom: 8px;
+}
+
+.user-settings-window-header {
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  font-size: 20px;
+  font-weight: 550;
+  padding: 15px 15px 15px 27px;
+  background-color: #e2e0e0;
+  margin-bottom: 15px;
+}
+
+.post-window-all {
+  margin: 0 20px 20px;
+}
+
+.post-window {
+  border-radius: 5px;
+}
+
+.post-info {
+  padding: 15px 20px;
+}
+
+.post-topic-title {
+  color: inherit;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.post-topic-category {
+  font-size: 15px;
+}
+
+.post-date {
+  margin-top: 5px;
+  font-size: 13px;
+}
+
+.post-content {
+  margin-top: 22px;
+  font-size: 16px;
+}
+
+.post-bottom-fill {
+  border-top-style: solid;
+  border-top-color: lightgray;
+  border-width: 1px;
+  height: 40px;
+}
+
+.paginate {
+  margin-bottom: 0px;
+  padding: 0px;
+}
+

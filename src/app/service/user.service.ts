@@ -3,6 +3,7 @@ import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ChangePassword} from "../model/change-password";
+import {Topic} from "../model/topic";
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +41,9 @@ export class UserService {
 
   changePassword(changePassword: ChangePassword): Observable<any> {
     return this.httpClient.post(`${this.apiServerUrl}/user/changePassword`, changePassword)
+  }
+
+  findPageablePostsByUser(params: any): Observable<any> {
+    return this.httpClient.get<any>(`${this.apiServerUrl}/user/findPageablePostsByUser`, {params});
   }
 }

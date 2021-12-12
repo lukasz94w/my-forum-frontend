@@ -24,6 +24,7 @@ import {UserProfileSettingsComponent} from "./user/user-profile-settings.compone
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserProfileSettingsPasswordComponent } from './user/user-profile-settings-password/user-profile-settings-password.component';
 import { UserProfileSettingsAvatarComponent } from './user/user-profile-settings-avatar/user-profile-settings-avatar.component';
+import { UserProfileSettingsPostListComponent } from './user/user-profile-settings-post-list/user-profile-settings-post-list.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { UserProfileSettingsAvatarComponent } from './user/user-profile-settings
     TimeAgoPipe,
     UserProfileSettingsComponent,
     UserProfileSettingsPasswordComponent,
-    UserProfileSettingsAvatarComponent
+    UserProfileSettingsAvatarComponent,
+    UserProfileSettingsPostListComponent
   ],
   imports: [
     BrowserModule,
