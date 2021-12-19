@@ -1,0 +1,74 @@
+.user-settings-window {
+  background-color: #FFFFFF;
+  border-radius: 8px;
+}
+
+.user-settings-window-header {
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  font-size: 20px;
+  font-weight: 550;
+  padding: 15px 15px 15px 27px;
+  background-color: #e2e0e0;
+}
+
+.picture-padding {
+  padding-top: 3%;
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+.picture-title {
+  padding-top: 10px;
+  text-align: center;
+}
+
+.profile-pic {
+  width: 100%;
+  padding: 5%;
+}
+
+.button-select-image {
+  margin-top: 8px;
+  margin-left: 20px;
+  margin-right: 5px;
+}
+
+.button-upload-image {
+  margin-top: 8px;
+  margin-right: 20px;
+  margin-left: 5px;
+}
+
+.buttons-wrapper {
+  margin-bottom: 10px;
+}
+
+.square-image-is-not-correct {
+  background-color: #ffffff;
+  border-style: dashed;
+  border-color: darkslategray;
+
+  min-width: 250px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1/1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+}
+
+.square-image-cropper {
+  background-color: #ffffff;
+  border-style: dashed;
+  border-color: darkslategray;
+
+  min-width: 250px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1/1;
+}
+
+

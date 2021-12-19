@@ -28,6 +28,7 @@ export class SigninComponent implements OnInit {
     this.authService.login(username, password).subscribe(
       data => {
         this.tokenStorage.saveToken(data.token);
+        this.tokenStorage.saveUsername((JSON.parse(atob(data.token.split('.')[1]))).sub);
 
 
         const testExpToken = (JSON.parse(atob(data.token.split('.')[1]))).exp;
@@ -46,7 +47,7 @@ export class SigninComponent implements OnInit {
         console.log("Scope: " + scope);
 
         this.tokenStorage.saveExpirationTime(data.expirationTime);
-        this.tokenStorage.saveUser(data);
+        // this.tokenStorage.saveUser(data);
 
         this.tokenStorage.saveExpirationTimeBetter(testExpToken);
 

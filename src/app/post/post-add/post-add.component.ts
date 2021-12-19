@@ -24,6 +24,8 @@ export class PostAddComponent {
     this.postService.createNewPost(newPost).subscribe(
       (data) => {
         this.router.navigate(['topic/', this.topicViewComponent.topicId]).then(page => window.location.reload());
+        // this.router.navigate(['topic/', this.topicViewComponent.topicId, {queryParams: {number: this.topicViewComponent.totalPosts + 1}}]);
+        // TODO: redirect to the newest post after adding it
       },
       (error) => {
         console.log(error)

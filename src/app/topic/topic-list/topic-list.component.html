@@ -74,11 +74,14 @@
                   <div class="card-body last-activity">
                     <div class="card-text last-activity-user">
                       {{ lastPageableTopicActivities[i].userName }} </div>
-                    <p class="card-text last-activity-time">
+                    <a class="card-text last-activity-time"
+                       [routerLink]="['/topic/', pageableTopic.id]"
+                       [queryParams]="{ number: lastPageableTopicActivities[i].postNumber }">
                       <small class="text-muted">{{ lastPageableTopicActivities[i].timeOfLastActivity | date: 'd MMMM y ' }} </small>
-                    </p>
+                    </a>
                   </div>
                 </div>
+
               </div>
             </div>
 

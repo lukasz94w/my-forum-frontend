@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {ChangePassword} from "../model/change-password";
+import {Topic} from "../model/topic";
 
 @Injectable({
   providedIn: 'root'
@@ -12,20 +14,36 @@ export class UserService {
 
   constructor(private httpClient: HttpClient) { }
 
-  updateProfilePic(image: File): Observable<any> {
-    let formData = new FormData();
+  // updateProfilePic(image: File): Observable<any> {
+  //   let formData = new FormData();
+  //
+  //   formData.append("image", image);
+  //   console.log("hello")
+  //   console.log(image)
+  //   console.log(formData)
+  //
+  //   const HttpUploadOptions = {
+  //     headers: new HttpHeaders({ "Content-Type": "multipart/form-data" })
+  //   }
+  //
+  //   // return this.httpClient.post(`${this.apiServerUrl}/user/updateProfilePic`, image, { headers: {'Content-Type': 'multipart/form-data'}});
+  //
+  //   return this.httpClient.post(`${this.apiServerUrl}/user/updateProfilePic`, image, {observe: 'response'});
+  // }
 
-    formData.append("image", image);
-    console.log("hello")
-    console.log(image)
-    console.log(formData)
+  changeProfilePic(imageAsRequestBody: FormData): Observable<any> {
+    return this.httpClient.post(`${this.apiServerUrl}/user/changeProfilePic`, imageAsRequestBody)
+  }
 
-    const HttpUploadOptions = {
-      headers: new HttpHeaders({ "Content-Type": "multipart/form-data" })
-    }
+  getProfilePic(): Observable<any> {
+    return this.httpClient.get(`${this.apiServerUrl}/user/getProfilePic`)
+  }
 
-    // return this.httpClient.post(`${this.apiServerUrl}/user/updateProfilePic`, image, { headers: {'Content-Type': 'multipart/form-data'}});
+  changePassword(changePassword: ChangePassword): Observable<any> {
+    return this.httpClient.post(`${this.apiServerUrl}/user/changePassword`, changePassword)
+  }
 
-    return this.httpClient.post(`${this.apiServerUrl}/user/updateProfilePic`, image, {observe: 'response'});
+  findPageablePostsByUser(params: any): Observable<any> {
+    return this.httpClient.get<any>(`${this.apiServerUrl}/user/findPageablePostsByUser`, {params});
   }
 }

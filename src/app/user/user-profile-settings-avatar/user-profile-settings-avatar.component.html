@@ -1,0 +1,86 @@
+<div class="row user-settings-window col-md-10">
+
+  <div class="user-settings-window-header">
+    Profile pic settings
+  </div>
+
+  <div class="col md-6">
+    <div class="picture-title">
+      Current profile pic
+    </div>
+
+    <div class="picture-padding">
+      <div class="square-image-cropper">
+
+        <ng-container
+          *ngIf="profilePic !=null; then showProfilePic; else showDefaultProfilePic">
+        </ng-container>
+
+        <ng-template #showProfilePic>
+          <img [src]="'data:image/jpeg;base64,' + profilePic"
+               alt="{{ username }}"
+               class="img-fluid profile-pic">
+        </ng-template>
+
+        <ng-template #showDefaultProfilePic>
+          <img class="img-fluid profile-pic"
+               src="https://eu.ui-avatars.com/api/?size=256&name={{ username }}&length=1&color=FFFFFF&background=d4730b"
+               alt="{{ username }}">
+        </ng-template>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col md-6">
+    <div class="picture-title">
+      New profile pic
+    </div>
+
+    <div class="picture-padding">
+      <ng-container
+        *ngIf="isImageCorrect; then showCroppedImage; else showImageIsNotCorrect">
+      </ng-container>
+
+      <ng-template #showCroppedImage>
+        <image-cropper class="square-image-cropper"
+                       backgroundColor="white"
+
+                       [cropperMinWidth]="256"
+                       [cropperMinHeight]="256"
+                       [containWithinAspectRatio]="true"
+                       format="jpeg"
+
+                       [imageChangedEvent]="imageChangedEvent"
+                       [maintainAspectRatio]="true"
+                       [aspectRatio]="1"
+                       (imageCropped)="imageCropped($event)"
+        ></image-cropper>
+      </ng-template>
+
+      <ng-template #showImageIsNotCorrect>
+        <div class="square-image-is-not-correct">
+          {{ whyIsImageNotCorrect }}
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="d-flex buttons-wrapper">
+      <label class="btn btn-primary button-select-image">
+        Choose image
+        <input type="file" accept=".jpg, .png" style="display: none;" name="image" (change)="fileChangeEvent($event)">
+      </label>
+
+      <div class="ms-auto">
+        <button
+          [disabled]="!isAllowedImageToUpload"
+          class="btn btn-success button-upload-image"
+          (click)="onUpload()">
+          Upload image
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>

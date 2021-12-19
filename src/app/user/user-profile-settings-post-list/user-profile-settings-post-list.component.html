@@ -1,0 +1,55 @@
+<div class="col-md-10 user-settings-window">
+
+  <div class="user-settings-window-header">
+    Posts of {{ username }}
+  </div>
+
+  <ng-container [ngTemplateOutlet]="pagination"></ng-container>
+
+  <ul class="list-group">
+    <li class="d-flex post-window-all align-items-center" *ngFor="let pageablePost of pageablePosts |
+        paginate :{
+        itemsPerPage: numberOfPostsOnOnePage,
+        currentPage: currentPage,
+        totalItems: totalPosts
+        }; let i=index">
+
+      <div class="post-window border col-12">
+        <div class="post-info">
+          <a class="post-topic-title"
+             [routerLink]="['/topic/', pageablePost.topicId]"
+             [queryParams]="{ number: pageablePost.number }">
+            {{ pageablePost.topicTitle }}
+          </a>
+          <div class="post-topic-category text-muted">
+            In {{ pageablePost.topicCategory }}
+          </div>
+          <div class="post-date text-muted">
+            {{ pageablePost.dateTime | date: 'd MMMM y' }}
+          </div>
+          <div class="post-content">
+            {{ pageablePost.content }}
+          </div>
+        </div>
+
+        <div class="post-bottom-fill"></div>
+      </div>
+
+    </li>
+  </ul>
+
+  <ng-container [ngTemplateOutlet]="pagination"></ng-container>
+
+</div>
+
+<ng-template #pagination>
+  <div class="col-md-12 paginate" *ngIf="totalPosts > 1">
+    <pagination-controls
+      previousLabel="Prev"
+      nextLabel="Next"
+      [responsive]="true"
+      (pageChange)="handlePageChange($event)"
+    ></pagination-controls>
+  </div>
+</ng-template>
+
