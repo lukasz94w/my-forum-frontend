@@ -61,7 +61,8 @@
             <i class="{{ topicIconNames[i + startIndex] }}"></i>
           </div>
           <a class="forum-item-title"
-             [routerLink]="['/topic-list', topicCategory.toLowerCase()]">{{ topicCategory }}</a>
+             [routerLink]="['/topic-list', topicCategory.toLowerCase()]">
+            {{ topicCategory }}</a>
           <div class="forum-sub-title">{{ topicsDescription[i + startIndex] }}</div>
         </div>
 
@@ -100,7 +101,7 @@
 
                   <ng-template #showUserAvatar>
                     <img [src]="'data:image/jpeg;base64,' + lastPageableTopicActivities[i + startIndex].userProfilePic"
-                         alt="John Doe"
+                         alt="{{ lastPageableTopicActivities[i + startIndex].userName }}"
                          class="user-avatar">
                     <!--                         class = "rounded-circle"-->
                   </ng-template>
@@ -116,7 +117,9 @@
                 </div>
                 <div class="col-md-10">
                   <div class="card-body last-activity">
-                    <a class="card-text last-activity-title" [routerLink]="['/topic/', lastPageableTopicActivities[i + startIndex].topicId]">
+                    <a class="card-text last-activity-title"
+                       [routerLink]="['/topic/', lastPageableTopicActivities[i + startIndex].topicId]"
+                       [queryParams]="{ number: lastPageableTopicActivities[i + startIndex].postNumber }">
                       {{ lastPageableTopicActivities[i + startIndex].topicName | truncate: 22 : '...' }}</a>
                     <p class="card-text last-activity-title"><small
                       class="text-muted">{{ lastPageableTopicActivities[i + startIndex].userName }},

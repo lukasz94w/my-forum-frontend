@@ -21,10 +21,10 @@ import {TruncatePipe} from "./pipe/truncate-pipe";
 import {TimeAgoPipe} from "./pipe/time-ago-pipe";
 import {ImageCropperModule} from "ngx-image-cropper";
 import {UserProfileSettingsComponent} from "./user/user-profile-settings.component";
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { UserProfileSettingsPasswordComponent } from './user/user-profile-settings-password/user-profile-settings-password.component';
-import { UserProfileSettingsAvatarComponent } from './user/user-profile-settings-avatar/user-profile-settings-avatar.component';
-import { UserProfileSettingsPostListComponent } from './user/user-profile-settings-post-list/user-profile-settings-post-list.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {UserProfileSettingsPasswordComponent} from './user/user-profile-settings-password/user-profile-settings-password.component';
+import {UserProfileSettingsAvatarComponent} from './user/user-profile-settings-avatar/user-profile-settings-avatar.component';
+import {UserProfileSettingsPostListComponent} from './user/user-profile-settings-post-list/user-profile-settings-post-list.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +52,7 @@ import { UserProfileSettingsPostListComponent } from './user/user-profile-settin
     FormsModule,
     NgxPaginationModule,
     ImageCropperModule,
-    NgbModule
+    NgbModule,
   ],
   providers: [interceptorProviders],
   bootstrap: [AppComponent]

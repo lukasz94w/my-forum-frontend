@@ -29,8 +29,7 @@ export class TopicAddComponent implements OnInit {
     const {title, content} = this.form;
     const newTopic = new NewTopicContent(title, content, this.category);
     this.topicService.createNewTopic(newTopic).subscribe(
-      (response) => {
-        console.log(response);
+      () => {
         this.router.navigate(['/']);
       },
       (error) => {

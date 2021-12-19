@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import {ExtraOptions, RouterModule, Routes} from '@angular/router';
 import {TopicComponent} from "./topic/topic.component";
 import {TopicViewComponent} from "./topic/topic-view/topic-view.component";
 import {TopicAddComponent} from "./topic/topic-add/topic-add.component";
@@ -18,10 +18,15 @@ const routes: Routes = [
   {path: 'auth/signin', component: SigninComponent},
   {path: 'user-profile-settings', component: UserProfileSettingsComponent}
 ];
+const routerOptions: ExtraOptions = {
+  scrollPositionRestoration: "enabled",
+  anchorScrolling: "enabled",
+  scrollOffset: [0, 64],
+}
 
 @NgModule({
   declarations: [],
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, routerOptions)],
   exports: [RouterModule]
 })
 

@@ -24,6 +24,7 @@ export class UserProfileSettingsPostListComponent implements OnInit {
   ngOnInit(): void {
     //to powinno byc przekazywane w linku...
     this.username = this.tokenStorageService.getUsername();
+    this.currentPage = 1;
     this.findPageablePostsByUser();
   }
 

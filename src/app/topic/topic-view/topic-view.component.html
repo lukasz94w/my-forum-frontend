@@ -12,9 +12,9 @@
         <li class="card mb-3" *ngFor="let post of pageablePosts |
         paginate: {
          itemsPerPage: numberOfPostsOnOnePage,
-         currentPage: currentPage,
+         currentPage: pageNumber,
          totalItems: totalPosts
-          };">
+          }; let i = index" [attr.data-index]="i" [attr.id]="i">
 
           <div class="row g-0">
 
@@ -33,8 +33,8 @@
 
                 <ng-template #showDefaultAvatar>
                   <img class="img-fluid rounded-start user-image"
-                    src="https://eu.ui-avatars.com/api/?size=256&name={{ post.user }}&length=1&color=FFFFFF&background=d4730b"
-                    alt="{{ post.user }}">
+                       src="https://eu.ui-avatars.com/api/?size=256&name={{ post.user }}&length=1&color=FFFFFF&background=d4730b"
+                       alt="{{ post.user }}">
                 </ng-template>
 
                 <figcaption class="figure-caption text-center mt-1">{{ post.user }}
@@ -43,8 +43,8 @@
             </div>
 
             <div class="col-md-10">
-                <div class="text-muted date-time-post">Posted {{ post.dateTime | date: 'medium' }}</div>
-                <div class="content-post"> {{ post.content }} </div>
+              <div class="text-muted date-time-post">Posted {{ post.dateTime | date: 'medium' }}</div>
+              <div class="content-post"> {{ post.content }} </div>
             </div>
 
           </div>
