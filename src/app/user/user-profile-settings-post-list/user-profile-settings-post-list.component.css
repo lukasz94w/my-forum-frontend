@@ -9,6 +9,10 @@ a:hover {
   text-decoration: none;
 }
 
+.category-link {
+  color: inherit;
+}
+
 .user-settings-window {
   background-color: #FFFFFF;
   border-radius: 8px;

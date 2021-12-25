@@ -1,35 +1,25 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {ImageCroppedEvent} from "ngx-image-cropper";
-import {TokenStorageService} from "../../token/token-storage.service";
 
 @Component({
   selector: 'app-user-profile-settings-avatar',
   templateUrl: './user-profile-settings-avatar.component.html',
   styleUrls: ['./user-profile-settings-avatar.component.css']
 })
-export class UserProfileSettingsAvatarComponent implements OnInit {
+export class UserProfileSettingsAvatarComponent {
 
-  username: string = ''
-  profilePic: any;
+  @Input() username: string = ''
+  @Input() profilePic: [] = [];
 
   isImageCorrect: boolean = true;
-  whyIsImageNotCorrect = '';
+  whyIsImageNotCorrect: string = '';
   isAllowedImageToUpload: boolean = false;
 
   imageChangedEvent: any = '';
   loadedImage: File = {} as File;
 
-  constructor(private userService: UserService, private tokenStorageService: TokenStorageService) {
-  }
-
-  ngOnInit(): void {
-    this.userService.getProfilePic().subscribe(
-      (data: any) => {
-        this.profilePic = data.rawData;
-      }
-    )
-    this.username = this.tokenStorageService.getUsername();
+  constructor(private userService: UserService) {
   }
 
   onUpload() {

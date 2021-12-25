@@ -1,0 +1,48 @@
+.user-settings-window {
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  margin-left: 1px;
+  margin-right: 1px;
+}
+
+.user-settings-window-header {
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  font-size: 20px;
+  font-weight: 550;
+  padding: 15px 15px 15px 27px;
+  background-color: #e2e0e0;
+}
+
+.user-settings-window-account-info {
+  padding: 20px 20px 20px 25px;
+}
+
+.section-header {
+  color: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  padding-left: 7px;
+}
+
+.section-content {
+  padding-left: 7px;
+  font-size: 14px;
+}
+
+.separator {
+  color: darkgray;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.picture-padding {
+  padding: 7px;
+}
+
+img {
+  object-fit: contain;
+  height: auto;
+  aspect-ratio: 1/1;
+  width: 100%;
+}

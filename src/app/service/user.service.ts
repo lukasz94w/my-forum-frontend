@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ChangePassword} from "../model/change-password";
-import {Topic} from "../model/topic";
+import {User} from "../model/user";
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +39,10 @@ export class UserService {
     return this.httpClient.get(`${this.apiServerUrl}/user/getProfilePic`)
   }
 
+  getUserInfo(username: string): Observable<User> {
+    return this.httpClient.get<User>(`${this.apiServerUrl}/user/getUserInfo/${username}`)
+  }
+
   changePassword(changePassword: ChangePassword): Observable<any> {
     return this.httpClient.post(`${this.apiServerUrl}/user/changePassword`, changePassword)
   }
@@ -46,4 +50,9 @@ export class UserService {
   findPageablePostsByUser(params: any): Observable<any> {
     return this.httpClient.get<any>(`${this.apiServerUrl}/user/findPageablePostsByUser`, {params});
   }
+
+  findPageableTopicsByUser(params: { page: number; username: string }): Observable<any> {
+    return this.httpClient.get<any>(`${this.apiServerUrl}/user/findPageableTopicsByUser`, {params})
+  }
+
 }

@@ -9,6 +9,7 @@
   <ul class="list-group">
     <li class="d-flex post-window-all align-items-center" *ngFor="let pageablePost of pageablePosts |
         paginate :{
+        id: 'paginationPosts',
         itemsPerPage: numberOfPostsOnOnePage,
         currentPage: currentPage,
         totalItems: totalPosts
@@ -22,7 +23,7 @@
             {{ pageablePost.topicTitle }}
           </a>
           <div class="post-topic-category text-muted">
-            In {{ pageablePost.topicCategory }}
+            In <a class="category-link" [routerLink]="['/topic-list/', pageablePost.topicCategory]">{{ pageablePost.topicCategory }}</a>
           </div>
           <div class="post-date text-muted">
             {{ pageablePost.dateTime | date: 'd MMMM y' }}
@@ -45,6 +46,7 @@
 <ng-template #pagination>
   <div class="col-md-12 paginate" *ngIf="totalPosts > 1">
     <pagination-controls
+      id="paginationPosts"
       previousLabel="Prev"
       nextLabel="Next"
       [responsive]="true"

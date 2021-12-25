@@ -5,7 +5,6 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from "@angular/common/http";
 import {NavigationHeaderComponent} from './navigation-header/navigation-header.component';
-import {TopicComponent} from './topic/topic.component';
 import {TopicListComponent} from './topic/topic-list/topic-list.component';
 import {TopicViewComponent} from './topic/topic-view/topic-view.component';
 import {PostAddComponent} from './post/post-add/post-add.component';
@@ -25,12 +24,13 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {UserProfileSettingsPasswordComponent} from './user/user-profile-settings-password/user-profile-settings-password.component';
 import {UserProfileSettingsAvatarComponent} from './user/user-profile-settings-avatar/user-profile-settings-avatar.component';
 import {UserProfileSettingsPostListComponent} from './user/user-profile-settings-post-list/user-profile-settings-post-list.component';
+import {UserProfileSettingsTopicListComponent} from './user/user-profile-settings-topic-list/user-profile-settings-topic-list.component';
+import {UserProfileSettingsAccountInfoComponent} from './user/user-profile-settings-account-info/user-profile-settings-account-info.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationHeaderComponent,
-    TopicComponent,
     TopicListComponent,
     TopicViewComponent,
     PostAddComponent,
@@ -43,7 +43,9 @@ import {UserProfileSettingsPostListComponent} from './user/user-profile-settings
     UserProfileSettingsComponent,
     UserProfileSettingsPasswordComponent,
     UserProfileSettingsAvatarComponent,
-    UserProfileSettingsPostListComponent
+    UserProfileSettingsPostListComponent,
+    UserProfileSettingsTopicListComponent,
+    UserProfileSettingsAccountInfoComponent
   ],
   imports: [
     BrowserModule,

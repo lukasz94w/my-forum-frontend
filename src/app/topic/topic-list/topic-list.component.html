@@ -18,10 +18,10 @@
     </div>
 
     <ng-container
-      *ngIf="topicsLength > 0; then showListOfPosts; else showNoPostInfo">
+      *ngIf="topicsLength > 0; then showListOfTopics; else showNoTopicsInfo">
     </ng-container>
 
-    <ng-template #showListOfPosts>
+    <ng-template #showListOfTopics>
       <div class="topics-list">
 
         <ng-container [ngTemplateOutlet]="pagination"></ng-container>
@@ -34,7 +34,7 @@
         totalItems: totalTopics
         }; let i=index">
 
-            <div class="col-md-8 align-items-center">
+            <div class="col-md-7 align-items-center">
               <div class="topic-info">
                 <a class="topic-title" [routerLink]="['/topic/', pageableTopic.id]">
                   {{ pageableTopic.title }}
@@ -44,13 +44,13 @@
               </div>
             </div>
 
-            <div class="col-md-1 topic-answers">
+            <div class="col-md-2 topic-answers">
               {{ numberOfAnswersInPageableTopics[i] }} answers
             </div>
 
             <div class= "col md-3">
               <div class="row align-items-center topic-last-activity">
-                <div class="col-md-3 avatar">
+                <div class="col-md-1 avatar">
                 <ng-container
                   *ngIf="lastPageableTopicActivities[i].userProfilePic !=null; then showUserAvatar; else showDefaultAvatar">
                 </ng-container>
@@ -93,7 +93,7 @@
       </div>
     </ng-template>
 
-    <ng-template #showNoPostInfo>
+    <ng-template #showNoTopicsInfo>
       <div class="text-center mt-10">
         No topics in this section yet.
       </div>
