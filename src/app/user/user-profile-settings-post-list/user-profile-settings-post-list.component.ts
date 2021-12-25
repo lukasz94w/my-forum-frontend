@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import {TokenStorageService} from "../../token/token-storage.service";
+import {Component, Input, OnInit} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {Post2} from "../../model/post2";
 
@@ -10,20 +9,20 @@ import {Post2} from "../../model/post2";
 })
 export class UserProfileSettingsPostListComponent implements OnInit {
 
-  username: string = ''
+  @Input() username = '';
+
   pageablePosts: Post2[] = [];
-  postsLength = - 1;
+  postsLength = -1;
 
   currentPage = 1;
   totalPosts = 0;
   totalPages = 0;
   numberOfPostsOnOnePage = 10;
 
-  constructor(private tokenStorageService: TokenStorageService, private userService: UserService) { }
+  constructor(private userService: UserService) {
+  }
 
   ngOnInit(): void {
-    //to powinno byc przekazywane w linku...
-    this.username = this.tokenStorageService.getUsername();
     this.currentPage = 1;
     this.findPageablePostsByUser();
   }

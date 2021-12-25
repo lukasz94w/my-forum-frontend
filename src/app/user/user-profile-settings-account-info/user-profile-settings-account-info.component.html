@@ -1,0 +1,67 @@
+<div class="row user-settings-window col-md-10">
+
+  <div class="user-settings-window-header">
+    User details
+  </div>
+
+  <div class="col-md-6 user-settings-window-account-info">
+    <div class="section-header">
+      Username
+    </div>
+    <div class="section-content text-muted">
+      {{ user.name }}
+    </div>
+
+    <hr class="separator">
+
+    <div class="section-header">
+      Email address
+    </div>
+    <div class="section-content text-muted">
+      {{ user.email }}
+    </div>
+
+    <hr class="separator">
+
+    <div class="section-header">
+      Password
+    </div>
+    <div class="section-content text-muted">
+      *********
+    </div>
+
+    <hr class="separator">
+
+    <div class="section-header">
+      Registration
+    </div>
+    <div class="section-content text-muted">
+      {{ user.registered | date: 'd MMMM y'}}
+    </div>
+  </div>
+
+  <div class="col-md-6 user-settings-window-account-info">
+    <div class="section-header">
+      Profile picture
+    </div>
+
+    <div class="picture-padding">
+      <ng-container
+        *ngIf="user.profilePic !=null; then showProfilePic; else showDefaultProfilePic">
+      </ng-container>
+
+      <ng-template #showProfilePic>
+        <img [src]="'data:image/jpeg;base64,' + user.profilePic"
+             alt="{{ user.name }}"
+             class="img-fluid profile-pic">
+      </ng-template>
+
+      <ng-template #showDefaultProfilePic>
+        <img class="img-fluid profile-pic"
+             src="https://eu.ui-avatars.com/api/?size=256&name={{ user.name }}&length=1&color=FFFFFF&background=d4730b"
+             alt="{{ user.name }}">
+      </ng-template>
+    </div>
+  </div>
+
+</div>

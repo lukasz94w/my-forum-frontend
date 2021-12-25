@@ -16,19 +16,19 @@
 
     <ul class="navbar-nav me-2" *ngIf = !tokenStorage.isLoggedIn()>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="/auth/signin">Login</a>
+        <a class="nav-link" [routerLink]="['/auth/signin']">Login</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="/auth/signup">Registration</a>
+        <a class="nav-link" [routerLink]="['/auth/signup']">Registration</a>
       </li>
     </ul>
 
     <ul class="navbar-nav me-2" *ngIf = tokenStorage.isLoggedIn()>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="/user-profile-settings">My profile</a>
+        <a class="nav-link" [routerLink]="['/user-profile-settings/', tokenStorage.getUsername()]">My profile</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="/auth/signout" (click)="logout()">Wyloguj się</a>
+        <a class="nav-link" [routerLink]="['/auth/signout']" (click)="logout()">Wyloguj się</a>
       </li>
     </ul>
 

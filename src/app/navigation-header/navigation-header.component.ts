@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TokenStorageService} from "../token/token-storage.service";
 
 @Component({
@@ -10,10 +10,14 @@ export class NavigationHeaderComponent implements OnInit {
 
   isLoggedIn = false;
 
-  constructor(public tokenStorage: TokenStorageService) { }
+  constructor(public tokenStorage: TokenStorageService) {
+  }
 
   ngOnInit(): void {
     this.isLoggedIn = this.tokenStorage.isLoggedIn();
+
+    //tu jakos powinno byc inaczej i nie powinno to byc kazdorazowo ustawiane tylko brac info czy zalogowany z
+    //token storage is loggedin bezposrednio
   }
 
   logout() {

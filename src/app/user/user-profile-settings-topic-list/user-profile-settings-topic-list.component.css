@@ -1,9 +1,43 @@
+.user-settings-window {
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  padding-bottom: 8px;
+}
+
+.user-settings-window-header {
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  font-size: 20px;
+  font-weight: 550;
+  padding: 15px 15px 15px 27px;
+  background-color: #e2e0e0;
+  margin-bottom: 15px;
+}
+
+a:link {
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: dodgerblue;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.category-link {
+  color: inherit;
+}
+
 ul {
-  margin: 0;
+  margin-top: -15px;
+  margin-left: 20px;
+  margin-right: 20px;
   padding: 0
 }
 
 li {
+  margin-top: 15px;
   background-color: white;
 }
 
@@ -19,12 +53,11 @@ a:hover {
 }
 
 .topic-item-list {
-  margin: 0 0 5px 0;
   border-radius: 3px;
 }
 
 .topic-info {
-  padding: 5px 5px 5px 25px;
+  padding: 5px 5px 5px 20px;
 }
 
 .topic-title {
@@ -90,7 +123,7 @@ a:hover {
   margin-right: 25px;
 }
 
-.padding-0{
-  padding-right:0;
-  padding-left:0;
+.padding-0 {
+  padding-right: 0;
+  padding-left: 0;
 }

@@ -1,0 +1,104 @@
+<div class="col-md-10 user-settings-window">
+
+  <div class="user-settings-window-header">
+    Topics of {{ username }}
+  </div>
+
+  <ng-container
+    *ngIf="topicsLength > 0; then showListOfTopics; else showNoTopicsInfo">
+  </ng-container>
+
+  <ng-template #showListOfTopics>
+    <div class="topics-list">
+
+      <ng-container [ngTemplateOutlet]="pagination"></ng-container>
+
+      <ul class="list-group mb-3 mt-10">
+        <li class="col-md-12 d-flex border p-3 topic-item-list align-items-center" *ngFor="let pageableTopic of pageableTopics |
+        paginate :{
+        id: 'paginationTopics',
+        itemsPerPage: numberOfTopicsOnOnePage,
+        currentPage: currentPage,
+        totalItems: totalTopics
+        }; let i=index">
+
+          <div class="col-md-7 align-items-center">
+            <div class="topic-info">
+              <a class="topic-title" [routerLink]="['/topic/', pageableTopic.id]">
+                {{ pageableTopic.title }}
+              </a>
+              <div class="topic-author-with-date">posted by {{ pageableTopic.user }},
+                {{ pageableTopic.dateTime | date: 'd MMMM y' }} in
+                <a class="category-link" [routerLink]="['/topic-list/', pageableTopic.category]">{{ pageableTopic.category }}</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-1 topic-answers">
+            {{ numberOfAnswersInPageableTopics[i] }} answers
+          </div>
+
+          <div class= "col md-4">
+            <div class="row align-items-center topic-last-activity">
+              <div class="col-md-1 avatar">
+                <ng-container
+                  *ngIf="lastPageableTopicActivities[i].userProfilePic !=null; then showUserAvatar; else showDefaultAvatar">
+                </ng-container>
+
+                <ng-template #showUserAvatar>
+                  <img [src]="'data:image/jpeg;base64,' + lastPageableTopicActivities[i].userProfilePic"
+                       alt="{{ lastPageableTopicActivities[i].userName }}"
+                       class="user-avatar">
+                </ng-template>
+
+                <ng-template #showDefaultAvatar>
+                  <div class="default-avatar-background">
+                    <div class="default-avatar-text">
+                      {{ lastPageableTopicActivities[i].userName.charAt(0).toUpperCase() }}
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+
+              <div class="col-md-8">
+                <div class="card-body last-activity">
+                  <div class="card-text last-activity-user">
+                    {{ lastPageableTopicActivities[i].userName }} </div>
+                  <a class="card-text last-activity-time"
+                     [routerLink]="['/topic/', pageableTopic.id]"
+                     [queryParams]="{ number: lastPageableTopicActivities[i].postNumber }">
+                    <small class="text-muted">{{ lastPageableTopicActivities[i].timeOfLastActivity | date: 'd MMMM y ' }} </small>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </li>
+      </ul>
+
+      <ng-container [ngTemplateOutlet]="pagination"></ng-container>
+
+    </div>
+  </ng-template>
+
+  <ng-template #showNoTopicsInfo>
+    <div class="text-center mt-10">
+      User {{ username }} hasn't added any topics yet.
+    </div>
+  </ng-template>
+
+</div>
+
+<ng-template #pagination>
+  <div class="col-md-12" *ngIf="totalPages > 1">
+    <pagination-controls
+      id="paginationTopics"
+      previousLabel="Prev"
+      nextLabel="Next"
+      [responsive]="true"
+      (pageChange)="handlePageChange($event)"
+    ></pagination-controls>
+  </div>
+</ng-template>

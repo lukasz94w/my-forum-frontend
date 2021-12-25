@@ -1,16 +1,14 @@
 export class User {
 
-  id: number;
   name: string;
   email: string;
-  password: string;
-  roles: string[];
+  profilePic: [];
+  registered: Date;
 
-  constructor(id: number, name: string, email: string, password: string, roles: string[]) {
-    this.id = id;
+  constructor(name: string, email: string, profilePic: [], registered: Date) {
     this.name = name;
     this.email = email;
-    this.password = password;
-    this.roles = roles;
+    this.profilePic = profilePic;
+    this.registered = registered;
   }
 }

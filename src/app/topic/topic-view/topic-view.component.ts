@@ -31,8 +31,7 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
 
   constructor(private topicService: TopicService, private postService: PostService,
               private router: ActivatedRoute, private innerRouter: Router,
-              private viewPortScroller: ViewportScroller) {
-  }
+              private viewPortScroller: ViewportScroller) {}
 
   ngOnInit() {
     this.router.params.subscribe(
@@ -85,9 +84,11 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
         this.totalPosts = data.totalPosts;
         this.totalPages = data.totalPages;
 
-        setTimeout(() => {
-          this.doScroll = true;
-        }, 75);
+        if (this.pageablePosts.length > 0) {
+          setTimeout(() => {
+            this.doScroll = true;
+          }, 50)
+        }
         //without this timeout when we first time open the page scroll
         //it doesn't work correctly (doesn't scroll to chosen anchor)
         //probably its a bug in Angular
