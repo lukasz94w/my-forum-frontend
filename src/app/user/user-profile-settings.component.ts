@@ -3,6 +3,7 @@ import {UserService} from "../service/user.service";
 import {TokenStorageService} from "../token/token-storage.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {User} from "../model/user";
+import {NavTabService} from "../service/nav-tab.service";
 
 @Component({
   selector: 'app-user-profile-test',
@@ -15,8 +16,15 @@ export class UserProfileSettingsComponent implements OnInit {
   usernameFromLocalStorage: string = ''
   user = {} as User;
 
+  activeTab: string = 'account'
+
   constructor(private userService: UserService, private tokenStorageService: TokenStorageService,
-              private router: ActivatedRoute) {
+              private router: ActivatedRoute, private navTabService: NavTabService) {
+    navTabService.navTabChanged$.subscribe(
+      selectedNavTabName => {
+        this.selectActiveTab(selectedNavTabName);
+      }
+    )
   }
 
   ngOnInit(): void {
@@ -35,4 +43,7 @@ export class UserProfileSettingsComponent implements OnInit {
     //tu bede porownywal czy oba username'y sa rowne, jezeli tak to jakos wtedy trzeba odblokowac widok ustawien
   }
 
+  selectActiveTab(tabName: string) {
+    this.activeTab = tabName;
+  }
 }
