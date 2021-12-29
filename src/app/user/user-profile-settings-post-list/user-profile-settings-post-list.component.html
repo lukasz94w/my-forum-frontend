@@ -6,8 +6,13 @@
 
   <ng-container [ngTemplateOutlet]="pagination"></ng-container>
 
-  <ul class="list-group">
-    <li class="d-flex post-window-all align-items-center" *ngFor="let pageablePost of pageablePosts |
+  <ng-container
+    *ngIf="postsLength > 0; then showListOfPosts; else showNoPostsInfo">
+  </ng-container>
+
+  <ng-template #showListOfPosts>
+    <ul class="list-group">
+      <li class="d-flex post-window-all align-items-center" *ngFor="let pageablePost of pageablePosts |
         paginate :{
         id: 'paginationPosts',
         itemsPerPage: numberOfPostsOnOnePage,
@@ -15,29 +20,37 @@
         totalItems: totalPosts
         }; let i=index">
 
-      <div class="post-window border col-12">
-        <div class="post-info">
-          <a class="post-topic-title"
-             [routerLink]="['/topic/', pageablePost.topicId]"
-             [queryParams]="{ number: pageablePost.number }">
-            {{ pageablePost.topicTitle }}
-          </a>
-          <div class="post-topic-category text-muted">
-            In <a class="category-link" [routerLink]="['/topic-list/', pageablePost.topicCategory]">{{ pageablePost.topicCategory }}</a>
+        <div class="post-window border col-12">
+          <div class="post-info">
+            <a class="post-topic-title"
+               [routerLink]="['/topic/', pageablePost.topicId]"
+               [queryParams]="{ number: pageablePost.number }">
+              {{ pageablePost.topicTitle }}
+            </a>
+            <div class="post-topic-category text-muted">
+              In <a class="category-link"
+                    [routerLink]="['/topic-list/', pageablePost.topicCategory]">{{ pageablePost.topicCategory }}</a>
+            </div>
+            <div class="post-date text-muted">
+              {{ pageablePost.dateTime | date: 'd MMMM y' }}
+            </div>
+            <div class="post-content">
+              {{ pageablePost.content }}
+            </div>
           </div>
-          <div class="post-date text-muted">
-            {{ pageablePost.dateTime | date: 'd MMMM y' }}
-          </div>
-          <div class="post-content">
-            {{ pageablePost.content }}
-          </div>
+
+          <div class="post-bottom-fill"></div>
         </div>
 
-        <div class="post-bottom-fill"></div>
-      </div>
+      </li>
+    </ul>
+  </ng-template>
 
-    </li>
-  </ul>
+  <ng-template #showNoPostsInfo>
+    <div class="text-center mt-10">
+      User {{ username }} hasn't added any posts yet.
+    </div>
+  </ng-template>
 
   <ng-container [ngTemplateOutlet]="pagination"></ng-container>
 

@@ -10,15 +10,12 @@ import {NavTabService} from "../../service/nav-tab.service";
 export class UserProfileSettingsAccountInfoComponent {
 
   @Input() user = {} as User;
+  @Input() showUserSettings: boolean = false;
 
   constructor(private navTabService: NavTabService) {
   }
 
-  selectPasswordTab() {
-    this.navTabService.changeTab('password')
-  }
-
-  selectAvatarTab() {
-    this.navTabService.changeTab('avatar')
+  changeTab(tabName: string) {
+    this.navTabService.changeTab(tabName);
   }
 }

@@ -1,6 +1,6 @@
 <div class="mt-4">
-  <h4>Settings</h4>
-  <small class="text-muted">Customize your profile</small>
+  <h4>{{ welcomeTextHeader }}</h4>
+  <small class="text-muted">{{ welcomeTextSub }}</small>
 
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
   <div class="row mt-4 col-md-12">
@@ -14,13 +14,13 @@
                 [ngClass]="{'active':activeTab==='account'}" (click)="selectActiveTab('account')">
           <i class="fa fa-sign-in user-settings-icon"></i>Account
         </button>
-        <button class="nav-link text-lg-start user-settings-panel-item-center" id="v-pills-home-tab"
+        <button *ngIf="showUserSettings" class="nav-link text-lg-start user-settings-panel-item-center" id="v-pills-home-tab"
                 data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab"
                 aria-controls="v-pills-home" aria-selected="false"
                 [ngClass]="{'active':activeTab==='password'}" (click)="selectActiveTab('password')">
           <i class="fa fa-refresh user-settings-icon"></i>Password
         </button>
-        <button class="nav-link text-lg-start user-settings-panel-item-center" id="v-pills-profile-tab"
+        <button *ngIf="showUserSettings" class="nav-link text-lg-start user-settings-panel-item-center" id="v-pills-profile-tab"
                 data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab"
                 aria-controls="v-pills-profile" aria-selected="false"
                 [ngClass]="{'active':activeTab==='avatar'}" (click)="selectActiveTab('avatar')">
@@ -45,7 +45,7 @@
       <div class="tab-content" id="v-pills-tabContent">
         <div class="tab-pane" id="v-pills-account" role="tabpanel" aria-labelledby="v-pills-account-tab"
              [ngClass]="{'active':activeTab==='account'}">
-          <app-user-profile-settings-account-info [user] = "user"></app-user-profile-settings-account-info>
+          <app-user-profile-settings-account-info [user] = "user" [showUserSettings] = "showUserSettings"></app-user-profile-settings-account-info>
         </div>
         <div class="tab-pane" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab"
              [ngClass]="{'active':activeTab==='password'}">

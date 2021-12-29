@@ -21,14 +21,16 @@
       {{ user.email }}
     </div>
 
-    <hr class="separator">
+    <div *ngIf="showUserSettings" class="password-section">
+      <hr class="separator">
 
-    <div class="section-header">
-      Password
-    </div>
-    <div class="section-content text-muted">
-      *********
-      <button class="float-end vertical-center change-nav-tab-button" (click)="selectPasswordTab()">Change</button>
+      <div class="section-header">
+        Password
+      </div>
+      <div class="section-content text-muted">
+        *********
+        <button class="float-end vertical-center change-nav-tab-button" (click)="changeTab('password')">Change</button>
+      </div>
     </div>
 
     <hr class="separator">
@@ -44,7 +46,8 @@
   <div class="col-md-6 user-settings-window-account-info">
     <div class="section-header">
       Profile pic
-      <button class="float-end change-nav-tab-button" (click)="selectAvatarTab()">Change</button>
+      <button *ngIf="showUserSettings" class="float-end change-nav-tab-button" (click)="changeTab('avatar')">Change
+      </button>
     </div>
 
     <div class="picture-padding">

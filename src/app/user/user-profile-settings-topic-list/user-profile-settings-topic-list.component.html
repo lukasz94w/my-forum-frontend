@@ -27,7 +27,11 @@
               <a class="topic-title" [routerLink]="['/topic/', pageableTopic.id]">
                 {{ pageableTopic.title }}
               </a>
-              <div class="topic-author-with-date">posted by {{ pageableTopic.user }},
+              <div class="topic-author-with-date">posted by
+                <a class="user-profile-link"
+                   [routerLink]="['/user-profile-settings/', pageableTopic.user]">
+                  {{ pageableTopic.user }},
+                </a>
                 {{ pageableTopic.dateTime | date: 'd MMMM y' }} in
                 <a class="category-link" [routerLink]="['/topic-list/', pageableTopic.category]">{{ pageableTopic.category }}</a>
               </div>
@@ -63,7 +67,11 @@
               <div class="col-md-8">
                 <div class="card-body last-activity">
                   <div class="card-text last-activity-user">
-                    {{ lastPageableTopicActivities[i].userName }} </div>
+                    <a class="user-profile-link"
+                       [routerLink]="['/user-profile-settings/', lastPageableTopicActivities[i].userName]">
+                      {{ lastPageableTopicActivities[i].userName }}
+                    </a>
+                     </div>
                   <a class="card-text last-activity-time"
                      [routerLink]="['/topic/', pageableTopic.id]"
                      [queryParams]="{ number: lastPageableTopicActivities[i].postNumber }">

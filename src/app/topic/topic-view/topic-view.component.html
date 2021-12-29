@@ -14,7 +14,7 @@
          itemsPerPage: numberOfPostsOnOnePage,
          currentPage: pageNumber,
          totalItems: totalPosts
-          }; let i = index" [attr.data-index]="i" [attr.id]="i">
+          }; let i = index" [attr.data-index]="i + 1" [attr.id]="i + 1">
 
           <div class="row g-0">
 
@@ -37,7 +37,11 @@
                        alt="{{ post.user }}">
                 </ng-template>
 
-                <figcaption class="figure-caption text-center mt-1">{{ post.user }}
+                <figcaption class="figure-caption text-center mt-1">
+                  <a class="user-profile-link"
+                     [routerLink]="['/user-profile-settings/', post.user]">
+                    {{ post.user }}
+                  </a>
                 </figcaption>
               </figure>
             </div>

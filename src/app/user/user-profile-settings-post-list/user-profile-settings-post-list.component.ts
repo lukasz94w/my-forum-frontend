@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {Post2} from "../../model/post2";
 
@@ -7,7 +7,7 @@ import {Post2} from "../../model/post2";
   templateUrl: './user-profile-settings-post-list.component.html',
   styleUrls: ['./user-profile-settings-post-list.component.css']
 })
-export class UserProfileSettingsPostListComponent implements OnInit {
+export class UserProfileSettingsPostListComponent implements OnChanges {
 
   @Input() username = '';
 
@@ -19,10 +19,17 @@ export class UserProfileSettingsPostListComponent implements OnInit {
   totalPages = 0;
   numberOfPostsOnOnePage = 10;
 
-  constructor(private userService: UserService) {
-  }
+  constructor(private userService: UserService) {}
 
-  ngOnInit(): void {
+  //whenever the data in parent changes,
+  //the child gets notified about this in
+  //the ngOnChanges() method -> ngOnInit then is not needed!
+  //-------------------------------------------------------
+  //noticing child about new data
+  //could also be solved by creating service
+  //and subscribe for data changes in parent
+  //then ngOnInit would be needed (there will be subscription)
+  ngOnChanges(): void {
     this.currentPage = 1;
     this.findPageablePostsByUser();
   }
@@ -45,5 +52,4 @@ export class UserProfileSettingsPostListComponent implements OnInit {
     this.currentPage = $event;
     this.findPageablePostsByUser();
   }
-
 }

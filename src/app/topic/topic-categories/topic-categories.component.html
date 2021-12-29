@@ -121,9 +121,11 @@
                        [routerLink]="['/topic/', lastPageableTopicActivities[i + startIndex].topicId]"
                        [queryParams]="{ number: lastPageableTopicActivities[i + startIndex].postNumber }">
                       {{ lastPageableTopicActivities[i + startIndex].topicName | truncate: 22 : '...' }}</a>
-                    <p class="card-text last-activity-title"><small
-                      class="text-muted">{{ lastPageableTopicActivities[i + startIndex].userName }},
-                      {{ lastPageableTopicActivities[i + startIndex].timeOfLastActivity | timeAgo}} </small>
+                    <p class="card-text last-activity-title">
+                      <small class="text-muted"><a class="user-profile-link"
+                        [routerLink]="['/user-profile-settings/', lastPageableTopicActivities[i + startIndex].userName]">
+                        {{ lastPageableTopicActivities[i + startIndex].userName }}</a>,
+                        {{ lastPageableTopicActivities[i + startIndex].timeOfLastActivity | timeAgo}} </small>
                     </p>
                   </div>
                 </div>
