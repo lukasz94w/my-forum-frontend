@@ -1,3 +1,14 @@
+a:link {
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: dodgerblue;
+  background-color: transparent;
+  text-decoration: none;
+}
+
 .user-image {
   width: 100%;
   max-width: 256px;
@@ -18,4 +29,8 @@
   padding-right: 12px;
   padding-bottom: 12px;
   font-size: 17px;
+}
+
+.user-profile-link {
+  color: inherit;
 }

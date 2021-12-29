@@ -14,7 +14,7 @@ export class UserProfileSettingsPasswordComponent {
     newPasswordFirstTry: null,
     newPasswordSecondTry: null
   }
-  doesPasswordsMatch = true;
+  doesPasswordsMatch: boolean = true;
 
   constructor(private userService: UserService) {
   }

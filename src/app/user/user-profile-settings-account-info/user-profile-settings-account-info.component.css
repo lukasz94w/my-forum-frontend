@@ -46,3 +46,16 @@ img {
   aspect-ratio: 1/1;
   width: 100%;
 }
+
+.vertical-center {
+  transform: translateY(-50%);
+}
+
+.change-nav-tab-button {
+  font-size: 14px;
+  color: dodgerblue;
+  background-color: inherit;
+  border: none;
+  padding-right: 10px;
+}
+

@@ -39,8 +39,12 @@
                 <a class="topic-title" [routerLink]="['/topic/', pageableTopic.id]">
                   {{ pageableTopic.title }}
                 </a>
-                <div class="topic-author-with-date">posted by {{ pageableTopic.user }},
-                   {{ pageableTopic.dateTime | date: 'd MMMM y' }}</div>
+                <div class="topic-author-with-date">posted by
+                  <a class="user-profile-link"
+                     [routerLink]="['/user-profile-settings/', pageableTopic.user]">
+                    {{ pageableTopic.user }},
+                  </a>
+                  {{ pageableTopic.dateTime | date: 'd MMMM y' }}</div>
               </div>
             </div>
 
@@ -48,36 +52,41 @@
               {{ numberOfAnswersInPageableTopics[i] }} answers
             </div>
 
-            <div class= "col md-3">
+            <div class="col md-3">
               <div class="row align-items-center topic-last-activity">
                 <div class="col-md-1 avatar">
-                <ng-container
-                  *ngIf="lastPageableTopicActivities[i].userProfilePic !=null; then showUserAvatar; else showDefaultAvatar">
-                </ng-container>
+                  <ng-container
+                    *ngIf="lastPageableTopicActivities[i].userProfilePic !=null; then showUserAvatar; else showDefaultAvatar">
+                  </ng-container>
 
-                <ng-template #showUserAvatar>
-                  <img [src]="'data:image/jpeg;base64,' + lastPageableTopicActivities[i].userProfilePic"
-                       alt="{{ lastPageableTopicActivities[i].userName }}"
-                       class="user-avatar">
-                </ng-template>
+                  <ng-template #showUserAvatar>
+                    <img [src]="'data:image/jpeg;base64,' + lastPageableTopicActivities[i].userProfilePic"
+                         alt="{{ lastPageableTopicActivities[i].userName }}"
+                         class="user-avatar">
+                  </ng-template>
 
-                <ng-template #showDefaultAvatar>
-                  <div class="default-avatar-background">
-                    <div class="default-avatar-text">
-                      {{ lastPageableTopicActivities[i].userName.charAt(0).toUpperCase() }}
+                  <ng-template #showDefaultAvatar>
+                    <div class="default-avatar-background">
+                      <div class="default-avatar-text">
+                        {{ lastPageableTopicActivities[i].userName.charAt(0).toUpperCase() }}
+                      </div>
                     </div>
-                  </div>
-                </ng-template>
+                  </ng-template>
                 </div>
 
                 <div class="col-md-9">
                   <div class="card-body last-activity">
                     <div class="card-text last-activity-user">
-                      {{ lastPageableTopicActivities[i].userName }} </div>
+                      <a class="user-profile-link"
+                         [routerLink]="['/user-profile-settings/', lastPageableTopicActivities[i].userName]">
+                        {{ lastPageableTopicActivities[i].userName }}
+                      </a>
+                    </div>
                     <a class="card-text last-activity-time"
                        [routerLink]="['/topic/', pageableTopic.id]"
                        [queryParams]="{ number: lastPageableTopicActivities[i].postNumber }">
-                      <small class="text-muted">{{ lastPageableTopicActivities[i].timeOfLastActivity | date: 'd MMMM y ' }} </small>
+                      <small
+                        class="text-muted">{{ lastPageableTopicActivities[i].timeOfLastActivity | date: 'd MMMM y ' }} </small>
                     </a>
                   </div>
                 </div>

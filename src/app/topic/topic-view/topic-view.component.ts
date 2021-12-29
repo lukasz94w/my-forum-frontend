@@ -21,17 +21,18 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
   topic = {} as Topic;
   pageablePosts: Post[] = [];
 
-  pageNumber = 1;
+  pageNumber: number = 1;
   private postNumber: number = 0;
   private doScroll = false;
 
-  totalPosts = 0;
-  totalPages = 0;
-  numberOfPostsOnOnePage = 10;
+  totalPosts: number = 0;
+  totalPages: number = 0;
+  numberOfPostsOnOnePage: number = 10;
 
   constructor(private topicService: TopicService, private postService: PostService,
               private router: ActivatedRoute, private innerRouter: Router,
-              private viewPortScroller: ViewportScroller) {}
+              private viewPortScroller: ViewportScroller) {
+  }
 
   ngOnInit() {
     this.router.params.subscribe(
@@ -42,28 +43,32 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
     this.router.queryParams.subscribe(
       params => {
         if (params.number) {
-          this.postNumber = params.number - 1;
-          if (this.postNumber > 10) {
+          this.postNumber = params.number;
+          if (params.number > 10) {
+            //this functions can use async/await (or promise)
+            //and then result of them can be passed
+            //to findTopicById and findPageable..
             this.recalculatePageNumber();
             this.recalculatePostNumber();
           }
         }
       }
     )
-
     this.findTopicById();
     this.findPageablePostsOnPage();
   }
 
   private recalculatePageNumber(): void {
     this.postNumber % this.numberOfPostsOnOnePage === 0 ?
-      this.pageNumber = Math.floor(this.postNumber / this.numberOfPostsOnOnePage) :
+      this.pageNumber = this.postNumber / this.numberOfPostsOnOnePage :
       this.pageNumber = Math.ceil(this.postNumber / this.numberOfPostsOnOnePage);
   }
 
   private recalculatePostNumber() {
     const result = this.postNumber % this.numberOfPostsOnOnePage;
-    result === 0 ? this.postNumber = this.numberOfPostsOnOnePage : this.postNumber = result
+    result === 0 ?
+      this.postNumber = 10 :
+      this.postNumber = result;
   }
 
   private findTopicById(): void {
@@ -109,5 +114,4 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
       this.doScroll = false;
     }
   }
-
 }
