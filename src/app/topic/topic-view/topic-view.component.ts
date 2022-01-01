@@ -92,7 +92,7 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
         if (this.pageablePosts.length > 0) {
           setTimeout(() => {
             this.doScroll = true;
-          }, 50)
+          }, 75)
         }
         //without this timeout when we first time open the page scroll
         //it doesn't work correctly (doesn't scroll to chosen anchor)

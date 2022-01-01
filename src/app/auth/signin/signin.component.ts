@@ -10,7 +10,7 @@ import * as jwt_decode from 'jwt-decode';
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.css']
 })
-export class SigninComponent implements OnInit {
+export class SigninComponent {
   form: any = {
     username: null, password: null
   }
@@ -18,9 +18,6 @@ export class SigninComponent implements OnInit {
   isLoginFailed = false;
 
   constructor(private authService: AuthService, private router: Router, private tokenStorage: TokenStorageService) {
-  }
-
-  ngOnInit(): void {
   }
 
   onSubmit() {

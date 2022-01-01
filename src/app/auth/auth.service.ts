@@ -20,4 +20,8 @@ export class AuthService {
   register(username: string, email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiServerUrl}/auth/signup`, {username, email, password});
   }
+
+  reset(email: string): void {
+    this.http.post(`${this.apiServerUrl}/auth/reset`, email);
+  }
 }
