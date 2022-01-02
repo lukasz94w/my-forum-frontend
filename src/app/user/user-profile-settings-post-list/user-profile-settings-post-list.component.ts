@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {UserService} from "../../service/user.service";
-import {Post2} from "../../model/post2";
+import {Post2} from "../../model/response/post2";
 
 @Component({
   selector: 'app-user-profile-settings-post-list',

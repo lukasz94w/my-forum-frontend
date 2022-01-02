@@ -8,6 +8,7 @@ import {TopicListComponent} from "./topic/topic-list/topic-list.component";
 import {UserProfileSettingsComponent} from "./user/user-profile-settings.component";
 import {TopicCategoriesComponent} from "./topic/topic-categories/topic-categories.component";
 import {ResetPasswordComponent} from "./auth/reset-password/reset-password.component";
+import {ChangePasswordComponent} from "./auth/change-password/change-password.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/topic-categories', pathMatch: 'full'},
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path: 'auth/signup', component: SignupComponent},
   {path: 'auth/signin', component: SigninComponent},
   {path: 'auth/reset', component: ResetPasswordComponent},
+  {path: 'auth/change', component: ChangePasswordComponent},
   {path: 'user-profile-settings/:username', component: UserProfileSettingsComponent}
 ];
 const routerOptions: ExtraOptions = {

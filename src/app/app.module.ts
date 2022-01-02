@@ -26,7 +26,8 @@ import {UserProfileSettingsAvatarComponent} from './user/user-profile-settings-a
 import {UserProfileSettingsPostListComponent} from './user/user-profile-settings-post-list/user-profile-settings-post-list.component';
 import {UserProfileSettingsTopicListComponent} from './user/user-profile-settings-topic-list/user-profile-settings-topic-list.component';
 import {UserProfileSettingsAccountInfoComponent} from './user/user-profile-settings-account-info/user-profile-settings-account-info.component';
-import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import {ResetPasswordComponent} from './auth/reset-password/reset-password.component';
+import { ChangePasswordComponent } from './auth/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
     UserProfileSettingsPostListComponent,
     UserProfileSettingsTopicListComponent,
     UserProfileSettingsAccountInfoComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

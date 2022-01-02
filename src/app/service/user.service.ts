@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {ChangePassword} from "../model/change-password";
-import {User} from "../model/user";
+import {ChangePasswordThroughUserSettings} from "../model/request/change-password-through-user-settings";
+import {User} from "../model/response/user";
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +43,7 @@ export class UserService {
     return this.httpClient.get<User>(`${this.apiServerUrl}/user/getUserInfo/${username}`)
   }
 
-  changePassword(changePassword: ChangePassword): Observable<any> {
+  changePassword(changePassword: ChangePasswordThroughUserSettings): Observable<any> {
     return this.httpClient.post(`${this.apiServerUrl}/user/changePassword`, changePassword)
   }
 

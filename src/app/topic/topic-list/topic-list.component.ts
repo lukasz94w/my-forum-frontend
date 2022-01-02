@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Topic} from "../../model/topic";
+import {Topic} from "../../model/response/topic";
 import {TopicService} from "../../service/topic.service";
 import {TokenStorageService} from "../../token/token-storage.service";
 import {ActivatedRoute, Params} from "@angular/router";
-import {LastTopicActivity} from "../../model/last-topic-activity";
+import {LastTopicActivity} from "../../model/response/last-topic-activity";
 
 @Component({
   selector: 'app-topic-list',

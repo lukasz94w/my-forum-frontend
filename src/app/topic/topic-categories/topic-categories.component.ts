@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TopicService} from "../../service/topic.service";
-import {LastTopicActivity} from "../../model/last-topic-activity";
+import {LastTopicActivity} from "../../model/response/last-topic-activity";
 import {DataService} from "../../service/data.service";
 
 @Component({

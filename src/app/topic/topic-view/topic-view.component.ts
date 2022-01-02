@@ -3,11 +3,11 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import {Topic} from "../../model/topic";
+import {Topic} from "../../model/response/topic";
 import {TopicService} from "../../service/topic.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {PostService} from "../../service/post.service";
-import {Post} from "../../model/post";
+import {Post} from "../../model/response/post";
 import {ViewportScroller} from "@angular/common";
 
 @Component({
