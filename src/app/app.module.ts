@@ -10,8 +10,8 @@ import {TopicViewComponent} from './topic/topic-view/topic-view.component';
 import {PostAddComponent} from './post/post-add/post-add.component';
 import {FormsModule} from "@angular/forms";
 import {TopicAddComponent} from './topic/topic-add/topic-add.component';
-import {SignupComponent} from './auth/signup/signup.component';
-import {SigninComponent} from './auth/signin/signin.component';
+import {SignUpComponent} from './auth/sign-up/sign-up.component';
+import {SigninComponent} from './auth/sign-in/sign-in.component';
 
 import {interceptorProviders} from './auth/interceptor/interceptor';
 import {TopicCategoriesComponent} from './topic/topic-categories/topic-categories.component';
@@ -37,7 +37,7 @@ import { ChangePasswordComponent } from './auth/change-password/change-password.
     TopicViewComponent,
     PostAddComponent,
     TopicAddComponent,
-    SignupComponent,
+    SignUpComponent,
     SigninComponent,
     TopicCategoriesComponent,
     TruncatePipe,

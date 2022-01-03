@@ -15,11 +15,11 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<any> {
-    return this.httpClient.post(`${this.apiServerUrl}/auth/signin`, {username, password});
+    return this.httpClient.post(`${this.apiServerUrl}/auth/signIn`, {username, password});
   }
 
   register(username: string, email: string, password: string): Observable<any> {
-    return this.httpClient.post(`${this.apiServerUrl}/auth/signup`, {username, email, password});
+    return this.httpClient.post(`${this.apiServerUrl}/auth/signUp`, {username, email, password});
   }
 
   askForEmailWithResetToken(email: string): Observable<void> {

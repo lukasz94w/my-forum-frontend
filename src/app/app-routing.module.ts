@@ -2,8 +2,8 @@ import {NgModule} from '@angular/core';
 import {ExtraOptions, RouterModule, Routes} from '@angular/router';
 import {TopicViewComponent} from "./topic/topic-view/topic-view.component";
 import {TopicAddComponent} from "./topic/topic-add/topic-add.component";
-import {SignupComponent} from "./auth/signup/signup.component";
-import {SigninComponent} from "./auth/signin/signin.component";
+import {SignUpComponent} from "./auth/sign-up/sign-up.component";
+import {SigninComponent} from "./auth/sign-in/sign-in.component";
 import {TopicListComponent} from "./topic/topic-list/topic-list.component";
 import {UserProfileSettingsComponent} from "./user/user-profile-settings.component";
 import {TopicCategoriesComponent} from "./topic/topic-categories/topic-categories.component";
@@ -16,8 +16,8 @@ const routes: Routes = [
   {path: 'topic-list/:category', component: TopicListComponent},
   {path: 'topic/:id', component: TopicViewComponent},
   {path: 'topic-add/:category', component: TopicAddComponent},
-  {path: 'auth/signup', component: SignupComponent},
-  {path: 'auth/signin', component: SigninComponent},
+  {path: 'auth/sign-up', component: SignUpComponent},
+  {path: 'auth/sign-in', component: SigninComponent},
   {path: 'auth/reset', component: ResetPasswordComponent},
   {path: 'auth/change', component: ChangePasswordComponent},
   {path: 'user-profile-settings/:username', component: UserProfileSettingsComponent}

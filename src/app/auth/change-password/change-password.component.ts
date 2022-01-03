@@ -52,7 +52,7 @@ export class ChangePasswordComponent implements OnInit {
 
   navigateToLoginPage(): void {
     setTimeout(() => {
-      this.router.navigate(['auth/signin'])
+      this.router.navigate(['auth/sign-in'])
     }, 5000);
   }
 }

@@ -4,11 +4,11 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  templateUrl: './sign-up.component.html',
+  styleUrls: ['./sign-up.component.css']
 })
 
-export class SignupComponent implements OnInit {
+export class SignUpComponent implements OnInit {
   form: any = {
     username: null,
     email: null,
@@ -43,13 +43,13 @@ export class SignupComponent implements OnInit {
 
   navigateToLoginPage(): void {
     setTimeout(() => {
-      this.router.navigate(['auth/signin'])
+      this.router.navigate(['auth/sign-in'])
     }, 5000);
   }
 
   reloadPage(): void {
     setTimeout(() => {
-      // this.router.navigate(['auth/signup']).then(page => window.location.reload());
+      // this.router.navigate(['auth/sign-up']).then(page => window.location.reload());
       window.location.reload();
     }, 5000);
   }
