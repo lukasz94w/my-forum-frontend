@@ -3,7 +3,7 @@ import {ExtraOptions, RouterModule, Routes} from '@angular/router';
 import {TopicViewComponent} from "./topic/topic-view/topic-view.component";
 import {TopicAddComponent} from "./topic/topic-add/topic-add.component";
 import {SignUpComponent} from "./auth/sign-up/sign-up.component";
-import {SigninComponent} from "./auth/sign-in/sign-in.component";
+import {SignInComponent} from "./auth/sign-in/sign-in.component";
 import {TopicListComponent} from "./topic/topic-list/topic-list.component";
 import {UserProfileSettingsComponent} from "./user/user-profile-settings.component";
 import {TopicCategoriesComponent} from "./topic/topic-categories/topic-categories.component";
@@ -17,7 +17,7 @@ const routes: Routes = [
   {path: 'topic/:id', component: TopicViewComponent},
   {path: 'topic-add/:category', component: TopicAddComponent},
   {path: 'auth/sign-up', component: SignUpComponent},
-  {path: 'auth/sign-in', component: SigninComponent},
+  {path: 'auth/sign-in', component: SignInComponent},
   {path: 'auth/reset', component: ResetPasswordComponent},
   {path: 'auth/change', component: ChangePasswordComponent},
   {path: 'user-profile-settings/:username', component: UserProfileSettingsComponent}

@@ -10,7 +10,7 @@ import * as jwt_decode from 'jwt-decode';
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css']
 })
-export class SigninComponent {
+export class SignInComponent {
   form: any = {
     username: null, password: null
   }
