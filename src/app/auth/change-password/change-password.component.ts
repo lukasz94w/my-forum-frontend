@@ -11,15 +11,13 @@ import {ChangePasswordThroughEmail} from "../../model/request/change-password-th
 export class ChangePasswordComponent implements OnInit {
 
   receivedToken: string = '';
-  showChangingFinishedSuccessful: boolean = false;
-  showChangingFinishedUnsuccessful: boolean = false;
-  showWhyChangingFinishedUnsuccessfully: string = '';
 
   form: any = {
     newPasswordFirstTry: null,
     newPasswordSecondTry: null
   }
   doesPasswordsMatch: boolean = true;
+  showResetExpiredTokenButton: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute, private authService: AuthService, private router: Router) {
   }
@@ -36,15 +34,22 @@ export class ChangePasswordComponent implements OnInit {
       const changedPasswordWithToken = new ChangePasswordThroughEmail(
         this.form.newPasswordFirstTry, this.receivedToken
       );
+      this.doesPasswordsMatch = true;
       this.authService.changePassword(changedPasswordWithToken).subscribe(
-        (response: any) => {
+        (response) => {
           alert(response.message)
+          this.navigateToLoginPage();
         },
         (error) => {
-          alert(error.error.message)
+          const errorMessage = error.error.message
+          // it could also be done reading HttpStatus as in ActivateAccountComponent was done
+          // here I read message instead
+          if (errorMessage == 'Token is expired') {
+            this.showResetExpiredTokenButton = true;
+          }
+          alert(errorMessage)
         }
       )
-      this.navigateToLoginPage();
     } else {
       this.doesPasswordsMatch = false;
     }
@@ -53,6 +58,6 @@ export class ChangePasswordComponent implements OnInit {
   navigateToLoginPage(): void {
     setTimeout(() => {
       this.router.navigate(['auth/sign-in'])
-    }, 5000);
+    }, 1000);
   }
 }

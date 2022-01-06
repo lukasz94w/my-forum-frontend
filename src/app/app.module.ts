@@ -27,7 +27,8 @@ import {UserProfileSettingsPostListComponent} from './user/user-profile-settings
 import {UserProfileSettingsTopicListComponent} from './user/user-profile-settings-topic-list/user-profile-settings-topic-list.component';
 import {UserProfileSettingsAccountInfoComponent} from './user/user-profile-settings-account-info/user-profile-settings-account-info.component';
 import {ResetPasswordComponent} from './auth/reset-password/reset-password.component';
-import { ChangePasswordComponent } from './auth/change-password/change-password.component';
+import {ChangePasswordComponent} from './auth/change-password/change-password.component';
+import {ActivateAccountComponent} from './auth/activate-account/activate-account.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { ChangePasswordComponent } from './auth/change-password/change-password.
     UserProfileSettingsTopicListComponent,
     UserProfileSettingsAccountInfoComponent,
     ResetPasswordComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    ActivateAccountComponent
   ],
   imports: [
     BrowserModule,

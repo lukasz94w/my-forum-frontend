@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from "../../service/auth.service";
 import {Router} from "@angular/router";
 
@@ -8,49 +8,40 @@ import {Router} from "@angular/router";
   styleUrls: ['./sign-up.component.css']
 })
 
-export class SignUpComponent implements OnInit {
+export class SignUpComponent {
   form: any = {
     username: null,
     email: null,
     password: null
   }
 
-  isSuccessfulRegistration = false;
-  isSignupFailed = false;
-  errorMessage = '';
+  isSuccessfulRegistration: boolean = false;
+  isSignupFailed: boolean = false;
+  errorMessage: string = '';
+  showLoadingMessage: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {
   }
 
-  ngOnInit(): void {
-  }
-
   onSubmit(): void {
+    this.resetFlags();
     const {username, email, password} = this.form;
     this.authService.register(username, email, password).subscribe(
-      data => {
-        console.log(data);
+      () => {
         this.isSuccessfulRegistration = true;
-        this.navigateToLoginPage();
+        this.showLoadingMessage = false
       },
-      err => {
-        this.errorMessage = err.message;
+      (error) => {
+        this.errorMessage = error.error.message;
         this.isSignupFailed = true;
-        // this.reloadPage();
+        this.showLoadingMessage = false
       }
     )
   }
 
-  navigateToLoginPage(): void {
-    setTimeout(() => {
-      this.router.navigate(['auth/sign-in'])
-    }, 5000);
-  }
-
-  reloadPage(): void {
-    setTimeout(() => {
-      // this.router.navigate(['auth/sign-up']).then(page => window.location.reload());
-      window.location.reload();
-    }, 5000);
+  resetFlags() {
+    this.showLoadingMessage = true;
+    this.isSignupFailed = false;
+    this.isSuccessfulRegistration = false;
   }
 }

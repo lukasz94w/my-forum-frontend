@@ -29,4 +29,12 @@ export class AuthService {
   changePassword(changedPasswordWithToken: ChangePasswordThroughEmail): Observable<any> {
     return this.httpClient.post(`${this.apiServerUrl}/auth/changePassword`, changedPasswordWithToken);
   }
+
+  activateAccount(params: any): Observable<any> {
+    return this.httpClient.get<any>(`${this.apiServerUrl}/auth/activateAccount/`, {params});
+  }
+
+  resendActivationToken(params: any): Observable<any> {
+    return this.httpClient.get<any>(`${this.apiServerUrl}/auth/resendActivationToken/`, {params});
+  }
 }

@@ -18,7 +18,7 @@ export class ResetPasswordComponent {
   constructor(private authService: AuthService, private router: Router) {
   }
 
-  onResetPassword() {
+  onResetPassword(): void {
     const {email} = this.form;
     //1.it is intentionally that observable doesn't
     //return any result to not reveal if such mail exists in the database

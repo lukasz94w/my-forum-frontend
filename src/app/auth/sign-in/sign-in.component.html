@@ -61,15 +61,19 @@
                       Remember me
                     </label>
                   </div>
-                  <a class="tex-body reset-password-link" [routerLink]="['/auth/reset']">Forgot password?</a>
+                  <a class="reset-password-link" [routerLink]="['/auth/reset']">Forgot password?</a>
                 </div>
 
                 <div class="form-group d-flex justify-content-center mt-4 mx-4 mb-3 mb-lg-4">
                   <button class="btn btn-success btn-lg">Login</button>
                 </div>
 
-                <div class="alert-danger" *ngIf = isLoginFailed>
-                  Bad credentials: login or password.
+                <div class="alert alert-danger" *ngIf = showLoginWasFailed>
+                  Bad credentials: login or password
+                </div>
+
+                <div class="alert alert-danger" *ngIf = showAccountIsLocked>
+                  Account is not confirmed. Please check email for activation link
                 </div>
 
               </form>

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../service/user.service";
-import {TokenStorageService} from "../token/token-storage.service";
+import {TokenStorageService} from "../service/token-storage.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {User} from "../model/response/user";
 import {NavTabService} from "../service/nav-tab.service";

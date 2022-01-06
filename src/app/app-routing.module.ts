@@ -9,6 +9,7 @@ import {UserProfileSettingsComponent} from "./user/user-profile-settings.compone
 import {TopicCategoriesComponent} from "./topic/topic-categories/topic-categories.component";
 import {ResetPasswordComponent} from "./auth/reset-password/reset-password.component";
 import {ChangePasswordComponent} from "./auth/change-password/change-password.component";
+import {ActivateAccountComponent} from "./auth/activate-account/activate-account.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/topic-categories', pathMatch: 'full'},
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: 'auth/sign-in', component: SignInComponent},
   {path: 'auth/reset', component: ResetPasswordComponent},
   {path: 'auth/change', component: ChangePasswordComponent},
+  {path: 'auth/activate', component: ActivateAccountComponent},
   {path: 'user-profile-settings/:username', component: UserProfileSettingsComponent}
 ];
 const routerOptions: ExtraOptions = {
