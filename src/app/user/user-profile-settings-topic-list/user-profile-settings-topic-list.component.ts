@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges} from '@angular/core';
-import {LastTopicActivity} from "../../model/last-topic-activity";
+import {LastTopicActivity} from "../../model/response/last-topic-activity";
 import {UserService} from "../../service/user.service";
-import {Topic2} from "../../model/topic2";
+import {Topic2} from "../../model/response/topic2";
 
 @Component({
   selector: 'app-user-profile-settings-topic-list',

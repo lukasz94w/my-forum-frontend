@@ -10,8 +10,8 @@ import {TopicViewComponent} from './topic/topic-view/topic-view.component';
 import {PostAddComponent} from './post/post-add/post-add.component';
 import {FormsModule} from "@angular/forms";
 import {TopicAddComponent} from './topic/topic-add/topic-add.component';
-import {SignupComponent} from './auth/signup/signup.component';
-import {SigninComponent} from './auth/signin/signin.component';
+import {SignUpComponent} from './auth/sign-up/sign-up.component';
+import {SignInComponent} from './auth/sign-in/sign-in.component';
 
 import {interceptorProviders} from './auth/interceptor/interceptor';
 import {TopicCategoriesComponent} from './topic/topic-categories/topic-categories.component';
@@ -26,6 +26,9 @@ import {UserProfileSettingsAvatarComponent} from './user/user-profile-settings-a
 import {UserProfileSettingsPostListComponent} from './user/user-profile-settings-post-list/user-profile-settings-post-list.component';
 import {UserProfileSettingsTopicListComponent} from './user/user-profile-settings-topic-list/user-profile-settings-topic-list.component';
 import {UserProfileSettingsAccountInfoComponent} from './user/user-profile-settings-account-info/user-profile-settings-account-info.component';
+import {ResetPasswordComponent} from './auth/reset-password/reset-password.component';
+import {ChangePasswordComponent} from './auth/change-password/change-password.component';
+import {ActivateAccountComponent} from './auth/activate-account/activate-account.component';
 
 @NgModule({
   declarations: [
@@ -35,8 +38,8 @@ import {UserProfileSettingsAccountInfoComponent} from './user/user-profile-setti
     TopicViewComponent,
     PostAddComponent,
     TopicAddComponent,
-    SignupComponent,
-    SigninComponent,
+    SignUpComponent,
+    SignInComponent,
     TopicCategoriesComponent,
     TruncatePipe,
     TimeAgoPipe,
@@ -45,7 +48,10 @@ import {UserProfileSettingsAccountInfoComponent} from './user/user-profile-setti
     UserProfileSettingsAvatarComponent,
     UserProfileSettingsPostListComponent,
     UserProfileSettingsTopicListComponent,
-    UserProfileSettingsAccountInfoComponent
+    UserProfileSettingsAccountInfoComponent,
+    ResetPasswordComponent,
+    ChangePasswordComponent,
+    ActivateAccountComponent
   ],
   imports: [
     BrowserModule,

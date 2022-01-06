@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {User} from "../../model/user";
+import {User} from "../../model/response/user";
 import {NavTabService} from "../../service/nav-tab.service";
 
 @Component({

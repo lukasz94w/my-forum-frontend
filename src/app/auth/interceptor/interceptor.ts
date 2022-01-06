@@ -8,7 +8,7 @@ import {
   HttpRequest
 } from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
-import {TokenStorageService} from "../../token/token-storage.service";
+import {TokenStorageService} from "../../service/token-storage.service";
 import {catchError} from "rxjs/operators";
 import {Router} from "@angular/router";
 

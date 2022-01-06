@@ -1,6 +1,6 @@
 import { Component} from '@angular/core';
 import {UserService} from "../../service/user.service";
-import {ChangePassword} from "../../model/change-password";
+import {ChangePasswordThroughUserSettings} from "../../model/request/change-password-through-user-settings";
 
 @Component({
   selector: 'app-user-profile-settings-password',
@@ -21,7 +21,7 @@ export class UserProfileSettingsPasswordComponent {
 
   changePassword() {
     if (this.form.newPasswordFirstTry === this.form.newPasswordSecondTry) {
-      const changePassword = new ChangePassword(this.form.currentPassword, this.form.newPasswordFirstTry);
+      const changePassword = new ChangePasswordThroughUserSettings(this.form.currentPassword, this.form.newPasswordFirstTry);
       this.userService.changePassword(changePassword).subscribe(
         (response: any) => {
           alert(response.message)

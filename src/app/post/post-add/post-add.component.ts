@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {PostService} from "../../service/post.service";
 import {Router} from "@angular/router";
-import {TokenStorageService} from "../../token/token-storage.service";
-import {NewPostContent} from "../../model/new-post-content";
+import {TokenStorageService} from "../../service/token-storage.service";
+import {NewPostContent} from "../../model/request/new-post-content";
 
 @Component({
   selector: 'app-post-add',

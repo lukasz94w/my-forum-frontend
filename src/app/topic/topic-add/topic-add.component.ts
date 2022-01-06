@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TopicService} from "../../service/topic.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {NewTopicContent} from "../../model/new-topic-content";
+import {NewTopicContent} from "../../model/request/new-topic-content";
 
 @Component({
   selector: 'app-topic-add',
