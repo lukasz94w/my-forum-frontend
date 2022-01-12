@@ -13,8 +13,8 @@
           type="text"
           class="form-control"
           id = "post_content"
-          [placeholder]="!tokenStorageService.isLoggedIn() ? 'Login to add new post.' : ''"
-          [disabled]="!tokenStorageService.isLoggedIn()"
+          [placeholder]="!isLoggedIn ? 'Login to add new post.' : ''"
+          [disabled]="!isLoggedIn"
           name="content"
           [(ngModel)] = "form.content"
           rows="4"
@@ -29,7 +29,7 @@
         </div>
       </div>
     <button
-      [disabled]="!tokenStorageService.isLoggedIn()"
+      [disabled]="!isLoggedIn"
       type="submit"
       class="btn btn-success mt-2">Add new post</button>
     </form>

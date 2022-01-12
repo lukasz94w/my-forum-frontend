@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Topic} from "../../model/response/topic";
 import {TopicService} from "../../service/topic.service";
-import {TokenStorageService} from "../../service/token-storage.service";
+import {LocalStorageService} from "../../service/local-storage.service";
 import {ActivatedRoute, Params} from "@angular/router";
 import {LastTopicActivity} from "../../model/response/last-topic-activity";
+import {SignOutService} from "../../service/event/sign-out.service";
 
 @Component({
   selector: 'app-topic-list',
@@ -15,22 +16,32 @@ export class TopicListComponent implements OnInit {
   pageableTopics: Topic[] = [];
   numberOfAnswersInPageableTopics: number[] = [];
   lastPageableTopicActivities: LastTopicActivity[] = [];
-  topicsLength = -1;
-  category = '';
+  topicsLength: number = -1;
+  category: string = '';
 
-  currentPage = 1;
-  totalTopics = 0;
-  totalPages = 0;
-  numberOfTopicsOnOnePage = 10;
+  currentPage: number = 1;
+  totalTopics: number = 0;
+  totalPages: number = 0;
+  numberOfTopicsOnOnePage: number = 10;
 
-  constructor(private topicService: TopicService, public tokenStorageService: TokenStorageService, private router: ActivatedRoute) {
+  isLoggedIn: boolean = false;
+
+  constructor(private topicService: TopicService, private tokenStorageService:
+    LocalStorageService, private router: ActivatedRoute, private signOutService: SignOutService) {
   }
 
   ngOnInit() {
+    this.isLoggedIn = this.tokenStorageService.isLoggedIn();
+
     this.router.params.subscribe(
       (param: Params) => {
         this.category = param['category'];
         this.findPageableTopicsInCategory();
+      }
+    )
+    this.signOutService.signOutEvent$.subscribe(
+      () => {
+        this.isLoggedIn = false;
       }
     )
   }

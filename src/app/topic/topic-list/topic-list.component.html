@@ -10,7 +10,7 @@
         <button
           class="btn btn-success"
           type="submit"
-          [disabled]="!tokenStorageService.isLoggedIn()"
+          [disabled]="!isLoggedIn"
           [routerLink]="['/topic-add', category]">
           Add new topic
         </button>

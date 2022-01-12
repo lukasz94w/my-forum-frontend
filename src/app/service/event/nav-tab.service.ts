@@ -10,8 +10,7 @@ export class NavTabService {
 
   navTabChanged$ = this.navTabChangedSource.asObservable();
 
-  changeTab(selectedNavTabName: string) {
+  emitChangeTab(selectedNavTabName: string) {
     this.navTabChangedSource.next(selectedNavTabName);
   }
-
 }

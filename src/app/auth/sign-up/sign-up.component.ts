@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {AuthService} from "../../service/auth.service";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-signup',
@@ -20,13 +19,13 @@ export class SignUpComponent {
   errorMessage: string = '';
   showLoadingMessage: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService) {
   }
 
-  onSubmit(): void {
+  signUp(): void {
     this.resetFlags();
     const {username, email, password} = this.form;
-    this.authService.register(username, email, password).subscribe(
+    this.authService.signUp(username, email, password).subscribe(
       () => {
         this.isSuccessfulRegistration = true;
         this.showLoadingMessage = false

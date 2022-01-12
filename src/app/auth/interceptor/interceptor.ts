@@ -5,41 +5,82 @@ import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest
+  HttpRequest, HttpStatusCode
 } from "@angular/common/http";
-import {Observable, throwError} from "rxjs";
-import {TokenStorageService} from "../../service/token-storage.service";
-import {catchError} from "rxjs/operators";
-import {Router} from "@angular/router";
+import {BehaviorSubject, Observable, throwError} from "rxjs";
+import {LocalStorageService} from "../../service/local-storage.service";
+import {catchError, filter, switchMap, take} from "rxjs/operators";
+import {AuthService} from "../../service/auth.service";
+import {SignOutService} from "../../service/event/sign-out.service";
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
 
-  constructor(private tokenStorageService: TokenStorageService, private router: Router) {
+  private isRefreshing = false;
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
+  constructor(private localStorageService: LocalStorageService, private authService: AuthService,
+              private signOutService: SignOutService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const authToken = this.tokenStorageService.getToken();
+    const accessToken = this.localStorageService.getAccessToken();
     let authReq = req;
 
-    if (authToken) {
-      authReq = req.clone({headers: req.headers.set("Authorization", "Bearer " + authToken)})
+    if (accessToken) {
+      authReq = Interceptor.addTokenHeader(req, accessToken);
     }
 
-    return next.handle(authReq).pipe(
-      catchError((err) => {
-        if (err instanceof HttpErrorResponse) {
-          if (err.status === 401) {
-            console.log("Error with token!");
-            this.router.navigate(['post-list']);
+    return next.handle(authReq).pipe(catchError(error => {
+      if (error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized) {
+        return this.handleUnauthorized401Error(authReq, next);
+      }
 
-            //albo jestesmy bez tokenu albo token jest przestarzaly
-            //tutaj powinno byc zaimplementowane odswiezanie tokenu!
-          }
-        }
-        return throwError(err);
-      })
-    )
+      return throwError(error);
+    }));
+  }
+
+  private handleUnauthorized401Error(request: HttpRequest<any>, next: HttpHandler) {
+    if (!this.isRefreshing) {
+      this.isRefreshing = true;
+      this.refreshTokenSubject.next(null);
+
+      const refreshToken = this.localStorageService.getRefreshToken();
+
+      if (refreshToken)
+        return this.authService.refreshToken(refreshToken).pipe(
+          switchMap((token: any) => {
+            this.isRefreshing = false;
+            this.localStorageService.saveAccessToken(token.accessToken);
+            this.refreshTokenSubject.next(token.accessToken);
+
+            return next.handle(Interceptor.addTokenHeader(request, token.accessToken));
+          }),
+          catchError((err) => {
+              this.isRefreshing = false;
+              // 1.it's should always be 403 but checking it anyway
+              // 2.this if should never be entered but in case logout counter in app.component.ts
+              // didn't work, broadcasting the event should cause global sign out
+              if (err.error.statusCode === HttpStatusCode.Forbidden && this.localStorageService.isLoggedIn()) {
+                this.localStorageService.signOut();
+                this.signOutService.emitSignOut();
+              }
+
+              return throwError(err);
+            }
+          )
+        );
+    }
+
+    return this.refreshTokenSubject.pipe(
+      filter(token => token !== null),
+      take(1),
+      switchMap((token) => next.handle(Interceptor.addTokenHeader(request, token)))
+    );
+  }
+
+  private static addTokenHeader(req: HttpRequest<any>, accessToken: string) {
+    return req.clone(({headers: req.headers.set("Authorization", "Bearer " + accessToken)}));
   }
 }
 

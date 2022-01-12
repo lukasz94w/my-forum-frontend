@@ -7,14 +7,14 @@ import {NewPostContent} from "../model/request/new-post-content";
 @Injectable({
   providedIn: 'root'
 })
-export class PostService{
+export class PostService {
 
   private apiServerUrl = environment.apiBaseUrl;
 
   constructor(private httpClient: HttpClient) {
   }
 
-  createNewPost(newPost: NewPostContent):Observable<void> {
+  createNewPost(newPost: NewPostContent): Observable<void> {
     return this.httpClient.post<void>(`${this.apiServerUrl}/post/addPost`, newPost);
   }
 

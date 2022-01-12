@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import {Component} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {ChangePasswordThroughUserSettings} from "../../model/request/change-password-through-user-settings";
 
@@ -27,10 +27,16 @@ export class UserProfileSettingsPasswordComponent {
           alert(response.message)
         },
         (error) => {
-          alert(error.error.message)
+          // TODO check after status and from that point it will be know if it's bad current password or timeout
+          // do this on exception handling work, for now it's that construction
+          const errorMessage = error.error.message;
+          if (errorMessage == 'Current password is not correct') {
+            alert(errorMessage)
+          }
         }
       )
-      this.reloadPage();
+      // TODO przywrocic to, usunalem bo mi przeladowuje strone i wtedy cos z pierwszym odczytem isLoggedIn jest nie tak!
+      // this.reloadPage();
     } else {
       this.doesPasswordsMatch = false;
     }
