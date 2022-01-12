@@ -60,14 +60,14 @@ export class AppComponent implements OnInit {
   onLocalStorageChange(storageEvent: StorageEvent) {
     if (storageEvent.storageArea == localStorage) {
       // if storage was cleared in main tab others tab will
-      // know that by checking login status using local storage
-      // then logged out event will be sent
-      let wasUserLoggedOut = !this.localStorageService.isLoggedIn();
+      // know that by checking login status
+      const wasUserLoggedOut = !this.localStorageService.isLoggedIn();
+      // situation when user opened more than one sign-in tab and logged
+      // on more than one account simultaneously
+      const hasUserLoggedOnMoreThanOneAccount = this.userName != this.localStorageService.getUsername();
 
-      if (wasUserLoggedOut) {
+      if (wasUserLoggedOut || hasUserLoggedOnMoreThanOneAccount) {
         this.signOutService.emitSignOut();
-        // TODO chyba trzeba logout ze wzgledu na auth guard a moze sprawdzac czy jest ta strone z url i jak
-        // wtedy to wtedy przekierowywac do topic-categories
       }
     }
   }

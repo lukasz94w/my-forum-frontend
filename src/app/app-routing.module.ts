@@ -10,18 +10,20 @@ import {TopicCategoriesComponent} from "./topic/topic-categories/topic-categorie
 import {ResetPasswordComponent} from "./auth/reset-password/reset-password.component";
 import {ChangePasswordComponent} from "./auth/change-password/change-password.component";
 import {ActivateAccountComponent} from "./auth/activate-account/activate-account.component";
+import {SignInGuard} from "./auth/guard/sign-in-guard.service";
+import {SignOutGuard} from "./auth/guard/sign-out-guard.service";
 
 const routes: Routes = [
   {path: '', redirectTo: '/topic-categories', pathMatch: 'full'},
   {path: 'topic-categories', component: TopicCategoriesComponent},
   {path: 'topic-list/:category', component: TopicListComponent},
   {path: 'topic/:id', component: TopicViewComponent},
-  {path: 'topic-add/:category', component: TopicAddComponent},
-  {path: 'auth/sign-up', component: SignUpComponent},
-  {path: 'auth/sign-in', component: SignInComponent},
-  {path: 'auth/reset', component: ResetPasswordComponent},
-  {path: 'auth/change', component: ChangePasswordComponent},
-  {path: 'auth/activate', component: ActivateAccountComponent},
+  {path: 'topic-add/:category', component: TopicAddComponent, canActivate: [SignInGuard]},
+  {path: 'auth/sign-up', component: SignUpComponent, canActivate: [SignOutGuard]},
+  {path: 'auth/sign-in', component: SignInComponent, canActivate: [SignOutGuard]},
+  {path: 'auth/reset', component: ResetPasswordComponent, canActivate: [SignOutGuard]},
+  {path: 'auth/change', component: ChangePasswordComponent, canActivate: [SignOutGuard]},
+  {path: 'auth/activate', component: ActivateAccountComponent, canActivate: [SignOutGuard]},
   {path: 'user-profile-settings/:username', component: UserProfileSettingsComponent}
 ];
 const routerOptions: ExtraOptions = {
