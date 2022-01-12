@@ -30,17 +30,17 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
   numberOfPostsOnOnePage: number = 10;
 
   constructor(private topicService: TopicService, private postService: PostService,
-              private router: ActivatedRoute, private innerRouter: Router,
+              private activatedRoute: ActivatedRoute, private router: Router,
               private viewPortScroller: ViewportScroller) {
   }
 
   ngOnInit() {
-    this.router.params.subscribe(
+    this.activatedRoute.params.subscribe(
       (params: Params) => {
         this.topicId = +params['id'];
       });
 
-    this.router.queryParams.subscribe(
+    this.activatedRoute.queryParams.subscribe(
       params => {
         if (params.number) {
           this.postNumber = params.number;

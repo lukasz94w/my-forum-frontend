@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {User} from "../../model/response/user";
-import {NavTabService} from "../../service/nav-tab.service";
+import {NavTabService} from "../../service/event/nav-tab.service";
 
 @Component({
   selector: 'app-user-profile-settings-account-info',
@@ -16,6 +16,6 @@ export class UserProfileSettingsAccountInfoComponent {
   }
 
   changeTab(tabName: string) {
-    this.navTabService.changeTab(tabName);
+    this.navTabService.emitChangeTab(tabName);
   }
 }

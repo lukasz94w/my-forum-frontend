@@ -1,15 +1,16 @@
-import {Component, Input} from '@angular/core';
-import {PostService} from "../../service/post.service";
+import {Component, Input, OnInit} from '@angular/core';
+import {PostService} from "../../../service/post.service";
 import {Router} from "@angular/router";
-import {TokenStorageService} from "../../service/token-storage.service";
-import {NewPostContent} from "../../model/request/new-post-content";
+import {LocalStorageService} from "../../../service/local-storage.service";
+import {NewPostContent} from "../../../model/request/new-post-content";
+import {SignOutService} from "../../../service/event/sign-out.service";
 
 @Component({
   selector: 'app-post-add',
   templateUrl: './post-add.component.html',
   styleUrls: ['./post-add.component.css']
 })
-export class PostAddComponent {
+export class PostAddComponent implements OnInit {
 
   @Input() topicId: number = 0;
 
@@ -17,7 +18,20 @@ export class PostAddComponent {
     content: null
   }
 
-  constructor(private postService: PostService, private router: Router, public tokenStorageService: TokenStorageService) {
+  isLoggedIn: boolean = false;
+
+  constructor(private router: Router, private localStorageService: LocalStorageService,
+              private postService: PostService, private signOutService: SignOutService) {
+  }
+
+  ngOnInit(): void {
+    this.isLoggedIn = this.localStorageService.isLoggedIn();
+
+    this.signOutService.signOutEvent$.subscribe(
+      () => {
+        this.isLoggedIn = false;
+      }
+    )
   }
 
   onAddNewPost() {
@@ -34,4 +48,5 @@ export class PostAddComponent {
       },
     )
   }
+
 }

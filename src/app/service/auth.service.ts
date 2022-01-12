@@ -14,12 +14,16 @@ export class AuthService {
   constructor(private httpClient: HttpClient) {
   }
 
-  login(username: string, password: string): Observable<any> {
+  signIn(username: string, password: string): Observable<any> {
     return this.httpClient.post(`${this.apiServerUrl}/auth/signIn`, {username, password});
   }
 
-  register(username: string, email: string, password: string): Observable<any> {
+  signUp(username: string, email: string, password: string): Observable<any> {
     return this.httpClient.post(`${this.apiServerUrl}/auth/signUp`, {username, email, password});
+  }
+
+  refreshToken(refreshToken: string) {
+    return this.httpClient.post(`${this.apiServerUrl}/auth/refreshToken`, {refreshToken: refreshToken});
   }
 
   askForEmailWithResetToken(email: string): Observable<void> {

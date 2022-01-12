@@ -1,4 +1,40 @@
-<app-navigation-header></app-navigation-header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Placeholder_4_3_wmf_green.svg/1280px-Placeholder_4_3_wmf_green.svg.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    My forum
+  </a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/topic-categories">Main page</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav me-2" *ngIf = "!isLoggedIn">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/auth/sign-in']">Sign in</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/auth/sign-up']">Sign up</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav me-2" *ngIf = "isLoggedIn">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/user-profile-settings/', userName]">My profile</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/auth/signout']" (click)="signOut()">Sign out</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
 <div class="container">
   <div class="row">
     <div class="col-md-12">

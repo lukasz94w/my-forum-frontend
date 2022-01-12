@@ -17,7 +17,7 @@ export class ChangePasswordComponent implements OnInit {
     newPasswordSecondTry: null
   }
   doesPasswordsMatch: boolean = true;
-  showResetExpiredTokenButton: boolean = false;
+  showResetExpiredTokenLink: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute, private authService: AuthService, private router: Router) {
   }
@@ -45,7 +45,7 @@ export class ChangePasswordComponent implements OnInit {
           // it could also be done reading HttpStatus as in ActivateAccountComponent was done
           // here I read message instead
           if (errorMessage == 'Token is expired') {
-            this.showResetExpiredTokenButton = true;
+            this.showResetExpiredTokenLink = true;
           }
           alert(errorMessage)
         }
