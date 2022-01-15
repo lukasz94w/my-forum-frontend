@@ -42,9 +42,8 @@ export class PostAddComponent implements OnInit {
         // this.router.navigate(['topic/', this.topicViewComponent.topicId, {queryParams: {number: this.topicViewComponent.totalPosts + 1}}]);
         // TODO: redirect to the newest post after adding it
       },
-      (error) => {
-        console.log(error)
-        alert("Invalid data");
+      () => {
+        alert("Error occurred. Please try again later");
       },
     )
   }

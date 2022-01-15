@@ -25,44 +25,15 @@ export class SignInComponent {
 
   signIn() {
     const {username, password} = this.form;
-
     this.authService.signIn(username, password).subscribe(
       (data) => {
-        console.log(data)
         this.localStorageService.saveAccessToken(data.accessToken);
         this.localStorageService.saveRefreshToken(data.refreshToken);
-        this.localStorageService.saveUsername((JSON.parse(atob(data.accessToken.split('.')[1]))).sub);
-        const testExpToken = (JSON.parse(atob(data.accessToken.split('.')[1]))).exp;
-        this.localStorageService.saveExpirationTime(testExpToken);
+        this.localStorageService.saveUserName((JSON.parse(atob(data.accessToken.split('.')[1]))).sub);
+        this.localStorageService.saveRefreshTokenExpirationTime((JSON.parse(atob(data.refreshToken.split('.')[1]))).exp);
         this.localStorageService.saveRememberMe(this.rememberMe);
-
-        console.log("Expiration: " + testExpToken);
-        const encodedPayload = data.accessToken.split('.')[1];
-        console.log("Encoed payload: " + encodedPayload);
-        const iat = (JSON.parse(atob(data.accessToken.split('.')[1]))).iat;
-        console.log("Issued at: " + iat);
-        const sub = (JSON.parse(atob(data.accessToken.split('.')[1]))).sub;
-        console.log("Sub: " + sub);
-        // const scope = (JSON.parse(atob(data.token.split('.')[1]))).scope;
-        // console.log("Scope: " + scope);
-        //
-        // console.log("data in nnnn :" + data.expirationTime)
-        // this.tokenStorage.saveExpirationTime(data.expirationTime);
-
-        //TODO for test only!
-        // this.tokenStorage.saveExpirationTime(500);
-
-        // this.tokenStorage.saveUser(data);
-        // this.tokenStorage.saveExpirationTimeBetter(testExpToken);
-        console.log("This is the token: " + data.accessToken);
-        console.log("This is the user  " + data);
-
         this.signInService.emitSignIn();
-
         this.router.navigate(['topic-categories']);
-
-        // TODO it could also emit login event?
-        // window.location.reload();
       },
       (error) => {
         if (error.status == HttpStatusCode.Locked) {
@@ -75,5 +46,4 @@ export class SignInComponent {
       }
     )
   }
-
 }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 
-const ACCESS_TOKEN_KEY = "access-token-key"
-const REFRESH_TOKEN_KEY = "refresh-token-key"
+const ACCESS_TOKEN_KEY = "access-token"
+const REFRESH_TOKEN_KEY = "refresh-token"
 const USER_KEY = "auth-user"
 const EXPIRATION_TIME = "expires-at"
 const REMEMBER_ME = "remember-me"
@@ -11,13 +11,13 @@ const REMEMBER_ME = "remember-me"
 })
 export class LocalStorageService {
 
-  saveAccessToken(token: string): void {
+  saveAccessToken(accessToken: string): void {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
-    localStorage.setItem(ACCESS_TOKEN_KEY, token);
+    localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
   }
 
-  getAccessToken(): string | null {
-    return localStorage.getItem(ACCESS_TOKEN_KEY);
+  getAccessToken(): string {
+    return String(localStorage.getItem(ACCESS_TOKEN_KEY));
   }
 
   saveRefreshToken(refreshToken: string): void {
@@ -25,47 +25,45 @@ export class LocalStorageService {
     localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
   }
 
-  getRefreshToken(): string | null {
-    return localStorage.getItem(REFRESH_TOKEN_KEY);
+  getRefreshToken(): string {
+    return String(localStorage.getItem(REFRESH_TOKEN_KEY));
   }
 
-  saveUsername(user: string): void {
+  saveUserName(userName: string): void {
     localStorage.removeItem(USER_KEY);
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
+    localStorage.setItem(USER_KEY, userName);
   }
 
-  getUsername(): any {
-    const user = localStorage.getItem(USER_KEY);
-    if (user) {
-      return JSON.parse(user);
-    }
-
-    return {};
+  getUsername(): string {
+    return String(localStorage.getItem(USER_KEY));
   }
 
-  saveExpirationTime(expirationTime: number): void {
-    localStorage.setItem(EXPIRATION_TIME, String(expirationTime));
+  saveRefreshTokenExpirationTime(refreshTokenExpirationTime: number): void {
+    localStorage.setItem(EXPIRATION_TIME, String(refreshTokenExpirationTime));
   }
 
-  getExpirationTime(): any {
-    const expiration = localStorage.getItem(EXPIRATION_TIME);
-
-    if (expiration) {
-      return JSON.parse(expiration);
-    }
-
-    return {};
+  getRefreshTokenExpirationTime(): number {
+    return Number(localStorage.getItem(EXPIRATION_TIME));
   }
 
   isLoggedIn(): boolean {
-    //TODO tu trzeba srpawdzac jeszcze czy token jakis jest wogole jest (ale jaki?)
-    return this.isRefreshTokenExpired();
+    return this.isUserNameInLocalStorage() && this.isRefreshTokenExpired();
   }
 
-  private isRefreshTokenExpired() {
-    const expiryDateTimeOfTokenInUnix = parseInt(this.getExpirationTime());
-    const currentDateTimeInUnix = (Math.floor(Date.now() / 1000));
-    return currentDateTimeInUnix < expiryDateTimeOfTokenInUnix;
+  private isUserNameInLocalStorage(): boolean {
+    const userName = localStorage.getItem(USER_KEY);
+    return userName !== null;
+  }
+
+  private isRefreshTokenExpired(): boolean {
+    const expirationTime = this.getRefreshTokenExpirationTime();
+    if (expirationTime !== null) {
+      const expiryDateTimeOfTokenInUnix = parseInt(String(expirationTime));
+      const currentDateTimeInUnix = (Math.floor(Date.now() / 1000));
+      return currentDateTimeInUnix < expiryDateTimeOfTokenInUnix;
+    }
+
+    return false;
   }
 
   signOut() {
@@ -79,5 +77,4 @@ export class LocalStorageService {
   saveRememberMe(rememberMe: boolean) {
     localStorage.setItem(REMEMBER_ME, JSON.stringify(rememberMe));
   }
-
 }
