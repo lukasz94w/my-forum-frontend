@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
   }
 
   private setTimeoutToAutoLogout(): void {
-    const timeoutToAutomaticLogoutInMs = this.localStorageService.getExpirationTime() - Math.floor(Date.now() / 1000);
+    const timeoutToAutomaticLogoutInMs = this.localStorageService.getRefreshTokenExpirationTime() - Math.floor(Date.now() / 1000);
     this.autoLogoutTimeoutReference = setTimeout(() => {
       alert("Session has ended. Please login again")
       this.localStorageService.signOut();
@@ -62,8 +62,8 @@ export class AppComponent implements OnInit {
       // if storage was cleared in main tab others tab will
       // know that by checking login status
       const wasUserLoggedOut = !this.localStorageService.isLoggedIn();
-      // situation when user opened more than one sign-in tab and logged
-      // on more than one account simultaneously
+      // situation when tricky user opened more than one sign-in tab and
+      // logged on more than one account simultaneously
       const hasUserLoggedOnMoreThanOneAccount = this.userName != this.localStorageService.getUsername();
 
       if (wasUserLoggedOut || hasUserLoggedOnMoreThanOneAccount) {

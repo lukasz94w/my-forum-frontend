@@ -10,8 +10,8 @@ import {TopicCategoriesComponent} from "./topic/topic-categories/topic-categorie
 import {ResetPasswordComponent} from "./auth/reset-password/reset-password.component";
 import {ChangePasswordComponent} from "./auth/change-password/change-password.component";
 import {ActivateAccountComponent} from "./auth/activate-account/activate-account.component";
-import {SignInGuard} from "./auth/guard/sign-in-guard.service";
-import {SignOutGuard} from "./auth/guard/sign-out-guard.service";
+import {SignInGuard} from "./auth/navigation-guard/sign-in-guard.service";
+import {SignOutGuard} from "./auth/navigation-guard/sign-out-guard.service";
 
 const routes: Routes = [
   {path: '', redirectTo: '/topic-categories', pathMatch: 'full'},
