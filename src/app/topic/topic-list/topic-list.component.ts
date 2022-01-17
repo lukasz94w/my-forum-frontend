@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Topic} from "../../model/response/topic";
 import {TopicService} from "../../service/topic.service";
 import {LocalStorageService} from "../../service/local-storage.service";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {LastTopicActivity} from "../../model/response/last-topic-activity";
 import {SignOutService} from "../../service/event/sign-out.service";
+import {Topic2} from "../../model/response/topic2";
+import {combineLatest} from "rxjs";
+import {debounceTime, map} from "rxjs/operators";
 
 @Component({
   selector: 'app-topic-list',
@@ -13,7 +15,7 @@ import {SignOutService} from "../../service/event/sign-out.service";
 })
 export class TopicListComponent implements OnInit {
 
-  pageableTopics: Topic[] = [];
+  pageableTopics: Topic2[] = [];
   numberOfAnswersInPageableTopics: number[] = [];
   lastPageableTopicActivities: LastTopicActivity[] = [];
   topicsLength: number = -1;
@@ -26,36 +28,53 @@ export class TopicListComponent implements OnInit {
 
   isLoggedIn: boolean = false;
 
-  constructor(private topicService: TopicService, private tokenStorageService:
-    LocalStorageService, private router: ActivatedRoute, private signOutService: SignOutService) {
+  isSearchMode: boolean = false;
+  searchQueryValue: string = '';
+
+  constructor(private topicService: TopicService, private localStorageService: LocalStorageService,
+              private activatedRoute: ActivatedRoute, private signOutService: SignOutService) {
   }
 
   ngOnInit() {
-    this.isLoggedIn = this.tokenStorageService.isLoggedIn();
+    this.isLoggedIn = this.localStorageService.isLoggedIn();
 
-    this.router.params.subscribe(
-      (param: Params) => {
-        this.category = param['category'];
-        this.findPageableTopicsInCategory();
-      }
-    )
+    combineLatest([this.activatedRoute.params, this.activatedRoute.queryParams])
+      .pipe(map(results => ({param: results[0].category, query: results[1].query})), debounceTime(0))
+      .subscribe(results => {
+          this.currentPage = 1;
+          if (results.param !== 'search') {
+            this.isSearchMode = false;
+            this.category = results.param
+            this.findPageableTopicsInCategory()
+          } else {
+            this.isSearchMode = true;
+            this.searchQueryValue = results.query
+            this.searchInTopicTitles();
+          }
+        });
+
     this.signOutService.signOutEvent$.subscribe(
       () => {
         this.isLoggedIn = false;
-      }
-    )
+      });
   }
 
   findPageableTopicsInCategory(): void {
     const params = {'page': this.currentPage - 1, 'category': this.category}
     this.topicService.findPageableTopicsInCategory(params).subscribe(
       (data: any) => {
-        this.pageableTopics = data.pageableTopics
-        this.numberOfAnswersInPageableTopics = data.numberOfPostsInPageableTopics;
-        this.lastPageableTopicActivities = data.lastPageableTopicActivities;
-        this.topicsLength = this.pageableTopics.length;
-        this.totalTopics = data.totalTopics;
-        this.totalPages = data.totalPages;
+        this.buildData(data);
+      },
+      (error) =>
+        console.log(error)
+    );
+  }
+
+  searchInTopicTitles() {
+    const params = {'page': this.currentPage - 1, 'query': this.searchQueryValue}
+    this.topicService.searchInTopicTitles(params).subscribe(
+      (data: any) => {
+        this.buildData(data);
       },
       (error) =>
         console.log(error)
@@ -64,6 +83,19 @@ export class TopicListComponent implements OnInit {
 
   handlePageChange($event: number) {
     this.currentPage = $event;
-    this.findPageableTopicsInCategory();
+    if (this.isSearchMode) {
+      this.searchInTopicTitles();
+    } else {
+      this.findPageableTopicsInCategory();
+    }
+  }
+
+  private buildData(data: any) {
+    this.pageableTopics = data.pageableTopics
+    this.numberOfAnswersInPageableTopics = data.numberOfPostsInPageableTopics;
+    this.lastPageableTopicActivities = data.lastPageableTopicActivities;
+    this.topicsLength = this.pageableTopics.length;
+    this.totalTopics = data.totalTopics;
+    this.totalPages = data.totalPages;
   }
 }

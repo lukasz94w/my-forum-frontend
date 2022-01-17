@@ -34,4 +34,8 @@ export class TopicService {
   countTopicsAndPostsByCategory(): Observable<any> {
     return this.httpClient.get<any>(`${this.apiServerUrl}/topic/countTopicsAndPostsByCategory`);
   }
+
+  searchInTopicTitles(params: any): Observable<any> {
+    return this.httpClient.get<any>(`${this.apiServerUrl}/topic/searchInTopicTitles`, {params});
+  }
 }
