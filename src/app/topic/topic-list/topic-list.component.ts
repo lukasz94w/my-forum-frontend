@@ -39,7 +39,7 @@ export class TopicListComponent implements OnInit {
     this.isLoggedIn = this.localStorageService.isLoggedIn();
 
     combineLatest([this.activatedRoute.params, this.activatedRoute.queryParams])
-      .pipe(map(results => ({param: results[0].category, query: results[1].query})), debounceTime(0))
+      .pipe(map(results => ({param: results[0].param, query: results[1].query})), debounceTime(0))
       .subscribe(results => {
           this.currentPage = 1;
           if (results.param !== 'search') {

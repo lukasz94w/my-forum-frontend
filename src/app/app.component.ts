@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
   userName: string = '';
   autoLogoutTimeoutReference: any;
-  searchCriteria: string = 'posts';
+  searchCriteria: string = 'topics';
 
   constructor(private localStorageService: LocalStorageService, private signInService: SignInService,
               private signOutService: SignOutService, private topicService: TopicService,
@@ -37,13 +37,13 @@ export class AppComponent implements OnInit {
         this.userName = this.localStorageService.getUsername();
       }
     )
+
     this.signOutService.signOutEvent$.subscribe(
       () => {
         this.isLoggedIn = false
         clearTimeout(this.autoLogoutTimeoutReference);
       }
     );
-
   }
 
   private setTimeoutToAutoLogout(): void {
@@ -68,6 +68,8 @@ export class AppComponent implements OnInit {
   search(searchQuery: string) {
     if (this.searchCriteria === 'topics') {
       this.router.navigate(['topic-list/search'], {queryParams: {query: searchQuery}});
+    } else {
+      this.router.navigate(['post-list'], {queryParams: {query: searchQuery}});
     }
   }
 

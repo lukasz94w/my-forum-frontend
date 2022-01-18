@@ -1,0 +1,72 @@
+<div class="row mt-4">
+  <div class="col-lg-10">
+
+    <div class="d-flex mb-3">
+      <div class="me-auto">
+        <h4>Found results for "{{ searchQueryValue }}":</h4>
+      </div>
+    </div>
+
+    <ng-container
+      *ngIf="postsLength > 0; then showListOfPosts; else showNoPostsInfo">
+    </ng-container>
+
+    <ng-template #showListOfPosts>
+
+      <ng-container [ngTemplateOutlet]="pagination"></ng-container>
+
+      <ul class="list-group">
+        <li class="d-flex post-window-all align-items-center" *ngFor="let pageablePost of pageablePosts |
+        paginate :{
+        itemsPerPage: numberOfPostsOnOnePage,
+        currentPage: currentPage,
+        totalItems: totalPosts
+        }; let i=index">
+
+          <div class="post-window col-11">
+            <div class="post-info">
+              <a class="post-topic-title"
+                 [routerLink]="['/topic/', pageablePost.topicId]"
+                 [queryParams]="{ number: pageablePost.number }">
+                {{ pageablePost.topicTitle }}
+              </a>
+              <div class="post-topic-category text-muted">
+                In <a class="category-link"
+                      [routerLink]="['/topic-list/', pageablePost.topicCategory]">{{ pageablePost.topicCategory }}</a>
+              </div>
+              <div class="post-date text-muted">
+                {{ pageablePost.dateTime | date: 'd MMMM y' }}
+              </div>
+              <div class="post-content">
+                {{ pageablePost.content }}
+              </div>
+            </div>
+
+            <div class="post-bottom-fill"></div>
+          </div>
+        </li>
+      </ul>
+
+      <ng-container [ngTemplateOutlet]="pagination"></ng-container>
+
+    </ng-template>
+
+    <ng-template #showNoPostsInfo>
+      <div class="text-center mt-10">
+        No posts found matching search criteria.
+      </div>
+    </ng-template>
+
+  </div>
+</div>
+
+<ng-template #pagination>
+  <div class="col-md-12 paginate" *ngIf="totalPosts > 1">
+    <pagination-controls
+      previousLabel="Prev"
+      nextLabel="Next"
+      [responsive]="true"
+      (pageChange)="handlePageChange($event)"
+    ></pagination-controls>
+  </div>
+</ng-template>

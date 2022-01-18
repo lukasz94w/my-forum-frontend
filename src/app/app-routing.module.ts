@@ -12,11 +12,12 @@ import {ChangePasswordComponent} from "./auth/change-password/change-password.co
 import {ActivateAccountComponent} from "./auth/activate-account/activate-account.component";
 import {SignInGuard} from "./auth/navigation-guard/sign-in-guard.service";
 import {SignOutGuard} from "./auth/navigation-guard/sign-out-guard.service";
+import {PostListComponent} from "./post/post-list/post-list.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/topic-categories', pathMatch: 'full'},
   {path: 'topic-categories', component: TopicCategoriesComponent},
-  {path: 'topic-list/:category', component: TopicListComponent},
+  {path: 'topic-list/:param', component: TopicListComponent},
   {path: 'topic/:id', component: TopicViewComponent},
   {path: 'topic-add/:category', component: TopicAddComponent, canActivate: [SignInGuard]},
   {path: 'auth/sign-up', component: SignUpComponent, canActivate: [SignOutGuard]},
@@ -24,7 +25,8 @@ const routes: Routes = [
   {path: 'auth/reset', component: ResetPasswordComponent, canActivate: [SignOutGuard]},
   {path: 'auth/change', component: ChangePasswordComponent, canActivate: [SignOutGuard]},
   {path: 'auth/activate', component: ActivateAccountComponent, canActivate: [SignOutGuard]},
-  {path: 'user-profile-settings/:username', component: UserProfileSettingsComponent}
+  {path: 'user-profile-settings/:username', component: UserProfileSettingsComponent},
+  {path: 'post-list', component: PostListComponent}
 ];
 const routerOptions: ExtraOptions = {
   anchorScrolling: "enabled",
