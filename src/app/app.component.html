@@ -1,21 +1,42 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Placeholder_4_3_wmf_green.svg/1280px-Placeholder_4_3_wmf_green.svg.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Placeholder_4_3_wmf_green.svg/1280px-Placeholder_4_3_wmf_green.svg.png"
+      width="30" height="30" class="d-inline-block align-top" alt="">
     My forum
   </a>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav me-auto">
+    <ul class="navbar-nav ms-3 me-auto">
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" routerLink="/topic-categories">Main page</a>
       </li>
     </ul>
 
-    <ul class="navbar-nav me-2" *ngIf = "!isLoggedIn">
+    <form class="d-flex ms-2 me-2">
+      <div class="input-group">
+        <div class="input-group-text p-0">
+          <select
+            #searchCriteriaSelector
+            class="form-select shadow-none bg-light border-0"
+            (change)="searchCriteriaChanged(searchCriteriaSelector.value)">
+            <option>Topics</option>
+            <option>Posts</option>
+          </select>
+        </div>
+        <input type="search" class="form-control" placeholder="Search in {{ searchCriteria }}..." #searchQuery>
+        <button class="input-group-text shadow-none px-4 btn-success" (click)="search(searchQuery.value)">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </form>
+
+    <ul class="navbar-nav ms-3 me-2" *ngIf="!isLoggedIn">
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/auth/sign-in']">Sign in</a>
       </li>
@@ -24,7 +45,7 @@
       </li>
     </ul>
 
-    <ul class="navbar-nav me-2" *ngIf = "isLoggedIn">
+    <ul class="navbar-nav ms-3 me-2" *ngIf="isLoggedIn">
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/user-profile-settings/', userName]">My profile</a>
       </li>

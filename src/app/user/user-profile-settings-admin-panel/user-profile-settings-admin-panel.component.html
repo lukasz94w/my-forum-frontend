@@ -1,0 +1,89 @@
+<div class="row user-settings-window col-md-10">
+
+  <div class="user-settings-window-header">
+    List of all users
+  </div>
+
+  <ng-container [ngTemplateOutlet]="pagination"></ng-container>
+
+  <div class="users-list">
+
+    <ul class="list-group mb-3">
+      <li class="col-12 d-flex border p-1 user-item-list align-items-center" *ngFor="let pageableUser of pageableUsers |
+        paginate :{
+        itemsPerPage: numberOfUsersOnOnePage,
+        currentPage: currentPage,
+        totalItems: totalUsers
+        }; let i=index">
+
+        <div class="col-3 user-name">
+          <a class="user-profile-link"
+             [routerLink]="['/user-profile-settings/', pageableUser.name]">
+            {{ pageableUser.name }}
+          </a>
+        </div>
+
+        <div class="col-2 forum-info padding-0">
+          <span class="views-number">
+            {{ numberOfPostsInPageableUsers[i] }}
+          </span>
+          <div>
+            <small>Posts</small>
+          </div>
+        </div>
+
+        <div class="col-2 forum-info">
+          <span class="views-number">
+            {{ numberOfTopicsInPageableUsers[i] }}
+          </span>
+          <div>
+            <small>Topics</small>
+          </div>
+        </div>
+
+        <div class="col-3 forum-info">
+          <span class="user-registered">
+            {{ pageableUser.registered | date: 'dd.MM.yyyy' }}
+          </span>
+          <div>
+            <small>Registered</small>
+          </div>
+        </div>
+
+        <div class="col-2 user-ban">
+          <ng-container
+            *ngIf="!pageableUser.banned; then showBanButton; else showUnBanButton">
+          </ng-container>
+
+          <ng-template #showBanButton>
+            <button
+              class="btn btn-danger"
+              [disabled]="pageableUser.admin"
+              (click)="showUserBanWindow(pageableUser.name)">Ban user</button>
+          </ng-template>
+
+          <ng-template #showUnBanButton>
+            <button
+              class="btn btn-success width-styling"
+              (click)="unBanUser(pageableUser.name)">Un ban</button>
+          </ng-template>
+        </div>
+
+      </li>
+    </ul>
+  </div>
+
+  <ng-container [ngTemplateOutlet]="pagination"></ng-container>
+
+</div>
+
+<ng-template #pagination>
+  <div class="col-md-12" *ngIf="totalUsers > 1">
+    <pagination-controls
+      previousLabel="Prev"
+      nextLabel="Next"
+      [responsive]="true"
+      (pageChange)="handlePageChange($event)"
+    ></pagination-controls>
+  </div>
+</ng-template>

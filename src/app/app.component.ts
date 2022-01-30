@@ -2,6 +2,9 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {LocalStorageService} from "./service/local-storage.service";
 import {SignInService} from "./service/event/sign-in.service";
 import {SignOutService} from "./service/event/sign-out.service";
+import {TopicService} from "./service/topic.service";
+import {PostService} from "./service/post.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -13,9 +16,11 @@ export class AppComponent implements OnInit {
   isLoggedIn: boolean = false;
   userName: string = '';
   autoLogoutTimeoutReference: any;
+  searchCriteria: string = 'topics';
 
   constructor(private localStorageService: LocalStorageService, private signInService: SignInService,
-              private signOutService: SignOutService) {
+              private signOutService: SignOutService, private topicService: TopicService,
+              private postService: PostService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -32,13 +37,13 @@ export class AppComponent implements OnInit {
         this.userName = this.localStorageService.getUsername();
       }
     )
+
     this.signOutService.signOutEvent$.subscribe(
       () => {
         this.isLoggedIn = false
         clearTimeout(this.autoLogoutTimeoutReference);
       }
     );
-
   }
 
   private setTimeoutToAutoLogout(): void {
@@ -56,6 +61,18 @@ export class AppComponent implements OnInit {
     this.signOutService.emitSignOut();
   }
 
+  searchCriteriaChanged(searchCriteria: string) {
+    this.searchCriteria = searchCriteria.toLowerCase();
+  }
+
+  search(searchQuery: string) {
+    if (this.searchCriteria === 'topics') {
+      this.router.navigate(['topic-list/search'], {queryParams: {query: searchQuery}});
+    } else {
+      this.router.navigate(['post-list'], {queryParams: {query: searchQuery}});
+    }
+  }
+
   @HostListener('window:storage', ['$event'])
   onLocalStorageChange(storageEvent: StorageEvent) {
     if (storageEvent.storageArea == localStorage) {
@@ -71,5 +88,4 @@ export class AppComponent implements OnInit {
       }
     }
   }
-
 }

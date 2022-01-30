@@ -21,4 +21,8 @@ export class PostService {
   findPageablePostsByTopicId(params: any): Observable<void> {
     return this.httpClient.get<any>(`${this.apiServerUrl}/post/findPageablePostsByTopicId/`, {params});
   }
+
+  searchInPosts(params: { query: string; page: number }): Observable<any> {
+    return this.httpClient.get<any>(`${this.apiServerUrl}/post/searchInPosts`, {params});
+  }
 }

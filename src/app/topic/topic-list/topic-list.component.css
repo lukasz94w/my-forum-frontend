@@ -20,7 +20,7 @@ a:hover {
 
 .topic-item-list {
   margin: 0 0 5px 0;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 .topic-info {
@@ -95,6 +95,6 @@ a:hover {
   padding-left:0;
 }
 
-.user-profile-link {
+.link {
   color: inherit;
 }

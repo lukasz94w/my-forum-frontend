@@ -3,14 +3,23 @@
 
     <div class="d-flex mb-3">
       <div class="me-auto">
-        <h4>Latest topics in {{ category }}: </h4>
+        <ng-container
+          *ngIf="isSearchMode; then showSearchResultsCommunicate; else showCategoryTopicsCommunicate">
+        </ng-container>
+
+        <ng-template #showSearchResultsCommunicate>
+          <h4>Found results for "{{ searchQueryValue }}":</h4>
+        </ng-template>
+
+        <ng-template #showCategoryTopicsCommunicate>
+          <h4>Latest topics in {{ category }}:</h4>
+        </ng-template>
       </div>
 
-      <div class="ms-auto">
+      <div class="ms-auto" *ngIf=isLoggedIn>
         <button
           class="btn btn-success"
           type="submit"
-          [disabled]="!isLoggedIn"
           [routerLink]="['/topic-add', category]">
           Add new topic
         </button>
@@ -40,11 +49,16 @@
                   {{ pageableTopic.title }}
                 </a>
                 <div class="topic-author-with-date">posted by
-                  <a class="user-profile-link"
+                  <a class="link"
                      [routerLink]="['/user-profile-settings/', pageableTopic.user]">
                     {{ pageableTopic.user }},
                   </a>
-                  {{ pageableTopic.dateTime | date: 'd MMMM y' }}</div>
+                  {{ pageableTopic.dateTime | date: 'd MMMM y' }}
+                  <a class="link" *ngIf="isSearchMode"
+                     [routerLink]="['/topic-list/', pageableTopic.category]"> in
+                    {{ pageableTopic.category }}
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -77,7 +91,7 @@
                 <div class="col-md-9">
                   <div class="card-body last-activity">
                     <div class="card-text last-activity-user">
-                      <a class="user-profile-link"
+                      <a class="link"
                          [routerLink]="['/user-profile-settings/', lastPageableTopicActivities[i].userName]">
                         {{ lastPageableTopicActivities[i].userName }}
                       </a>
@@ -103,9 +117,23 @@
     </ng-template>
 
     <ng-template #showNoTopicsInfo>
-      <div class="text-center mt-10">
-        No topics in this section yet.
-      </div>
+
+      <ng-container
+        *ngIf="isSearchMode; then showNotFoundResults; else showNoTopicsInSuchCategory">
+      </ng-container>
+
+      <ng-template #showNotFoundResults>
+        <div class="text-center mt-10">
+          No topics found matching search criteria.
+        </div>
+      </ng-template>
+
+      <ng-template #showNoTopicsInSuchCategory>
+        <div class="text-center mt-10">
+          No topics in this category yet.
+        </div>
+      </ng-template>
+
     </ng-template>
 
   </div>

@@ -6,7 +6,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from "@angular/common/http";
 import {TopicListComponent} from './topic/topic-list/topic-list.component';
 import {TopicViewComponent} from './topic/topic-view/topic-view.component';
-import {PostAddComponent} from './topic/topic-view/post-add/post-add.component';
+import {PostAddComponent} from './post/post-add/post-add.component';
 import {FormsModule} from "@angular/forms";
 import {TopicAddComponent} from './topic/topic-add/topic-add.component';
 import {SignUpComponent} from './auth/sign-up/sign-up.component';
@@ -28,6 +28,9 @@ import {UserProfileSettingsAccountInfoComponent} from './user/user-profile-setti
 import {ResetPasswordComponent} from './auth/reset-password/reset-password.component';
 import {ChangePasswordComponent} from './auth/change-password/change-password.component';
 import {ActivateAccountComponent} from './auth/activate-account/activate-account.component';
+import {PostListComponent} from './post/post-list/post-list.component';
+import { UserProfileSettingsAdminPanelComponent } from './user/user-profile-settings-admin-panel/user-profile-settings-admin-panel.component';
+import { UserBanWindowComponent } from './user/user-ban-window/user-ban-window.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,10 @@ import {ActivateAccountComponent} from './auth/activate-account/activate-account
     UserProfileSettingsAccountInfoComponent,
     ResetPasswordComponent,
     ChangePasswordComponent,
-    ActivateAccountComponent
+    ActivateAccountComponent,
+    PostListComponent,
+    UserProfileSettingsAdminPanelComponent,
+    UserBanWindowComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +64,7 @@ import {ActivateAccountComponent} from './auth/activate-account/activate-account
     FormsModule,
     NgxPaginationModule,
     ImageCropperModule,
-    NgbModule,
+    NgbModule
   ],
   providers: [interceptorProviders],
   bootstrap: [AppComponent]
