@@ -5,6 +5,7 @@ const REFRESH_TOKEN_KEY = "refresh-token"
 const USER_KEY = "auth-user"
 const EXPIRATION_TIME = "expires-at"
 const REMEMBER_ME = "remember-me"
+const IS_USER_ADMIN = "is-user-admin"
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,14 @@ export class LocalStorageService {
 
   getUsername(): string {
     return String(localStorage.getItem(USER_KEY));
+  }
+
+  saveIsUserAdmin(isAdmin: boolean): void {
+    localStorage.setItem(IS_USER_ADMIN, JSON.stringify(isAdmin));
+  }
+
+  isUserAdmin(): boolean {
+    return localStorage.getItem(IS_USER_ADMIN) === 'true';
   }
 
   saveRefreshTokenExpirationTime(refreshTokenExpirationTime: number): void {
@@ -74,7 +83,7 @@ export class LocalStorageService {
     return localStorage.getItem(REMEMBER_ME) === 'true';
   }
 
-  saveRememberMe(rememberMe: boolean) {
+  saveRememberMe(rememberMe: boolean): void {
     localStorage.setItem(REMEMBER_ME, JSON.stringify(rememberMe));
   }
 }

@@ -16,7 +16,7 @@ export class SignInComponent {
   }
   rememberMe: boolean = false;
 
-  showAccountIsLocked: boolean = false;
+  showAccountIsNotActivated: boolean = false;
   showLoginWasFailed: boolean = false;
 
   constructor(private authService: AuthService, private router: Router,
@@ -29,19 +29,30 @@ export class SignInComponent {
       (data) => {
         this.localStorageService.saveAccessToken(data.accessToken);
         this.localStorageService.saveRefreshToken(data.refreshToken);
-        this.localStorageService.saveUserName((JSON.parse(atob(data.accessToken.split('.')[1]))).sub);
+        this.localStorageService.saveUserName(JSON.parse(atob(data.accessToken.split('.')[1])).sub);
+        this.localStorageService.saveIsUserAdmin(JSON.parse(atob(data.accessToken.split(".")[1])).isAdmin);
         this.localStorageService.saveRefreshTokenExpirationTime((JSON.parse(atob(data.refreshToken.split('.')[1]))).exp);
         this.localStorageService.saveRememberMe(this.rememberMe);
         this.signInService.emitSignIn();
         this.router.navigate(['topic-categories']);
       },
       (error) => {
-        if (error.status == HttpStatusCode.Locked) {
-          this.showAccountIsLocked = true;
-          this.showLoginWasFailed = false;
-        } else {
-          this.showLoginWasFailed = true;
-          this.showAccountIsLocked = false;
+        switch (error.status) {
+          case HttpStatusCode.TooEarly: {
+            this.showAccountIsNotActivated = true;
+            this.showLoginWasFailed = false;
+            break;
+          }
+          case HttpStatusCode.Locked: {
+            // TODO tu bedzie info ze ban i bedzie pobierany username i data do kiedy ban
+            // i bedzie mozna pokazywac dane usera poniewaz bedzie username xd
+            break;
+          }
+          case HttpStatusCode.Forbidden: {
+            this.showLoginWasFailed = true;
+            this.showAccountIsNotActivated = false;
+            break;
+          }
         }
       }
     )

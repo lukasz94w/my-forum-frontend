@@ -1,0 +1,61 @@
+<div class="window" xmlns="http://www.w3.org/1999/html">
+  <header class="window-header">
+    <h5>Blocking {{ userName }} {{ sourceOfOpeningWindow }} settings</h5>
+    <button type="button" class="btn-close" (click)="closeUserBanWindow()"></button>
+  </header>
+  <div class="window-body">
+
+    <form
+      name="form"
+      (ngSubmit)="f.form.valid && confirmUserBan()"
+      #f="ngForm"
+      novalidate>
+
+      <div class="form-group mb-1">
+        <label class="ms-1 mt-2 mb-1" for="banUntilEndOfDay">Date until user will be blocked: </label>
+        <input
+          type="date"
+          onkeydown="return false"
+          class="form-control"
+          name="banUntilEndOfDay"
+          [(ngModel)]="form.banUntilEndOfDay"
+          required
+          min="{{ minPossibleDateOfBan | date: 'YYYY-MM-dd' }}"
+          id="banUntilEndOfDay"
+          #banUntilEndOfDay="ngModel"
+        />
+        <div class="alert-danger mt-1" *ngIf="banUntilEndOfDay.errors && f.submitted">
+          <div *ngIf="banUntilEndOfDay.errors.required">Date is required</div>
+        </div>
+      </div>
+
+      <div class="form-group mb-4">
+        <label class="ms-1 mt-2 mb-1" for="reasonOfBan">Reason of blocking user: </label>
+        <textarea
+          class="form-control"
+          name="reasonOfBan"
+          [(ngModel)]="form.reasonOfBan"
+          required
+          minlength="4"
+          maxlength="200"
+          rows=2
+          id="reasonOfBan"
+          #reasonOfBan="ngModel">
+        </textarea>
+        <div class="alert-danger mt-1" *ngIf="reasonOfBan.errors && f.submitted">
+          <div *ngIf="reasonOfBan.errors.required">Reason is required</div>
+          <div *ngIf="reasonOfBan.errors.minlength">Minimal length of reason must have at least 4 characters</div>
+        </div>
+      </div>
+
+      <div class="window-footer">
+        <div class="form-group d-flex justify-content-center mx-4 mb-3">
+          <button class="btn btn-danger">Confirm</button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<div class="window-transparent-background" (click)="closeUserBanWindow()"></div>

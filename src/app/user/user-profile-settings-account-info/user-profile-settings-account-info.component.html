@@ -41,6 +41,27 @@
     <div class="section-content text-muted">
       {{ user.registered | date: 'd MMMM y'}}
     </div>
+
+    <div *ngIf="user.banned" class="ban-section">
+      <hr class="separator">
+
+      <div class="section-header">
+        Date of ban
+      </div>
+      <div class="section-content text-muted">
+        {{ user.dateOfBan | date: 'd MMMM y'}}
+      </div>
+
+      <hr class="separator">
+
+      <div class="section-header">
+        Reason of ban
+      </div>
+      <div class="section-content text-muted">
+        {{ user.reasonOfBan }}
+      </div>
+    </div>
+
   </div>
 
   <div class="col-md-6 user-settings-window-account-info">
