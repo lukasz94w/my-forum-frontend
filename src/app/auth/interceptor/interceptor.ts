@@ -11,7 +11,8 @@ import {BehaviorSubject, Observable, throwError} from "rxjs";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {catchError, filter, switchMap, take} from "rxjs/operators";
 import {AuthService} from "../../service/auth.service";
-import {SignOutService} from "../../service/event/sign-out.service";
+import {SignOutEvent} from "../../event/sign-out-event.service";
+import {TextProviderService} from "../../service/text-provider.service";
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
@@ -20,7 +21,7 @@ export class Interceptor implements HttpInterceptor {
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(private localStorageService: LocalStorageService, private authService: AuthService,
-              private signOutService: SignOutService) {
+              private signOutService: SignOutEvent, private textProviderService: TextProviderService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -56,17 +57,24 @@ export class Interceptor implements HttpInterceptor {
 
             return next.handle(Interceptor.addTokenHeader(request, token.accessToken));
           }),
-          catchError((err) => {
+          catchError((error) => {
               this.isRefreshing = false;
-              // 1.it's should always be 403 but checking it anyway
-              // 2.this if should never be entered but in case logout counter in app.component.ts
-              // didn't work, broadcasting the event should cause global sign out
-              if (err.error.statusCode === HttpStatusCode.Forbidden && this.localStorageService.isLoggedIn()) {
-                this.localStorageService.signOut();
-                this.signOutService.emitSignOut();
+              if (this.localStorageService.isLoggedIn()) {
+                if (error.status === HttpStatusCode.Forbidden) {
+                  // server return 403 where unauthorized user access protected resource
+                  // this could happen if logout counter in app.component.ts didn't work
+                  this.localStorageService.signOut();
+                  this.signOutService.emitSignOut();
+                  alert(this.textProviderService.getSessionEndedMessage());
+                } else if (error.status === HttpStatusCode.MethodNotAllowed) {
+                  // if server return 405 status it means user has been banned
+                  this.localStorageService.signOut();
+                  this.signOutService.emitSignOut();
+                  alert(this.textProviderService.getBanMessage());
+                }
               }
 
-              return throwError(err);
+              return throwError(error);
             }
           )
         );

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TopicService} from "../../service/topic.service";
 import {LastTopicActivity} from "../../model/response/last-topic-activity";
-import {DataService} from "../../service/data.service";
+import {TextProviderService} from "../../service/text-provider.service";
 
 @Component({
   selector: 'app-topic-categories',
@@ -24,7 +24,7 @@ export class TopicCategoriesComponent implements OnInit {
   otherSubjectsName = 'Other subjects'
   rangeOfOtherSubjects: number[] = [4, 7];
 
-  constructor(private topicService: TopicService, private dataService: DataService) {
+  constructor(private topicService: TopicService, private textProviderService: TextProviderService) {
   }
 
   ngOnInit(): void {
@@ -35,9 +35,9 @@ export class TopicCategoriesComponent implements OnInit {
         this.numberOfEntriesInGeneralSubjects = data.numberOfEntriesInGeneralSubjects;
         this.numberOfEntriesInOtherSubjects = data.numberOfEntriesInOtherSubjects;
         this.lastPageableTopicActivities = data.lastTopicActivities;
-        this.topicsCategories = this.dataService.getTopicsCategories();
-        this.topicsDescription = this.dataService.getTopicsDescription();
-        this.topicIconNames = this.dataService.getTopicIconNames();
+        this.topicsCategories = this.textProviderService.getTopicsCategories();
+        this.topicsDescription = this.textProviderService.getTopicsDescription();
+        this.topicIconNames = this.textProviderService.getTopicIconNames();
       },
       (error) => {
         console.log(error);

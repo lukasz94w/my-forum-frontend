@@ -1,11 +1,11 @@
 @media (min-width: 992px) {
-  .user-ban-button {
+  .user-ban-unban-button {
     margin-right: -3%;
   }
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
-  .user-ban-button {
+  .user-ban-unban-button {
     margin-right: -2%;
   }
 }

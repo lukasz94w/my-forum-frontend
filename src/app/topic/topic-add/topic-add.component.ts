@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TopicService} from "../../service/topic.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {NewTopicContent} from "../../model/request/new-topic-content";
-import {SignOutService} from "../../service/event/sign-out.service";
+import {SignOutEvent} from "../../event/sign-out-event.service";
 
 @Component({
   selector: 'app-topic-add',
@@ -17,7 +17,7 @@ export class TopicAddComponent implements OnInit {
   category: string = ''
 
   constructor(private topicService: TopicService, private router: Router,
-              private activatedRoute: ActivatedRoute, private signOutService: SignOutService) {
+              private activatedRoute: ActivatedRoute, private signOutEvent: SignOutEvent) {
   }
 
   ngOnInit(): void {
@@ -25,7 +25,7 @@ export class TopicAddComponent implements OnInit {
       (params: Params) =>
         this.category = params['category']
     )
-    this.signOutService.signOutEvent$.subscribe(
+    this.signOutEvent.signOutEvent$.subscribe(
       () => {
         this.router.navigate(['topic-categories']);
       }

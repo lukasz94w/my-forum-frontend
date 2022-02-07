@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NavTabService} from "../../service/event/nav-tab.service";
+import {NavTabEvent} from "../../event/nav-tab-event.service";
 import {User2} from "../../model/response/user2";
 
 @Component({
@@ -13,7 +13,7 @@ export class UserProfileSettingsAccountInfoComponent implements OnInit {
   @Input() showUserSettings: boolean = false;
   showBanInfo: boolean = false;
 
-  constructor(private navTabService: NavTabService) {
+  constructor(private navTabEvent: NavTabEvent) {
   }
 
   ngOnInit(): void {
@@ -21,6 +21,6 @@ export class UserProfileSettingsAccountInfoComponent implements OnInit {
   }
 
   changeTab(tabName: string) {
-    this.navTabService.emitChangeTab(tabName);
+    this.navTabEvent.emitChangeTab(tabName);
   }
 }

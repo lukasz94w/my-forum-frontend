@@ -1,7 +1,10 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {User} from "../../model/response/user";
-import {BanUserService} from "../../service/event/ban-user.service";
+import {BanUserEvent} from "../../event/ban-user-event.service";
+import {BanService} from "../../service/ban.service";
+import {WebSocketService} from "../../service/web-socket.service";
+import {WebServiceMessage} from "../../model/request/web-service-message";
 
 @Component({
   selector: 'app-user-profile-settings-admin-panel',
@@ -24,11 +27,12 @@ export class UserProfileSettingsAdminPanelComponent implements OnInit, OnChanges
   numberOfPostsInPageableUsers: number[] = [];
   numberOfTopicsInPageableUsers: number[] = [];
 
-  constructor(private userService: UserService, private banUserService: BanUserService) {
+  constructor(private userService: UserService, private banUserEvent: BanUserEvent,
+              private banService: BanService, private webSocketService: WebSocketService) {
   }
 
   ngOnInit(): void {
-    this.banUserService.userWasBannedSource$.subscribe(
+    this.banUserEvent.userWasBannedSource$.subscribe(
       (sourceOfOpeningWindow) => {
         if (sourceOfOpeningWindow == 'adminPanel') {
           this.findPageableTopicsByUser();
@@ -69,13 +73,15 @@ export class UserProfileSettingsAdminPanelComponent implements OnInit, OnChanges
   }
 
   unBanUser(userName: string) {
-    this.userService.unBanUser(userName).subscribe(
+    this.banService.unBanUser(userName).subscribe(
       () => {
         this.findPageableTopicsByUser();
+        this.webSocketService.send(new WebServiceMessage(false, userName));
       },
       () => {
         alert("Error during unbanning")
       }
     )
+    // this.webSocketService.send(userName);
   }
 }

@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class DataService {
+export class TextProviderService {
 
   constructor() {
   }
@@ -42,5 +42,22 @@ export class DataService {
       "fa fa-clock-o",
       "fa fa-bookmark",
       "fa fa-bomb"];
+  }
+
+  getBanInfoMessage(): string {
+    return "You have been banned. From now you will not be able to create new topics, add " +
+    "posts or changing your personal data. Check profile settings for more info";
+  }
+
+  getBanMessage(): string {
+    return "You have been banned. Please sign in again";
+  }
+
+  getUnBanMessage(): string {
+    return "You have been unbanned. Please sign in again";
+  }
+
+  getSessionEndedMessage(): string {
+    return "Session ended. Please sign in again";
   }
 }

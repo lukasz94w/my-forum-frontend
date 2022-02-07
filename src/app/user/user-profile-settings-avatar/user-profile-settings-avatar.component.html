@@ -73,7 +73,7 @@
 
       <div class="ms-auto">
         <button
-          [disabled]="!isAllowedImageToUpload"
+          [disabled]="!isAllowedImageToUpload && isUserBanned"
           class="btn btn-success button-upload-image"
           (click)="onUpload()">
           Upload image

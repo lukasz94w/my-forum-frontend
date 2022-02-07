@@ -1,7 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {UserService} from "../../service/user.service";
 import {Ban} from "../../model/request/ban";
-import {BanUserService} from "../../service/event/ban-user.service";
+import {BanUserEvent} from "../../event/ban-user-event.service";
+import {BanService} from "../../service/ban.service";
+import {WebSocketService} from "../../service/web-socket.service";
+import {WebServiceMessage} from "../../model/request/web-service-message";
 
 @Component({
   selector: 'app-user-ban',
@@ -21,7 +23,7 @@ export class UserBanWindowComponent {
     reasonOfBan: null
   }
 
-  constructor(private userService: UserService, private banUserService: BanUserService) {
+  constructor(private banService: BanService, private banUserService: BanUserEvent, private webSocketService: WebSocketService) {
   }
 
   confirmUserBan() {
@@ -31,9 +33,10 @@ export class UserBanWindowComponent {
       this.userName
     );
 
-    this.userService.banUser(ban).subscribe(
+    this.banService.banUser(ban).subscribe(
       () => {
         this.banUserService.emitUserWasBanned(this.sourceOfOpeningWindow);
+        this.webSocketService.send(new WebServiceMessage(true, this.userName));
       },
       () => {
         alert("Cannot ban this user")
