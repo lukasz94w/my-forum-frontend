@@ -2,10 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "../service/user.service";
 import {LocalStorageService} from "../service/local-storage.service";
 import {ActivatedRoute, Params} from "@angular/router";
-import {NavTabService} from "../service/event/nav-tab.service";
-import {SignOutService} from "../service/event/sign-out.service";
+import {NavTabEvent} from "../event/nav-tab-event.service";
+import {SignOutEvent} from "../event/sign-out-event.service";
 import {User2} from "../model/response/user2";
-import {BanUserService} from "../service/event/ban-user.service";
+import {BanUserEvent} from "../event/ban-user-event.service";
+import {BanService} from "../service/ban.service";
+import {WebSocketService} from "../service/web-socket.service";
+import {WebServiceMessage} from "../model/request/web-service-message";
+import {TextProviderService} from "../service/text-provider.service";
 
 @Component({
   selector: 'app-user-profile-test',
@@ -21,6 +25,7 @@ export class UserProfileSettingsComponent implements OnInit {
   showUserSettings: boolean = false;
   showAdminTab: boolean = false;
   showBanUserButton: boolean = false;
+  showUnBanUserButton: boolean = false;
   showBanUserWindow: boolean = false;
   userNameOfCandidateToBan: string = '';
   sourceOfOpeningWindow: string = '';
@@ -29,8 +34,10 @@ export class UserProfileSettingsComponent implements OnInit {
   welcomeTextSub: string = '';
 
   constructor(private userService: UserService, private localStorageService: LocalStorageService,
-              private activatedRoute: ActivatedRoute, private navTabService: NavTabService,
-              private signOutService: SignOutService, private banUserService: BanUserService) {
+              private activatedRoute: ActivatedRoute, private navTabService: NavTabEvent,
+              private signOutEvent: SignOutEvent, private banUserService: BanUserEvent,
+              private banService: BanService, private webSocketService: WebSocketService,
+              private textProviderService: TextProviderService) {
   }
 
   ngOnInit(): void {
@@ -43,7 +50,7 @@ export class UserProfileSettingsComponent implements OnInit {
       (selectedNavTabName) => {
         this.selectActiveTab(selectedNavTabName);
       });
-    this.signOutService.signOutEvent$.subscribe(
+    this.signOutEvent.signOutEvent$.subscribe(
       () => {
         this.showUserSettings = false;
         this.showAdminTab = false;
@@ -52,6 +59,7 @@ export class UserProfileSettingsComponent implements OnInit {
     this.banUserService.userWasBannedSource$.subscribe(
       (sourceOfOpeningWindow) => {
         if (sourceOfOpeningWindow == 'upperButton') {
+          this.showUnBanUserButton = true;
           this.initializeComponent();
         }
       });
@@ -70,7 +78,7 @@ export class UserProfileSettingsComponent implements OnInit {
     const isViewedUserItself = this.usernameFromUrl == this.localStorageService.getUsername();
     const isViewingUserAdmin = this.localStorageService.isUserAdmin();
     const isViewedUserAdmin = this.user.admin;
-    const isViewedUserAlreadyBanned = this.user.banned;
+    const isViewedUserBanned = this.user.banned;
 
     if (isViewedUserItself) {
       this.showUserSettings = true;
@@ -80,15 +88,24 @@ export class UserProfileSettingsComponent implements OnInit {
       } else {
         this.setWelcomeTextFor("userItSelf")
         this.showAdminTab = false;
+        if (isViewedUserBanned && this.localStorageService.isUserWithoutBanLoggedIn()) {
+          this.signOutEvent.emitSignOut();
+          alert(this.textProviderService.getBanMessage())
+        }
       }
     } else {
       this.setWelcomeTextFor("userViewer")
       this.showAdminTab = false;
       this.showUserSettings = false;
     }
-    this.showBanUserButton = isViewingUserAdmin && !isViewedUserAdmin && !isViewedUserAlreadyBanned;
-    if (this.showBanUserButton) {
-      this.userNameOfCandidateToBan = this.usernameFromUrl;
+
+    if (isViewingUserAdmin && !isViewedUserAdmin) {
+      this.showBanUserButton = !isViewedUserBanned;
+      this.showUnBanUserButton = !this.showBanUserButton;
+      this.showBanUserButton ? this.userNameOfCandidateToBan = this.usernameFromUrl : null;
+    } else {
+      this.showBanUserButton = false;
+      this.showUnBanUserButton = false;
     }
   }
 
@@ -114,5 +131,20 @@ export class UserProfileSettingsComponent implements OnInit {
 
   selectActiveTab(tabName: string) {
     this.activeTab = tabName;
+  }
+
+  unBanCurrentViewedUser() {
+    this.banService.unBanUser(this.usernameFromUrl).subscribe(
+      () => {
+        this.showUnBanUserButton = false;
+        this.showBanUserButton = true;
+        this.initializeComponent();
+        this.webSocketService.send(new WebServiceMessage(false, this.usernameFromUrl));
+      },
+      () => {
+        alert("Cannot ban this user. Try again later");
+      }
+    )
+    // this.webSocketService.send(this.usernameFromUrl);
   }
 }

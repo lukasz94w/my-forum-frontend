@@ -4,7 +4,7 @@ import {Subject} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class BanUserService {
+export class BanUserEvent {
 
   private userWasBannedSource = new Subject<string>();
 

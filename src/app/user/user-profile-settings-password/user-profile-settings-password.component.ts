@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {ChangePasswordThroughUserSettings} from "../../model/request/change-password-through-user-settings";
 
@@ -8,6 +8,8 @@ import {ChangePasswordThroughUserSettings} from "../../model/request/change-pass
   styleUrls: ['./user-profile-settings-password.component.css']
 })
 export class UserProfileSettingsPasswordComponent {
+
+  @Input() isUserBanned: boolean = false;
 
   form: any = {
     currentPassword: null,

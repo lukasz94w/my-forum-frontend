@@ -3,10 +3,11 @@ import {AuthService} from "../../service/auth.service";
 import {Router} from "@angular/router";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {HttpStatusCode} from "@angular/common/http";
-import {SignInService} from "../../service/event/sign-in.service";
+import {SignInEvent} from "../../event/sign-in-event.service";
+import {TextProviderService} from "../../service/text-provider.service";
 
 @Component({
-  selector: 'app-signin',
+  selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css']
 })
@@ -19,8 +20,8 @@ export class SignInComponent {
   showAccountIsNotActivated: boolean = false;
   showLoginWasFailed: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router,
-              private localStorageService: LocalStorageService, private signInService: SignInService) {
+  constructor(private authService: AuthService, private router: Router, private textProviderService: TextProviderService,
+              private localStorageService: LocalStorageService, private signInEvent: SignInEvent) {
   }
 
   signIn() {
@@ -33,7 +34,7 @@ export class SignInComponent {
         this.localStorageService.saveIsUserAdmin(JSON.parse(atob(data.accessToken.split(".")[1])).isAdmin);
         this.localStorageService.saveRefreshTokenExpirationTime((JSON.parse(atob(data.refreshToken.split('.')[1]))).exp);
         this.localStorageService.saveRememberMe(this.rememberMe);
-        this.signInService.emitSignIn();
+        this.signInEvent.emitSignIn();
         this.router.navigate(['topic-categories']);
       },
       (error) => {
@@ -44,8 +45,15 @@ export class SignInComponent {
             break;
           }
           case HttpStatusCode.Locked: {
-            // TODO tu bedzie info ze ban i bedzie pobierany username i data do kiedy ban
-            // i bedzie mozna pokazywac dane usera poniewaz bedzie username xd
+            this.localStorageService.saveUserName(error.error.userName);
+            this.localStorageService.saveBanExpirationTime(error.error.dateOfBan);
+            this.localStorageService.saveRememberMe(this.rememberMe);
+            this.signInEvent.emitSignIn();
+            if (!this.localStorageService.wasAlertBanShown()) {
+              alert(this.textProviderService.getBanInfoMessage());
+              this.localStorageService.saveAlertBanWasShown();
+            }
+            this.router.navigate(['topic-categories']);
             break;
           }
           case HttpStatusCode.Forbidden: {

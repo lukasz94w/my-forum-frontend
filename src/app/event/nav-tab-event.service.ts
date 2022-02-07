@@ -4,7 +4,7 @@ import {Subject} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class NavTabService {
+export class NavTabEvent {
 
   private navTabChangedSource = new Subject<string>();
 

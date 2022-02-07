@@ -4,7 +4,7 @@ import {Subject} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class SignInService {
+export class SignInEvent {
 
   private signInEventSource = new Subject<string>();
 

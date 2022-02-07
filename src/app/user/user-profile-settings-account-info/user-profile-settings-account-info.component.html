@@ -21,7 +21,7 @@
       {{ user.email }}
     </div>
 
-    <div *ngIf="showUserSettings" class="password-section">
+    <div *ngIf="showUserSettings && !user.banned" class="password-section">
       <hr class="separator">
 
       <div class="section-header">
@@ -67,7 +67,7 @@
   <div class="col-md-6 user-settings-window-account-info">
     <div class="section-header">
       Profile pic
-      <button *ngIf="showUserSettings" class="float-end change-nav-tab-button" (click)="changeTab('avatar')">Change
+      <button *ngIf="showUserSettings && !user.banned" class="float-end change-nav-tab-button" (click)="changeTab('avatar')">Change
       </button>
     </div>
 

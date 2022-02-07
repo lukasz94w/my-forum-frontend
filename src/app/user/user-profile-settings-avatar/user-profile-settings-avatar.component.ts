@@ -11,6 +11,7 @@ export class UserProfileSettingsAvatarComponent {
 
   @Input() username: string = ''
   @Input() profilePic: [] = [];
+  @Input() isUserBanned: boolean = false;
 
   isImageCorrect: boolean = true;
   whyIsImageNotCorrect: string = '';

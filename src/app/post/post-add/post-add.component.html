@@ -13,8 +13,8 @@
           type="text"
           class="form-control"
           id = "post_content"
-          [placeholder]="!isLoggedIn ? 'Login to add new post.' : ''"
-          [disabled]="!isLoggedIn"
+          [placeholder]=getPlaceHolder()
+          [disabled]="!isUserWithoutBanLoggedIn || isUserWithBanLoggedIn"
           name="content"
           [(ngModel)] = "form.content"
           rows="4"
@@ -29,7 +29,7 @@
         </div>
       </div>
     <button
-      [disabled]="!isLoggedIn"
+      [disabled]="!isUserWithoutBanLoggedIn"
       type="submit"
       class="btn btn-success mt-2">Add new post</button>
     </form>

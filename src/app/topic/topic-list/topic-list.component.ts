@@ -3,7 +3,7 @@ import {TopicService} from "../../service/topic.service";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {ActivatedRoute} from "@angular/router";
 import {LastTopicActivity} from "../../model/response/last-topic-activity";
-import {SignOutService} from "../../service/event/sign-out.service";
+import {SignOutEvent} from "../../event/sign-out-event.service";
 import {Topic2} from "../../model/response/topic2";
 import {combineLatest} from "rxjs";
 import {debounceTime, map} from "rxjs/operators";
@@ -26,17 +26,17 @@ export class TopicListComponent implements OnInit {
   totalPages: number = 0;
   numberOfTopicsOnOnePage: number = 10;
 
-  isLoggedIn: boolean = false;
+  isUserWithoutBanLoggedIn: boolean = false;
 
   isSearchMode: boolean = false;
   searchQueryValue: string = '';
 
   constructor(private topicService: TopicService, private localStorageService: LocalStorageService,
-              private activatedRoute: ActivatedRoute, private signOutService: SignOutService) {
+              private activatedRoute: ActivatedRoute, private signOutEvent: SignOutEvent) {
   }
 
   ngOnInit() {
-    this.isLoggedIn = this.localStorageService.isLoggedIn();
+    this.isUserWithoutBanLoggedIn = this.localStorageService.isUserWithoutBanLoggedIn();
 
     combineLatest([this.activatedRoute.params, this.activatedRoute.queryParams])
       .pipe(map(results => ({param: results[0].param, query: results[1].query})), debounceTime(0))
@@ -53,9 +53,9 @@ export class TopicListComponent implements OnInit {
           }
         });
 
-    this.signOutService.signOutEvent$.subscribe(
+    this.signOutEvent.signOutEvent$.subscribe(
       () => {
-        this.isLoggedIn = false;
+        this.isUserWithoutBanLoggedIn = false;
       });
   }
 

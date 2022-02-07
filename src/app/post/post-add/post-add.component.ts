@@ -3,7 +3,7 @@ import {PostService} from "../../service/post.service";
 import {Router} from "@angular/router";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {NewPostContent} from "../../model/request/new-post-content";
-import {SignOutService} from "../../service/event/sign-out.service";
+import {SignOutEvent} from "../../event/sign-out-event.service";
 
 @Component({
   selector: 'app-post-add',
@@ -18,18 +18,21 @@ export class PostAddComponent implements OnInit {
     content: null
   }
 
-  isLoggedIn: boolean = false;
+  isUserWithoutBanLoggedIn: boolean = false;
+  isUserWithBanLoggedIn: boolean = false;
 
   constructor(private router: Router, private localStorageService: LocalStorageService,
-              private postService: PostService, private signOutService: SignOutService) {
+              private postService: PostService, private signOutEvent: SignOutEvent) {
   }
 
   ngOnInit(): void {
-    this.isLoggedIn = this.localStorageService.isLoggedIn();
+    this.isUserWithoutBanLoggedIn = this.localStorageService.isUserWithoutBanLoggedIn();
+    this.isUserWithBanLoggedIn = this.localStorageService.isUserWithBanLoggedIn();
 
-    this.signOutService.signOutEvent$.subscribe(
+    this.signOutEvent.signOutEvent$.subscribe(
       () => {
-        this.isLoggedIn = false;
+        this.isUserWithBanLoggedIn = false;
+        this.isUserWithoutBanLoggedIn = false;
       }
     )
   }
@@ -41,6 +44,7 @@ export class PostAddComponent implements OnInit {
         this.router.navigate(['topic/', this.topicId]).then(page => window.location.reload());
         // this.router.navigate(['topic/', this.topicViewComponent.topicId, {queryParams: {number: this.topicViewComponent.totalPosts + 1}}]);
         // TODO: redirect to the newest post after adding it
+        // nie tak naprawde wystlac event emitter zeby zreinicjalizowal (jezeli to post 10 to wtedy tez trzeba i strone zmienc)
       },
       () => {
         alert("Error occurred. Please try again later");
@@ -48,4 +52,13 @@ export class PostAddComponent implements OnInit {
     )
   }
 
+  getPlaceHolder(): string {
+    if (this.isUserWithoutBanLoggedIn) {
+      return '';
+    } else if (this.isUserWithBanLoggedIn) {
+      return 'You are banned and cannot post any comments'
+    } else {
+      return 'Login to add new post';
+    }
+  }
 }

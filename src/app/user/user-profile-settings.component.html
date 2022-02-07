@@ -5,9 +5,12 @@
       <h4>{{ welcomeTextHeader }}</h4>
       <small class="text-muted">{{ welcomeTextSub }}</small>
     </div>
-    <div *ngIf=showBanUserButton class="ms-auto user-ban-button">
-      <button class="btn btn-danger" type="submit"
+    <div class="ms-auto user-ban-unban-button">
+      <button *ngIf=showBanUserButton class="btn btn-danger" type="submit"
               (click)="showBanUserWindow = true; sourceOfOpeningWindow = 'upperButton'">Ban this user
+      </button>
+      <button *ngIf=showUnBanUserButton class="btn btn-success" type="submit"
+              (click)=unBanCurrentViewedUser()>Unban user
       </button>
     </div>
   </div>
@@ -69,11 +72,12 @@
         </div>
         <div class="tab-pane" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab"
              [ngClass]="{'active':activeTab==='password'}">
-          <app-user-profile-settings-password></app-user-profile-settings-password>
+          <app-user-profile-settings-password [isUserBanned]="user.banned"></app-user-profile-settings-password>
         </div>
         <div class="tab-pane" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab"
              [ngClass]="{'active':activeTab==='avatar'}">
-          <app-user-profile-settings-avatar [username]="usernameFromUrl"
+          <app-user-profile-settings-avatar [isUserBanned]="user.banned"
+                                            [username]="usernameFromUrl"
                                             [profilePic]="user.profilePic"></app-user-profile-settings-avatar>
         </div>
         <div class="tab-pane" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab"
@@ -87,7 +91,7 @@
         <div class="tab-pane" id="v-pills-admin" role="tabpanel" aria-labelledby="v-pills-admin-tab"
              [ngClass]="{'active':activeTab==='admin'}">
           <app-user-profile-settings-admin-panel [loadAdminData]="showAdminTab"
-                                                 (showUserBanWindowEvent)= "showBanUserWindow = true;
+                                                 (showUserBanWindowEvent)="showBanUserWindow = true;
                                                   userNameOfCandidateToBan = $event;
                                                   sourceOfOpeningWindow = 'adminPanel'"></app-user-profile-settings-admin-panel>
         </div>

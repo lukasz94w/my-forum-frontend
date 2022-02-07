@@ -3,7 +3,6 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ChangePasswordThroughUserSettings} from "../model/request/change-password-through-user-settings";
-import {Ban} from "../model/request/ban";
 import {User2} from "../model/response/user2";
 
 @Injectable({
@@ -42,13 +41,5 @@ export class UserService {
 
   findPageableUsers(params: { page: number }): Observable<any> {
     return this.httpClient.get<any>(`${this.apiServerUrl}/user/findPageableUsers`, {params})
-  }
-
-  banUser(ban: Ban): Observable<any> {
-    return this.httpClient.post<any>(`${this.apiServerUrl}/user/banUser`, ban);
-  }
-
-  unBanUser(unBannedUserName: string) {
-    return this.httpClient.post<any>(`${this.apiServerUrl}/user/unBanUser`, unBannedUserName);
   }
 }

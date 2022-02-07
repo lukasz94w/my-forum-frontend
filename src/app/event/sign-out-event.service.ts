@@ -4,7 +4,7 @@ import {Subject} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class SignOutService {
+export class SignOutEvent {
 
   private signOutEventSource = new Subject<string>();
 
