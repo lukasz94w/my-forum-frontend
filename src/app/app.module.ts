@@ -29,8 +29,9 @@ import {ResetPasswordComponent} from './auth/reset-password/reset-password.compo
 import {ChangePasswordComponent} from './auth/change-password/change-password.component';
 import {ActivateAccountComponent} from './auth/activate-account/activate-account.component';
 import {PostListComponent} from './post/post-list/post-list.component';
-import { UserProfileSettingsAdminPanelComponent } from './user/user-profile-settings-admin-panel/user-profile-settings-admin-panel.component';
-import { UserBanWindowComponent } from './user/user-ban-window/user-ban-window.component';
+import {UserProfileSettingsAdminPanelComponent} from './user/user-profile-settings-admin-panel/user-profile-settings-admin-panel.component';
+import {UserBanWindowComponent} from './user/user-ban-window/user-ban-window.component';
+import {TopicAdminButtonsComponent} from './topic/topic-admin-buttons/topic-admin-buttons.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { UserBanWindowComponent } from './user/user-ban-window/user-ban-window.c
     ActivateAccountComponent,
     PostListComponent,
     UserProfileSettingsAdminPanelComponent,
-    UserBanWindowComponent
+    UserBanWindowComponent,
+    TopicAdminButtonsComponent
   ],
   imports: [
     BrowserModule,

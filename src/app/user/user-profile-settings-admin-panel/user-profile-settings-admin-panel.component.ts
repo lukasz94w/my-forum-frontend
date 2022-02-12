@@ -82,6 +82,5 @@ export class UserProfileSettingsAdminPanelComponent implements OnInit, OnChanges
         alert("Error during unbanning")
       }
     )
-    // this.webSocketService.send(userName);
   }
 }

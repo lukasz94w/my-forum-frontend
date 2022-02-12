@@ -21,14 +21,7 @@ export class UserProfileSettingsPostListComponent implements OnChanges {
 
   constructor(private userService: UserService) {}
 
-  //whenever the data in parent changes,
-  //the child gets notified about this in
-  //the ngOnChanges() method -> ngOnInit then is not needed!
-  //-------------------------------------------------------
-  //noticing child about new data
-  //could also be solved by creating service
-  //and subscribe for data changes in parent
-  //then ngOnInit would be needed (there will be subscription)
+  // called whenever the input changes (int this class username),
   ngOnChanges(): void {
     this.currentPage = 1;
     this.findPageablePostsByUser();

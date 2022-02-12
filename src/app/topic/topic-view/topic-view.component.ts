@@ -3,12 +3,15 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import {Topic} from "../../model/response/topic";
 import {TopicService} from "../../service/topic.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {PostService} from "../../service/post.service";
 import {Post} from "../../model/response/post";
 import {ViewportScroller} from "@angular/common";
+import {Topic3} from "../../model/response/topic3";
+import {LocalStorageService} from "../../service/local-storage.service";
+import {SignOutEvent} from "../../event/sign-out-event.service";
+import {PostStatus} from "../../model/request/post-status";
 
 @Component({
   selector: 'app-topic-view',
@@ -18,7 +21,7 @@ import {ViewportScroller} from "@angular/common";
 export class TopicViewComponent implements OnInit, AfterViewChecked {
 
   topicId: number = 0;
-  topic = {} as Topic;
+  topic = {} as Topic3;
   pageablePosts: Post[] = [];
 
   pageNumber: number = 1;
@@ -29,9 +32,12 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
   totalPages: number = 0;
   numberOfPostsOnOnePage: number = 10;
 
+  showAdminButtons: boolean = false;
+
   constructor(private topicService: TopicService, private postService: PostService,
               private activatedRoute: ActivatedRoute, private router: Router,
-              private viewPortScroller: ViewportScroller) {
+              private viewPortScroller: ViewportScroller, private localStorageService: LocalStorageService,
+              private signOutEvent: SignOutEvent) {
   }
 
   ngOnInit() {
@@ -45,9 +51,9 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
         if (params.number) {
           this.postNumber = params.number;
           if (params.number > 10) {
-            //this functions can use async/await (or promise)
-            //and then result of them can be passed
-            //to findTopicById and findPageable..
+            // this functions can use async/await (or promise)
+            // and then result of them can be passed
+            // to findTopicById and findPageable..
             this.recalculatePageNumber();
             this.recalculatePostNumber();
           }
@@ -56,6 +62,13 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
     )
     this.findTopicById();
     this.findPageablePostsOnPage();
+
+    this.showAdminButtons = this.localStorageService.isUserAdmin();
+    this.signOutEvent.signOutEvent$.subscribe(
+      () => {
+        this.showAdminButtons = false;
+      }
+    )
   }
 
   private recalculatePageNumber(): void {
@@ -71,17 +84,17 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
       this.postNumber = result;
   }
 
-  private findTopicById(): void {
+  findTopicById(): void {
     this.topicService.getTopicById(this.topicId)
       .subscribe(
-        (data: Topic) => {
+        (data: Topic3) => {
           this.topic = data;
         },
         (error) => console.log(error)
       );
   }
 
-  private findPageablePostsOnPage(): void {
+  findPageablePostsOnPage(): void {
     const params = {'page': this.pageNumber - 1, 'id': this.topicId}
     this.postService.findPageablePostsByTopicId(params).subscribe(
       (data: any) => {
@@ -94,11 +107,14 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
             this.doScroll = true;
           }, 75)
         }
-        //without this timeout when we first time open the page scroll
-        //it doesn't work correctly (doesn't scroll to chosen anchor)
-        //probably its a bug in Angular
+        // without this timeout when we first time open the page scroll
+        // it doesn't work correctly (doesn't scroll to chosen anchor)
+        // probably its a bug in Angular
       },
-      (error) => console.log(error)
+      () => {
+        alert("Error occurred. You will be navigated to main page")
+        this.router.navigate(['topic-categories'])
+      }
     );
   }
 
@@ -113,5 +129,18 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
       this.postNumber = -1;
       this.doScroll = false;
     }
+  }
+
+  // didn't make separate admin component (with button)
+  // because then there must be created 10 components (for each post)
+  changePostStatus(postId: number, moderatedStatus: boolean) {
+    this.postService.changeTopicStatus(new PostStatus(postId, moderatedStatus)).subscribe(
+      () => {
+        this.findPageablePostsOnPage();
+      },
+      () => {
+        alert("Error occurred. Try again later")
+      }
+    )
   }
 }

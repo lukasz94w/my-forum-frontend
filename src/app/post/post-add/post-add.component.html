@@ -1,37 +1,42 @@
-<div class="card">
+<div class="card col-md-10">
   <div class="card-header">
     Leave post:
   </div>
   <div class="card-body">
     <form
       name="form"
-      ngForm (ngSubmit)="f.form.valid && onAddNewPost()"
+      ngForm (ngSubmit)="f.form.valid && addPost()"
       #f="ngForm"
       novalidate>
-      <div class ="form-group">
+      <div class="form-group">
         <textarea
           type="text"
           class="form-control"
-          id = "post_content"
-          [placeholder]=getPlaceHolder()
-          [disabled]="!isUserWithoutBanLoggedIn || isUserWithBanLoggedIn"
+          id="post_content"
+          placeholder="{{ postTextAreaPlaceholder }}"
+          [disabled]="!isUserWithoutBanLoggedIn || isUserWithBanLoggedIn || !isTopicOpen"
           name="content"
-          [(ngModel)] = "form.content"
+          [(ngModel)]="form.content"
           rows="4"
           required
           minlength="5"
           maxlength="500"
-          #content = "ngModel"
+          #content="ngModel"
         ></textarea>
-        <div class="alert-danger" *ngIf ="content.errors && f.submitted">
-          <div *ngIf ="content.errors.required">Content is required</div>
-          <div *ngIf ="content.errors.minlength || content.errors.maxlength">Content must have at least 5 characters (max 500)</div>
+        <div class="alert-danger" *ngIf="content.errors && f.submitted">
+          <div *ngIf="content.errors.required">Content is required</div>
+          <div *ngIf="content.errors.minlength || content.errors.maxlength">Content must have at least 5 characters (max
+            500)
+          </div>
         </div>
       </div>
-    <button
-      [disabled]="!isUserWithoutBanLoggedIn"
-      type="submit"
-      class="btn btn-success mt-2">Add new post</button>
+      <button
+        [disabled]="!isUserWithoutBanLoggedIn || !isTopicOpen"
+        type="submit"
+        class="btn btn-success mt-2">Add new post
+      </button>
     </form>
   </div>
 </div>
+
+
