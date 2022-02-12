@@ -1,21 +1,28 @@
 <div class="row mt-4">
-  <div class="col-lg-10">
+  <div class="col-12">
 
-    <div class="mb-3">
+    <div class="col-md-10 mb-3 d-flex">
       <h3>{{ topic.title }}</h3>
+      <app-topic-admin-buttons
+        class="ms-auto topic-admin-buttons-wrapper"
+        *ngIf="showAdminButtons"
+        (isTopicOpenStatusHasChangedEvent)="findTopicById(); findPageablePostsOnPage()"
+        [topicId]="topicId"
+        [isTopicOpen]="!topic.closed">
+      </app-topic-admin-buttons>
     </div>
 
     <ng-container [ngTemplateOutlet]="pagination"></ng-container>
 
-    <div class="col-md-12 mt-3">
-      <ul class="list-group">
-        <li class="card mb-3" *ngFor="let post of pageablePosts |
+    <ul class="list-group mt-3">
+      <li class="row mb-3 g-0" *ngFor="let post of pageablePosts |
         paginate: {
          itemsPerPage: numberOfPostsOnOnePage,
          currentPage: pageNumber,
          totalItems: totalPosts
           }; let i = index" [attr.data-index]="i + 1" [attr.id]="i + 1">
 
+        <div class="card col-md-10">
           <div class="row g-0">
 
             <div class="col-md-2">
@@ -48,17 +55,42 @@
 
             <div class="col-md-10">
               <div class="text-muted date-time-post">Posted {{ post.dateTime | date: 'medium' }}</div>
-              <div class="content-post"> {{ post.content }} </div>
+              <ng-container
+                *ngIf="post.moderated; then showPostWasModerated; else showPostContent">
+              </ng-container>
+              <ng-template #showPostWasModerated>
+                <div class="moderated-post"> The post has been removed due to a violation of the forum rules </div>
+              </ng-template>
+              <ng-template #showPostContent>
+                <div class="content-post"> {{ post.content }} </div>
+              </ng-template>
             </div>
 
           </div>
-        </li>
-      </ul>
-    </div>
+        </div>
+
+        <div *ngIf=showAdminButtons class="col-md-2 post-admin-button-wrapper">
+          <ng-container
+            *ngIf="post.moderated; then showUnModerateButton; else showModerateButton">
+          </ng-container>
+          <ng-template #showUnModerateButton>
+            <button class="btn btn-light custom-width" type="submit" (click)="changePostStatus(post.id, false)">Show</button>
+          </ng-template>
+          <ng-template #showModerateButton>
+            <button class="btn btn-secondary custom-width" type="submit" (click)="changePostStatus(post.id, true)">Hide</button>
+          </ng-template>
+        </div>
+
+      </li>
+    </ul>
 
     <ng-container [ngTemplateOutlet]="pagination"></ng-container>
 
-    <app-post-add [topicId]="topicId"></app-post-add>
+    <app-post-add
+      [topicId]="topicId"
+      [isTopicOpen]="!topic.closed"
+      (reloadTopicAndPosts)="findTopicById(); findPageablePostsOnPage()">
+    </app-post-add>
 
   </div>
 </div>

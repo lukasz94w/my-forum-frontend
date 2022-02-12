@@ -145,6 +145,5 @@ export class UserProfileSettingsComponent implements OnInit {
         alert("Cannot ban this user. Try again later");
       }
     )
-    // this.webSocketService.send(this.usernameFromUrl);
   }
 }

@@ -3,6 +3,7 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {NewPostContent} from "../model/request/new-post-content";
+import {PostStatus} from "../model/request/post-status";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class PostService {
 
   createNewPost(newPost: NewPostContent): Observable<void> {
     return this.httpClient.post<void>(`${this.apiServerUrl}/post/addPost`, newPost);
+  }
+
+  changeTopicStatus(postStatus: PostStatus): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiServerUrl}/post/changeStatus`, postStatus);
   }
 
   findPageablePostsByTopicId(params: any): Observable<void> {

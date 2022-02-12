@@ -4,6 +4,8 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Topic} from "../model/response/topic";
 import {NewTopicContent} from "../model/request/new-topic-content";
+import {Topic3} from "../model/response/topic3";
+import {TopicStatus} from "../model/request/topic-status";
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +21,16 @@ export class TopicService {
     return this.httpClient.post<void>(`${this.apiServerUrl}/topic/addTopic`, topicContent);
   }
 
-  getTopics(): Observable<Topic[]> {
-    return this.httpClient.get<Topic[]>(`${this.apiServerUrl}/topic/getTopics`);
+  changeTopicStatus(topicStatus: TopicStatus): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiServerUrl}/topic/changeStatus`, topicStatus);
   }
 
-  getTopicById(id: number): Observable<Topic> {
-    return this.httpClient.get<Topic>(`${this.apiServerUrl}/topic/getTopicById/` + id);
+  deleteTopicById(id: number): Observable<void> {
+    return this.httpClient.get<void>(`${this.apiServerUrl}/topic/delete/` + id);
+  }
+
+  getTopicById(id: number): Observable<Topic3> {
+    return this.httpClient.get<Topic3>(`${this.apiServerUrl}/topic/getTopicById/` + id);
   }
 
   findPageableTopicsInCategory(params: any): Observable<Topic[]> {

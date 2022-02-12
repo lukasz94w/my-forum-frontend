@@ -1,0 +1,44 @@
+<ng-container
+  *ngIf="isTopicOpen; then showCloseTopicButton; else showOpenTopicButton">
+</ng-container>
+
+<ng-template #showCloseTopicButton>
+  <button
+    (click)="closeTopic()"
+    type="button"
+    class="btn btn-warning mt-2 ms-3">Close topic
+  </button>
+</ng-template>
+
+<ng-template #showOpenTopicButton>
+  <button
+    (click)="openTopic()"
+    type="button"
+    class="btn btn-info mt-2 ms-3">Open topic
+  </button>
+</ng-template>
+
+<button
+  type="button"
+  class="btn btn-danger mt-2 ms-3" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete topic
+</button>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm action</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this topic?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteTopic()">Yes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
