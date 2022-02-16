@@ -109,12 +109,12 @@ export class LocalStorageService {
     return false;
   }
 
-  saveAlertBanWasShown() {
+  saveAlertBanHasBeenShown() {
     localStorage.removeItem(WAS_ALERT_BAN_SHOWN);
     localStorage.setItem(WAS_ALERT_BAN_SHOWN, String(true));
   }
 
-  wasAlertBanShown() {
+  hasAlertBanBeenShown() {
     return localStorage.getItem(WAS_ALERT_BAN_SHOWN) === 'true';
   }
 

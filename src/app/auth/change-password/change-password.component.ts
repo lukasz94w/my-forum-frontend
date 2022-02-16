@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {AuthService} from "../../service/auth.service";
-import {ChangePasswordThroughEmail} from "../../model/request/change-password-through-email";
+import {ChangePasswordViaEmailLink} from "../../model/request/change-password-via-email-link";
+import {HttpStatusCode} from "@angular/common/http";
 
 @Component({
   selector: 'app-change-password',
@@ -17,7 +18,7 @@ export class ChangePasswordComponent implements OnInit {
     newPasswordSecondTry: null
   }
   doesPasswordsMatch: boolean = true;
-  showResetExpiredTokenLink: boolean = false;
+  showResetExpiredLink: boolean = false;
 
   constructor(private activatedRoute: ActivatedRoute, private authService: AuthService, private router: Router) {
   }
@@ -31,23 +32,18 @@ export class ChangePasswordComponent implements OnInit {
 
   changePassword() {
     if (this.form.newPasswordFirstTry === this.form.newPasswordSecondTry) {
-      const changedPasswordWithToken = new ChangePasswordThroughEmail(
-        this.form.newPasswordFirstTry, this.receivedToken
-      );
       this.doesPasswordsMatch = true;
-      this.authService.changePassword(changedPasswordWithToken).subscribe(
+      this.authService.changePassword(new ChangePasswordViaEmailLink(this.form.newPasswordFirstTry, this.receivedToken)).subscribe(
         (response) => {
           alert(response.message)
           this.navigateToLoginPage();
         },
         (error) => {
-          const errorMessage = error.error.message
-          // it could also be done reading HttpStatus as in ActivateAccountComponent was done
-          // here I read message instead
-          if (errorMessage == 'Token is expired') {
-            this.showResetExpiredTokenLink = true;
+          // when link (token) is expired
+          if (error.status === HttpStatusCode.Gone) {
+            this.showResetExpiredLink = true;
           }
-          alert(errorMessage)
+          alert(error.error.message)
         }
       )
     } else {

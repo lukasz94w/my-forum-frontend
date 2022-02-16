@@ -134,7 +134,7 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
   // didn't make separate admin component (with button)
   // because then there must be created 10 components (for each post)
   changePostStatus(postId: number, moderatedStatus: boolean) {
-    this.postService.changeTopicStatus(new PostStatus(postId, moderatedStatus)).subscribe(
+    this.postService.changePostStatus(new PostStatus(postId, moderatedStatus)).subscribe(
       () => {
         this.findPageablePostsOnPage();
       },

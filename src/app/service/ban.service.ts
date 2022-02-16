@@ -15,11 +15,11 @@ export class BanService {
   }
 
   banUser(ban: Ban): Observable<any> {
-    return this.httpClient.post<any>(`${this.apiServerUrl}/ban/banUser`, ban);
+    return this.httpClient.put<any>(`${this.apiServerUrl}/ban/banUser`, ban);
   }
 
   unBanUser(unBannedUserName: string) {
-    return this.httpClient.post<any>(`${this.apiServerUrl}/ban/unBanUser`, unBannedUserName);
+    return this.httpClient.put<any>(`${this.apiServerUrl}/ban/unBanUser`, unBannedUserName);
   }
 
   checkBanStatus(userName: string): Observable<boolean> {

@@ -28,12 +28,12 @@ export class UserProfileSettingsAvatarComponent {
     imageAsRequestBody.append('image', this.loadedImage);
 
     this.userService.changeProfilePic(imageAsRequestBody).subscribe(
-      () => {
-        alert("Picture changed")
+      (response) => {
+        alert(response.message)
         this.reloadPage();
       },
-      () => {
-        alert("Fail during changing. Try again later")
+      (error) => {
+        alert(error.error.message)
       }
     )
   }

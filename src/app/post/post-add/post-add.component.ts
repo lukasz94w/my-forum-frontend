@@ -63,20 +63,15 @@ export class PostAddComponent implements OnInit, OnChanges {
         this.reloadTopicAndPosts.emit();
       },
       (error) => {
+        alert(error.error.message);
         switch (error.status) {
           case HttpStatusCode.Locked: {
-            alert("Topic was closed and you cannot add new posts");
             this.form.content = '';
             this.reloadTopicAndPosts.emit();
             break;
           }
           case HttpStatusCode.Gone: {
-            alert("Topic was deleted or such topic do not exist");
             this.router.navigate(['topic-categories']);
-            break;
-          }
-          default: {
-            alert("Error occurred. Try again later");
             break;
           }
         }

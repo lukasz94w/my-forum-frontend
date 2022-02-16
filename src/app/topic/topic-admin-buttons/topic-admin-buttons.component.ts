@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {TopicService} from "../../service/topic.service";
 import {Router} from "@angular/router";
-import {NewTopicContent} from "../../model/request/new-topic-content";
 import {TopicStatus} from "../../model/request/topic-status";
 
 @Component({

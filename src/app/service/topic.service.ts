@@ -22,11 +22,11 @@ export class TopicService {
   }
 
   changeTopicStatus(topicStatus: TopicStatus): Observable<void> {
-    return this.httpClient.post<void>(`${this.apiServerUrl}/topic/changeStatus`, topicStatus);
+    return this.httpClient.put<void>(`${this.apiServerUrl}/topic/changeStatus`, topicStatus);
   }
 
   deleteTopicById(id: number): Observable<void> {
-    return this.httpClient.get<void>(`${this.apiServerUrl}/topic/delete/` + id);
+    return this.httpClient.delete<void>(`${this.apiServerUrl}/topic/delete/` + id);
   }
 
   getTopicById(id: number): Observable<Topic3> {

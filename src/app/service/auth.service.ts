@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
-import {ChangePasswordThroughEmail} from "../model/request/change-password-through-email";
+import {ChangePasswordViaEmailLink} from "../model/request/change-password-via-email-link";
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +26,11 @@ export class AuthService {
     return this.httpClient.post(`${this.apiServerUrl}/auth/refreshToken`, {refreshToken: refreshToken});
   }
 
-  askForEmailWithResetToken(email: string): Observable<void> {
-    return this.httpClient.post<void>(`${this.apiServerUrl}/auth/sendEmailWithResetToken`, {email, apiServerUrl: this.apiServerUrl});
+  askForEmailWithResetLink(email: string): Observable<void> {
+    return this.httpClient.post<void>(`${this.apiServerUrl}/auth/resetPassword`, {email, apiServerUrl: this.apiServerUrl});
   }
 
-  changePassword(changedPasswordWithToken: ChangePasswordThroughEmail): Observable<any> {
+  changePassword(changedPasswordWithToken: ChangePasswordViaEmailLink): Observable<any> {
     return this.httpClient.post(`${this.apiServerUrl}/auth/changePassword`, changedPasswordWithToken);
   }
 

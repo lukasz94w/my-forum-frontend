@@ -44,11 +44,6 @@ export class TextProviderService {
       "fa fa-bomb"];
   }
 
-  getBanInfoMessage(): string {
-    return "You have been banned. From now you will not be able to create new topics, add " +
-    "posts or changing your personal data. Check profile settings for more info";
-  }
-
   getBanMessage(): string {
     return "You have been banned. Please sign in again";
   }

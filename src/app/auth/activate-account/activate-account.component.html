@@ -8,39 +8,31 @@
 
               <p class="text-center h2 fw-bold mb-4 mx-1 mx-md-4 mt-4">Account activation</p>
 
-              <div [ngSwitch]="activationStatus">
-                <div class="alert alert-info" *ngSwitchCase="'alreadyActivated'">
-                  Account was already activated
-                </div>
-                <div class="alert alert-success" *ngSwitchCase="'accountActivated'">
-                  Account was activated. You will be navigated to login page
-                </div>
-                <div class="alert alert-danger" *ngSwitchCase="'tokenNotFound'">
-                  Link is incorrect. No found any account linked to it
-                </div>
-                <div *ngSwitchCase="'tokenExpired'">
-                  <div class="alert alert-danger">
-                    Link you used is expired. Click button below to ask for new activation link
-                  </div>
-                  <div class="d-flex justify-content-center mt-4 mx-4 mb-3 mb-lg-4">
-                    <button class="btn btn-primary btn-lg" (click)="resendToken()">Re-send verification email</button>
-                  </div>
-                </div>
+              <div class="alert alert-success" *ngIf="showActivationSuccessfulMessage">
+                {{ activationMessage }}
               </div>
 
-              <div [ngSwitch]="resendTokenStatus">
-                <div class="alert alert-secondary" *ngSwitchCase="'pending'">
-                  Please wait...
-                </div>
-                <div class="alert alert-success" *ngSwitchCase="'newMailWasSent'">
-                  Email with new confirmation link was sent. Check your email inbox for further instructions
-                </div>
-                <div class="alert alert-danger" *ngSwitchCase="'oldTokenDoesntExist'">
-                  Error during sending request. Try again later
-                </div>
-                <div class="alert alert-danger" *ngSwitchCase="'failedToSendEmail'">
-                  Failed to send email. Try again later
-                </div>
+              <div class="alert alert-info" *ngIf="showActivationErrorMessage">
+                {{ activationMessage }}
+              </div>
+
+              <div class="alert alert-secondary" *ngIf="showPendingStatus">
+                Please wait...
+              </div>
+
+              <div class="alert alert-success" *ngIf="showResendSuccessfulMessage">
+                {{ resendMessage }}
+              </div>
+
+              <div class="alert alert-danger" *ngIf="showResendErrorMessage">
+                {{ resendMessage }}
+              </div>
+
+              <div *ngIf="showResetActivationTokenButton" class="d-flex justify-content-center mt-4 mx-4 mb-3 mb-lg-4">
+                <button
+                  class="btn btn-primary btn-lg"
+                  [disabled]="showResendSuccessfulMessage || showResendErrorMessage"
+                  (click)="resendToken()">Re-send verification email</button>
               </div>
 
             </div>

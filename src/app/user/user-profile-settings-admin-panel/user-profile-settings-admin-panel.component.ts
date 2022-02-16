@@ -48,8 +48,7 @@ export class UserProfileSettingsAdminPanelComponent implements OnInit, OnChanges
   }
 
   findPageableTopicsByUser(): void {
-    const param = {'page': this.currentPage - 1}
-    this.userService.findPageableUsers(param).subscribe(
+    this.userService.findPageableUsers(this.currentPage - 1).subscribe(
       (data: any) => {
         this.pageableUsers = data.pageableUsers
         this.usersLength = this.pageableUsers.length;

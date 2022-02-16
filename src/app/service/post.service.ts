@@ -19,8 +19,8 @@ export class PostService {
     return this.httpClient.post<void>(`${this.apiServerUrl}/post/addPost`, newPost);
   }
 
-  changeTopicStatus(postStatus: PostStatus): Observable<void> {
-    return this.httpClient.post<void>(`${this.apiServerUrl}/post/changeStatus`, postStatus);
+  changePostStatus(postStatus: PostStatus): Observable<void> {
+    return this.httpClient.put<void>(`${this.apiServerUrl}/post/changeStatus`, postStatus);
   }
 
   findPageablePostsByTopicId(params: any): Observable<void> {
