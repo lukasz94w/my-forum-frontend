@@ -1,4 +1,4 @@
-export class ChangePasswordThroughEmail {
+export class ChangePasswordViaEmailLink {
 
   newPassword: string;
   receivedToken: string;

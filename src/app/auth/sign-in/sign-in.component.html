@@ -72,12 +72,8 @@
                   <button class="btn btn-success btn-lg">Login</button>
                 </div>
 
-                <div class="alert alert-danger" *ngIf = showLoginWasFailed>
-                  Bad credentials: login or password
-                </div>
-
-                <div class="alert alert-danger" *ngIf = showAccountIsNotActivated>
-                  Account is not confirmed. Please check email for activation link
+                <div class="alert alert-danger" *ngIf = showSignInFailedMessage>
+                  {{ signInFailedMessage }}
                 </div>
 
               </form>

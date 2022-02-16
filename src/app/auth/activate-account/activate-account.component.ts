@@ -11,8 +11,16 @@ import {HttpStatusCode} from "@angular/common/http";
 export class ActivateAccountComponent implements OnInit {
 
   activationToken: string = '';
-  activationStatus: string = '';
-  resendTokenStatus: string = '';
+
+  showActivationSuccessfulMessage: boolean = false
+  showActivationErrorMessage: boolean = false;
+  activationMessage: string = '';
+  showResetActivationTokenButton: boolean = false;
+
+  showPendingStatus: boolean = false;
+  showResendSuccessfulMessage: boolean = false;
+  showResendErrorMessage: boolean = false;
+  resendMessage: string = '';
 
   constructor(private activatedRoute: ActivatedRoute, private authService: AuthService, private router: Router) {
   }
@@ -25,49 +33,37 @@ export class ActivateAccountComponent implements OnInit {
 
     const params = {'activationToken': this.activationToken};
     this.authService.activateAccount(params).subscribe(
-      () => {
-        this.activationStatus = 'accountActivated';
+      (response) => {
+        this.showActivationSuccessfulMessage = true;
+        this.activationMessage = response.message;
         this.navigateToLoginPage();
       },
       (error) => {
-        switch (error.status) {
-          case HttpStatusCode.Conflict: {
-            this.activationStatus = 'alreadyActivated';
-            break;
-          }
-          case HttpStatusCode.Forbidden: {
-            this.activationStatus = 'tokenNotFound';
-            break;
-          }
-          case HttpStatusCode.Gone: {
-            this.activationStatus = 'tokenExpired';
-            break;
-          }
+        this.showActivationErrorMessage = true;
+        this.activationMessage = error.error.message;
+        // when activation link (token) is expired, show possibility of asking for new one
+        if (error.status === HttpStatusCode.Gone) {
+          this.showResetActivationTokenButton = true;
         }
       }
     );
   }
 
   resendToken(): void {
-    this.activationStatus = '';
     const params = {'oldExpiredToken': this.activationToken};
-    this.resendTokenStatus = 'pending'
+    this.showActivationErrorMessage = false;
+    this.showPendingStatus = true;
 
     this.authService.resendActivationToken(params).subscribe(
-      () => {
-        this.resendTokenStatus = 'newMailWasSent'
+      (response) => {
+        this.showResendSuccessfulMessage = true;
+        this.resendMessage = response.message;
+        this.showPendingStatus = false;
       },
       (error) => {
-        switch (error.status) {
-          case HttpStatusCode.Forbidden: {
-            this.resendTokenStatus = 'oldTokenDoesntExist';
-            break;
-          }
-          case HttpStatusCode.BadGateway: {
-            this.resendTokenStatus = 'failedToSendEmail';
-            break;
-          }
-        }
+        this.showResendErrorMessage = true;
+        this.resendMessage = error.error.message;
+        this.showPendingStatus = false;
       }
     );
   }

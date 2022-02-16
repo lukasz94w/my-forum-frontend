@@ -17,8 +17,8 @@ export class SignInComponent {
   }
   rememberMe: boolean = false;
 
-  showAccountIsNotActivated: boolean = false;
-  showLoginWasFailed: boolean = false;
+  showSignInFailedMessage: boolean = false;
+  signInFailedMessage: string = '';
 
   constructor(private authService: AuthService, private router: Router, private textProviderService: TextProviderService,
               private localStorageService: LocalStorageService, private signInEvent: SignInEvent) {
@@ -39,26 +39,23 @@ export class SignInComponent {
       },
       (error) => {
         switch (error.status) {
-          case HttpStatusCode.TooEarly: {
-            this.showAccountIsNotActivated = true;
-            this.showLoginWasFailed = false;
+          case HttpStatusCode.TooEarly:
+          case HttpStatusCode.Forbidden: {
+            this.showSignInFailedMessage = true;
+            this.signInFailedMessage = error.error.message;
             break;
           }
           case HttpStatusCode.Locked: {
-            this.localStorageService.saveUserName(error.error.userName);
-            this.localStorageService.saveBanExpirationTime(error.error.dateOfBan);
+            this.localStorageService.saveUserName(error.error.parametersMap.userName);
+            this.localStorageService.saveBanExpirationTime(error.error.parametersMap.dateOfBan);
             this.localStorageService.saveRememberMe(this.rememberMe);
             this.signInEvent.emitSignIn();
-            if (!this.localStorageService.wasAlertBanShown()) {
-              alert(this.textProviderService.getBanInfoMessage());
-              this.localStorageService.saveAlertBanWasShown();
+            // show ban message only once
+            if (!this.localStorageService.hasAlertBanBeenShown()) {
+              alert(error.error.message);
+              this.localStorageService.saveAlertBanHasBeenShown();
             }
             this.router.navigate(['topic-categories']);
-            break;
-          }
-          case HttpStatusCode.Forbidden: {
-            this.showLoginWasFailed = true;
-            this.showAccountIsNotActivated = false;
             break;
           }
         }

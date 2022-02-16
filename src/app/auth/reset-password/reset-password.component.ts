@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
 })
 export class ResetPasswordComponent {
 
-  showMessageAboutSendingResetEmail: boolean = false;
+  showSuccessMessage: boolean = false;
 
   form: any = {
     email: null
@@ -20,11 +20,10 @@ export class ResetPasswordComponent {
 
   onResetPassword(): void {
     const {email} = this.form;
-    //1.it is intentionally that observable doesn't
-    //return any result to not reveal if such mail exists in the database
-    //2.the Observable returned by any of the Http operations (get/post/put/etc) require a subscription.
-    this.authService.askForEmailWithResetToken(email).subscribe();
-    this.showMessageAboutSendingResetEmail = true;
+    // it is intentionally that request doesn't return any
+    // result to not reveal if such mail exists in the database
+    this.authService.askForEmailWithResetLink(email).subscribe();
+    this.showSuccessMessage = true;
     this.navigateToMainPage();
   }
 

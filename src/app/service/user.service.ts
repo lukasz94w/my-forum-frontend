@@ -16,7 +16,7 @@ export class UserService {
   }
 
   changeProfilePic(imageAsRequestBody: FormData): Observable<any> {
-    return this.httpClient.post(`${this.apiServerUrl}/user/changeProfilePic`, imageAsRequestBody)
+    return this.httpClient.put(`${this.apiServerUrl}/user/changeProfilePic`, imageAsRequestBody)
   }
 
   getProfilePic(): Observable<any> {
@@ -28,7 +28,7 @@ export class UserService {
   }
 
   changePassword(changePassword: ChangePasswordThroughUserSettings): Observable<any> {
-    return this.httpClient.post(`${this.apiServerUrl}/user/changePassword`, changePassword)
+    return this.httpClient.put(`${this.apiServerUrl}/user/changePassword`, changePassword)
   }
 
   findPageablePostsByUser(params: any): Observable<any> {
@@ -39,7 +39,7 @@ export class UserService {
     return this.httpClient.get<any>(`${this.apiServerUrl}/user/findPageableTopicsByUser`, {params})
   }
 
-  findPageableUsers(params: { page: number }): Observable<any> {
-    return this.httpClient.get<any>(`${this.apiServerUrl}/user/findPageableUsers`, {params})
+  findPageableUsers(page: number): Observable<any> {
+    return this.httpClient.get<any>(`${this.apiServerUrl}/user/findPageableUsers/` + page)
   }
 }

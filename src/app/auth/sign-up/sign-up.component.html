@@ -8,7 +8,7 @@
 
               <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
 
-              <div *ngIf = !isSuccessfulRegistration>
+              <div *ngIf = !isSignUpSuccess>
                 <form
                   class="mx-1 mx-md-4"
                   name="form"
@@ -81,13 +81,13 @@
                     Please wait...
                   </div>
                   <div class="alert alert-danger" *ngIf=isSignupFailed>
-                    Registration failed: {{errorMessage}}
+                    Registration failed, {{ errorMessage }}
                   </div>
                 </form>
               </div>
 
-              <div class="alert alert-success" *ngIf=isSuccessfulRegistration>
-                Registration successful! Check email for confirmation link
+              <div class="alert alert-success" *ngIf=isSignUpSuccess>
+                {{ successMessage }}
               </div>
 
             </div>

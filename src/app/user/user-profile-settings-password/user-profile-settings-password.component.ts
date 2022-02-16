@@ -25,16 +25,13 @@ export class UserProfileSettingsPasswordComponent {
     if (this.form.newPasswordFirstTry === this.form.newPasswordSecondTry) {
       const changePassword = new ChangePasswordThroughUserSettings(this.form.currentPassword, this.form.newPasswordFirstTry);
       this.userService.changePassword(changePassword).subscribe(
-        (response: any) => {
+        (response) => {
           alert(response.message)
+          // TODO redirect to account info
         },
         (error) => {
-          // TODO check after status and from that point it will be know if it's bad current password or timeout
-          // do this on exception handling work, for now it's that construction
-          const errorMessage = error.error.message;
-          if (errorMessage == 'Current password is not correct') {
-            alert(errorMessage)
-          }
+          alert(error.error.message)
+          // TODO clean form there
         }
       )
       // TODO przywrocic to, usunalem bo mi przeladowuje strone i wtedy cos z pierwszym odczytem isLoggedIn jest nie tak!
