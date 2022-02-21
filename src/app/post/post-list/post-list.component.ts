@@ -11,12 +11,13 @@ import {Post2} from "../../model/response/post2";
 export class PostListComponent implements OnInit {
 
   pageablePosts: Post2[] = [];
-  postsLength: number = -1;
+  postsLength?: number;
   currentPage: number = 1;
   totalPosts: number = 0;
   totalPages: number = 0;
   numberOfPostsOnOnePage: number = 10;
 
+  headerText: string = '';
   searchQueryValue: string = '';
 
   constructor(private postService: PostService, private activatedRoute: ActivatedRoute) {
@@ -27,7 +28,7 @@ export class PostListComponent implements OnInit {
       (queryParam) => {
         if (queryParam.query != undefined) {
           this.searchQueryValue = queryParam.query;
-          this.searchPageablePosts();
+          this.searchPageablePosts(1);
         } else {
           // redirect to page not found component
         }
@@ -35,10 +36,12 @@ export class PostListComponent implements OnInit {
     )
   }
 
-  private searchPageablePosts() {
-    const params = {'page': this.currentPage - 1, 'query': this.searchQueryValue}
+  private searchPageablePosts(page: number) {
+    const params = {'page': page - 1, 'query': this.searchQueryValue}
     this.postService.searchInPosts(params).subscribe(
       (data: any) => {
+        this.headerText = 'Found results for "' + this.searchQueryValue + '":';
+        this.currentPage = page;
         this.pageablePosts = data.pageablePosts
         this.postsLength = this.pageablePosts.length;
         this.totalPosts = data.totalPosts;
@@ -47,7 +50,6 @@ export class PostListComponent implements OnInit {
   }
 
   handlePageChange($event: number) {
-    this.currentPage = $event;
-    this.searchPageablePosts();
+    this.searchPageablePosts($event);
   }
 }

@@ -61,7 +61,7 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
       }
     )
     this.findTopicById();
-    this.findPageablePostsOnPage();
+    this.findPageablePostsOnPage(this.pageNumber);
 
     this.showAdminButtons = this.localStorageService.isUserAdmin();
     this.signOutEvent.signOutEvent$.subscribe(
@@ -94,20 +94,20 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
       );
   }
 
-  findPageablePostsOnPage(): void {
-    const params = {'page': this.pageNumber - 1, 'id': this.topicId}
+  findPageablePostsOnPage(page: number): void {
+    const params = {'page': page - 1, 'id': this.topicId}
     this.postService.findPageablePostsByTopicId(params).subscribe(
       (data: any) => {
         this.pageablePosts = data.pageablePosts;
         this.totalPosts = data.totalPosts;
         this.totalPages = data.totalPages;
-
+        this.pageNumber = page;
         if (this.pageablePosts.length > 0) {
           setTimeout(() => {
             this.doScroll = true;
           }, 75)
         }
-        // without this timeout when we first time open the page scroll
+        // without this 75ms timeout when we first time open the page scroll
         // it doesn't work correctly (doesn't scroll to chosen anchor)
         // probably its a bug in Angular
       },
@@ -119,8 +119,7 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
   }
 
   handlePageChange($event: number) {
-    this.pageNumber = $event;
-    this.findPageablePostsOnPage();
+    this.findPageablePostsOnPage($event);
   }
 
   ngAfterViewChecked(): void {
@@ -136,11 +135,16 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
   changePostStatus(postId: number, moderatedStatus: boolean) {
     this.postService.changePostStatus(new PostStatus(postId, moderatedStatus)).subscribe(
       () => {
-        this.findPageablePostsOnPage();
+        this.reloadData()
       },
       () => {
         alert("Error occurred. Try again later")
       }
     )
+  }
+
+  reloadData(): void {
+    this.findTopicById();
+    this.findPageablePostsOnPage(this.pageNumber);
   }
 }

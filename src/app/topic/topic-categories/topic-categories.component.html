@@ -14,27 +14,29 @@
           </div>
         </div>
 
-        <ng-container
-          [ngTemplateOutlet]="sectionOfCategories"
-          [ngTemplateOutletContext]="
+        <div *ngIf="numberOfTopicsInEachCategory.length > 0">
+          <ng-container
+            [ngTemplateOutlet]="sectionOfCategories"
+            [ngTemplateOutletContext]="
           {
           startIndex:rangeOfGeneralSubjects[0],
           endIndex: rangeOfGeneralSubjects[1],
           headerSectionName: generalSubjectsName,
           totalNumberOfComments: numberOfEntriesInGeneralSubjects
           }">
-        </ng-container>
+          </ng-container>
 
-        <ng-container
-          [ngTemplateOutlet]="sectionOfCategories"
-          [ngTemplateOutletContext]="
+          <ng-container
+            [ngTemplateOutlet]="sectionOfCategories"
+            [ngTemplateOutletContext]="
           {
           startIndex:rangeOfOtherSubjects[0],
           endIndex: rangeOfOtherSubjects[1],
           headerSectionName: otherSubjectsName,
           totalNumberOfComments: numberOfEntriesInOtherSubjects
           }">
-        </ng-container>
+          </ng-container>
+        </div>
 
       </div>
     </div>
@@ -123,7 +125,7 @@
                       {{ lastPageableTopicActivities[i + startIndex].topicName | truncate: 22 : '...' }}</a>
                     <p class="card-text last-activity-title">
                       <small class="text-muted"><a class="user-profile-link"
-                        [routerLink]="['/user-profile-settings/', lastPageableTopicActivities[i + startIndex].userName]">
+                                                   [routerLink]="['/user-profile-settings/', lastPageableTopicActivities[i + startIndex].userName]">
                         {{ lastPageableTopicActivities[i + startIndex].userName }}</a>,
                         {{ lastPageableTopicActivities[i + startIndex].timeOfLastActivity | timeAgo}} </small>
                     </p>

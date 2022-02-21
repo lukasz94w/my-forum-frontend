@@ -14,13 +14,9 @@ export class SignUpComponent {
     password: null
   }
 
-  isSignUpSuccess: boolean = false;
-  successMessage: string = '';
-
-  isSignupFailed: boolean = false;
-  errorMessage: string = '';
-
-  showLoadingMessage: boolean = false;
+  wasSignUpSuccessful: boolean = false;
+  wasSignupUnsuccessful: boolean = false;
+  message: string = '';
 
   constructor(private authService: AuthService) {
   }
@@ -30,21 +26,18 @@ export class SignUpComponent {
     const {username, email, password} = this.form;
     this.authService.signUp(username, email, password).subscribe(
       (response) => {
-        this.successMessage = response.message;
-        this.isSignUpSuccess = true;
-        this.showLoadingMessage = false
+        this.message = response.message;
+        this.wasSignUpSuccessful = true;
       },
       (error) => {
-        this.errorMessage = error.error.message;
-        this.isSignupFailed = true;
-        this.showLoadingMessage = false
+        this.message = error.error.message;
+        this.wasSignupUnsuccessful = true;
       }
     )
   }
 
   resetFlags() {
-    this.showLoadingMessage = true;
-    this.isSignupFailed = false;
-    this.isSignUpSuccess = false;
+    this.wasSignupUnsuccessful = false;
+    this.wasSignUpSuccessful = false;
   }
 }

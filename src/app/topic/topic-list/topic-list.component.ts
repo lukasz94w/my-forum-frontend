@@ -18,8 +18,7 @@ export class TopicListComponent implements OnInit {
   pageableTopics: Topic2[] = [];
   numberOfAnswersInPageableTopics: number[] = [];
   lastPageableTopicActivities: LastTopicActivity[] = [];
-  topicsLength: number = -1;
-  category: string = '';
+  topicsLength?: number;
 
   currentPage: number = 1;
   totalTopics: number = 0;
@@ -28,7 +27,10 @@ export class TopicListComponent implements OnInit {
 
   isUserWithoutBanLoggedIn: boolean = false;
 
-  isSearchMode: boolean = false;
+  searchModeActive: boolean = false;
+
+  headerText = '';
+  category: string = '';
   searchQueryValue: string = '';
 
   constructor(private topicService: TopicService, private localStorageService: LocalStorageService,
@@ -41,17 +43,14 @@ export class TopicListComponent implements OnInit {
     combineLatest([this.activatedRoute.params, this.activatedRoute.queryParams])
       .pipe(map(results => ({param: results[0].param, query: results[1].query})), debounceTime(0))
       .subscribe(results => {
-          this.currentPage = 1;
-          if (results.param !== 'search') {
-            this.isSearchMode = false;
-            this.category = results.param
-            this.findPageableTopicsInCategory()
-          } else {
-            this.isSearchMode = true;
-            this.searchQueryValue = results.query
-            this.searchInTopicTitles();
-          }
-        });
+        if (results.param !== 'search') {
+          this.category = results.param;
+          this.findPageableTopicsInCategory(1)
+        } else {
+          this.searchQueryValue = results.query;
+          this.searchInTopicTitles(1);
+        }
+      });
 
     this.signOutEvent.signOutEvent$.subscribe(
       () => {
@@ -59,10 +58,13 @@ export class TopicListComponent implements OnInit {
       });
   }
 
-  findPageableTopicsInCategory(): void {
-    const params = {'page': this.currentPage - 1, 'category': this.category}
+  findPageableTopicsInCategory(page: number): void {
+    const params = {'page': page - 1, 'category': this.category}
     this.topicService.findPageableTopicsInCategory(params).subscribe(
       (data: any) => {
+        this.headerText = 'Latest topics in ' + this.category + ':';
+        this.currentPage = page;
+        this.searchModeActive = false;
         this.buildData(data);
       },
       (error) =>
@@ -70,10 +72,13 @@ export class TopicListComponent implements OnInit {
     );
   }
 
-  searchInTopicTitles() {
-    const params = {'page': this.currentPage - 1, 'query': this.searchQueryValue}
+  searchInTopicTitles(page: number) {
+    const params = {'page': page - 1, 'query': this.searchQueryValue}
     this.topicService.searchInTopicTitles(params).subscribe(
       (data: any) => {
+        this.headerText = 'Found results for "' + this.searchQueryValue + '":';
+        this.currentPage = page;
+        this.searchModeActive = true;
         this.buildData(data);
       },
       (error) =>
@@ -82,12 +87,7 @@ export class TopicListComponent implements OnInit {
   }
 
   handlePageChange($event: number) {
-    this.currentPage = $event;
-    if (this.isSearchMode) {
-      this.searchInTopicTitles();
-    } else {
-      this.findPageableTopicsInCategory();
-    }
+    this.searchModeActive ? this.searchInTopicTitles($event) : this.findPageableTopicsInCategory($event);
   }
 
   private buildData(data: any) {

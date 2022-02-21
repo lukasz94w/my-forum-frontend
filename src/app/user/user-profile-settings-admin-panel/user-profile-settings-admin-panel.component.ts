@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {User} from "../../model/response/user";
 import {BanUserEvent} from "../../event/ban-user-event.service";
@@ -13,11 +13,11 @@ import {WebServiceMessage} from "../../model/request/web-service-message";
 })
 export class UserProfileSettingsAdminPanelComponent implements OnInit, OnChanges {
 
-  @Input() loadAdminData: boolean = false;
+  @Input() activeTabName: string = '';
   @Output() showUserBanWindowEvent = new EventEmitter();
 
   pageableUsers: User[] = [];
-  usersLength = -1;
+  usersLength?: number;
 
   currentPage = 1;
   totalUsers = 0;
@@ -31,24 +31,27 @@ export class UserProfileSettingsAdminPanelComponent implements OnInit, OnChanges
               private banService: BanService, private webSocketService: WebSocketService) {
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    // detect if users tab have been chosen
+    if (changes.activeTabName) {
+      if (changes.activeTabName.currentValue === 'admin' && this.usersLength === undefined) {
+        this.findPageableUsers(1);
+      }
+    }
+  }
+
   ngOnInit(): void {
     this.banUserEvent.userWasBannedSource$.subscribe(
       (sourceOfOpeningWindow) => {
         if (sourceOfOpeningWindow == 'adminPanel') {
-          this.findPageableTopicsByUser();
+          this.findPageableUsers(this.currentPage);
         }
       }
     )
   }
 
-  ngOnChanges(): void {
-    if (this.loadAdminData) {
-      this.findPageableTopicsByUser();
-    }
-  }
-
-  findPageableTopicsByUser(): void {
-    this.userService.findPageableUsers(this.currentPage - 1).subscribe(
+  findPageableUsers(page: number): void {
+    this.userService.findPageableUsers(page - 1).subscribe(
       (data: any) => {
         this.pageableUsers = data.pageableUsers
         this.usersLength = this.pageableUsers.length;
@@ -56,6 +59,7 @@ export class UserProfileSettingsAdminPanelComponent implements OnInit, OnChanges
         this.totalPages = data.totalPages;
         this.numberOfPostsInPageableUsers = data.numberOfPostsInPageableUsers;
         this.numberOfTopicsInPageableUsers = data.numberOfTopicsInPageableUsers;
+        this.currentPage = page;
       },
       (error) =>
         console.log(error)
@@ -63,8 +67,7 @@ export class UserProfileSettingsAdminPanelComponent implements OnInit, OnChanges
   }
 
   handlePageChange($event: number) {
-    this.currentPage = $event;
-    this.findPageableTopicsByUser();
+    this.findPageableUsers($event);
   }
 
   showUserBanWindow(userName: string) {
@@ -74,7 +77,7 @@ export class UserProfileSettingsAdminPanelComponent implements OnInit, OnChanges
   unBanUser(userName: string) {
     this.banService.unBanUser(userName).subscribe(
       () => {
-        this.findPageableTopicsByUser();
+        this.findPageableUsers(this.currentPage);
         this.webSocketService.send(new WebServiceMessage(false, userName));
       },
       () => {

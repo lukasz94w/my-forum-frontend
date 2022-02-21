@@ -3,12 +3,12 @@
 
     <div class="d-flex mb-3">
       <div class="me-auto">
-        <h4>Found results for "{{ searchQueryValue }}":</h4>
+        <h4> {{ headerText }}</h4>
       </div>
     </div>
 
     <ng-container
-      *ngIf="postsLength > 0; then showListOfPosts; else showNoPostsInfo">
+      *ngIf="postsLength === undefined || postsLength > 0; then showListOfPosts; else showNoPostsInfo">
     </ng-container>
 
     <ng-template #showListOfPosts>

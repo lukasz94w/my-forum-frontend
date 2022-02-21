@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {LastTopicActivity} from "../../model/response/last-topic-activity";
 import {UserService} from "../../service/user.service";
 import {Topic2} from "../../model/response/topic2";
@@ -10,12 +10,13 @@ import {Topic2} from "../../model/response/topic2";
 })
 export class UserProfileSettingsTopicListComponent implements OnChanges {
 
-  @Input() username = '';
+  @Input() userName = '';
+  @Input() activeTabName = '';
 
   pageableTopics: Topic2[] = [];
   numberOfAnswersInPageableTopics: number[] = [];
   lastPageableTopicActivities: LastTopicActivity[] = [];
-  topicsLength = -1;
+  topicsLength?: number;
 
   currentPage = 1;
   totalTopics = 0;
@@ -25,14 +26,24 @@ export class UserProfileSettingsTopicListComponent implements OnChanges {
   constructor(private userService: UserService) {
   }
 
-  // called whenever the input changes (int this class username),
-  ngOnChanges(): void {
-    this.currentPage = 1;
-    this.findPageableTopicsByUser();
+  ngOnChanges(changes: SimpleChanges): void {
+    // detect if username of viewed user changed, if so clear loaded topics to force reload in next if
+    if (changes.userName) {
+      if ((!changes.userName.firstChange) && changes.userName.previousValue != changes.userName.currentValue) {
+        this.topicsLength = undefined;
+        this.pageableTopics = [];
+      }
+    }
+    // detect if topics tab have been chosen
+    if (changes.activeTabName) {
+      if (changes.activeTabName.currentValue === 'topics' && this.topicsLength === undefined) {
+        this.findPageableTopicsByUser(1);
+      }
+    }
   }
 
-  findPageableTopicsByUser(): void {
-    const params = {'page': this.currentPage - 1, 'username': this.username}
+  findPageableTopicsByUser(page: number): void {
+    const params = {'page': page - 1, 'username': this.userName}
     this.userService.findPageableTopicsByUser(params).subscribe(
       (data: any) => {
         this.pageableTopics = data.pageableTopics
@@ -41,6 +52,7 @@ export class UserProfileSettingsTopicListComponent implements OnChanges {
         this.topicsLength = this.pageableTopics.length;
         this.totalTopics = data.totalTopics;
         this.totalPages = data.totalPages;
+        this.currentPage = page;
       },
       (error) =>
         console.log(error)
@@ -48,8 +60,7 @@ export class UserProfileSettingsTopicListComponent implements OnChanges {
   }
 
   handlePageChange($event: number) {
-    this.currentPage = $event;
-    this.findPageableTopicsByUser();
+    this.findPageableTopicsByUser($event);
   }
 }
 

@@ -32,6 +32,7 @@ import {PostListComponent} from './post/post-list/post-list.component';
 import {UserProfileSettingsAdminPanelComponent} from './user/user-profile-settings-admin-panel/user-profile-settings-admin-panel.component';
 import {UserBanWindowComponent} from './user/user-ban-window/user-ban-window.component';
 import {TopicAdminButtonsComponent} from './topic/topic-admin-buttons/topic-admin-buttons.component';
+import {LoadingScreenComponent} from './loading/loading-screen.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {TopicAdminButtonsComponent} from './topic/topic-admin-buttons/topic-admi
     PostListComponent,
     UserProfileSettingsAdminPanelComponent,
     UserBanWindowComponent,
-    TopicAdminButtonsComponent
+    TopicAdminButtonsComponent,
+    LoadingScreenComponent
   ],
   imports: [
     BrowserModule,

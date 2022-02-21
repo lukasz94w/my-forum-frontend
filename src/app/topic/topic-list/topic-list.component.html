@@ -3,17 +3,7 @@
 
     <div class="d-flex mb-3">
       <div class="me-auto">
-        <ng-container
-          *ngIf="isSearchMode; then showSearchResultsCommunicate; else showCategoryTopicsCommunicate">
-        </ng-container>
-
-        <ng-template #showSearchResultsCommunicate>
-          <h4>Found results for "{{ searchQueryValue }}":</h4>
-        </ng-template>
-
-        <ng-template #showCategoryTopicsCommunicate>
-          <h4>Latest topics in {{ category }}:</h4>
-        </ng-template>
+        <h4>{{ headerText }}</h4>
       </div>
 
       <div class="ms-auto" *ngIf=isUserWithoutBanLoggedIn>
@@ -27,21 +17,22 @@
     </div>
 
     <ng-container
-      *ngIf="topicsLength > 0; then showListOfTopics; else showNoTopicsInfo">
+      *ngIf="topicsLength === undefined || topicsLength > 0; then showListOfTopics; else showNoTopicsInfo">
     </ng-container>
 
     <ng-template #showListOfTopics>
+
       <div class="topics-list">
 
         <ng-container [ngTemplateOutlet]="pagination"></ng-container>
 
         <ul class="list-group mb-3 mt-10">
           <li class="col-md-12 d-flex border p-3 topic-item-list align-items-center" *ngFor="let pageableTopic of pageableTopics |
-        paginate :{
-        itemsPerPage: numberOfTopicsOnOnePage,
-        currentPage: currentPage,
-        totalItems: totalTopics
-        }; let i=index">
+            paginate :{
+            itemsPerPage: numberOfTopicsOnOnePage,
+            currentPage: currentPage,
+            totalItems: totalTopics
+            }; let i=index">
 
             <div class="col-md-7 align-items-center">
               <div class="topic-info">
@@ -54,7 +45,7 @@
                     {{ pageableTopic.user }},
                   </a>
                   {{ pageableTopic.dateTime | date: 'd MMMM y' }}
-                  <a class="link" *ngIf="isSearchMode"
+                  <a class="link" *ngIf="searchModeActive"
                      [routerLink]="['/topic-list/', pageableTopic.category]"> in
                     {{ pageableTopic.category }}
                   </a>
@@ -119,7 +110,7 @@
     <ng-template #showNoTopicsInfo>
 
       <ng-container
-        *ngIf="isSearchMode; then showNotFoundResults; else showNoTopicsInSuchCategory">
+        *ngIf="searchModeActive; then showNotFoundResults; else showNoTopicsInSuchCategory">
       </ng-container>
 
       <ng-template #showNotFoundResults>

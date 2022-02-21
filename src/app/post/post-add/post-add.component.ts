@@ -29,6 +29,14 @@ export class PostAddComponent implements OnInit, OnChanges {
               private postService: PostService, private signOutEvent: SignOutEvent) {
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.isTopicOpen) {
+      if ((!changes.isTopicOpen.firstChange) && (changes.isTopicOpen.previousValue != changes.isTopicOpen.currentValue)) {
+        this.setPlaceHolder();
+      }
+    }
+  }
+
   ngOnInit(): void {
     this.isUserWithoutBanLoggedIn = this.localStorageService.isUserWithoutBanLoggedIn();
     this.isUserWithBanLoggedIn = this.localStorageService.isUserWithBanLoggedIn();
@@ -41,14 +49,6 @@ export class PostAddComponent implements OnInit, OnChanges {
         this.setPlaceHolder();
       }
     )
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.isTopicOpen) {
-      if ((!changes.isTopicOpen.firstChange) && (changes.isTopicOpen.previousValue != changes.isTopicOpen.currentValue)) {
-        this.setPlaceHolder();
-      }
-    }
   }
 
   addPost() {
