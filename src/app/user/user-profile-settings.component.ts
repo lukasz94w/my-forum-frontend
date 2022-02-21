@@ -20,7 +20,7 @@ export class UserProfileSettingsComponent implements OnInit {
 
   usernameFromUrl: string = ''
   user = {} as User2;
-  activeTab: string = 'account'
+  activeTabName: string = 'account'
 
   showUserSettings: boolean = false;
   showAdminTab: boolean = false;
@@ -130,7 +130,7 @@ export class UserProfileSettingsComponent implements OnInit {
   }
 
   selectActiveTab(tabName: string) {
-    this.activeTab = tabName;
+    this.activeTabName = tabName;
   }
 
   unBanCurrentViewedUser() {

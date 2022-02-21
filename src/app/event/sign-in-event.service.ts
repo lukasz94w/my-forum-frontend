@@ -6,7 +6,7 @@ import {Subject} from "rxjs";
 })
 export class SignInEvent {
 
-  private signInEventSource = new Subject<string>();
+  private signInEventSource = new Subject<void>();
 
   signInEvent$ = this.signInEventSource.asObservable();
 

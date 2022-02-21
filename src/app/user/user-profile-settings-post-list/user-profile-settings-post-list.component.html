@@ -1,13 +1,13 @@
 <div class="col-md-10 user-settings-window">
 
   <div class="user-settings-window-header">
-    Posts of {{ username }}
+    Posts of {{ userName }}
   </div>
 
   <ng-container [ngTemplateOutlet]="pagination"></ng-container>
 
   <ng-container
-    *ngIf="postsLength > 0; then showListOfPosts; else showNoPostsInfo">
+    *ngIf="postsLength === undefined || postsLength > 0; then showListOfPosts; else showNoPostsInfo">
   </ng-container>
 
   <ng-template #showListOfPosts>
@@ -48,7 +48,7 @@
 
   <ng-template #showNoPostsInfo>
     <div class="text-center mt-10">
-      User {{ username }} hasn't added any posts yet.
+      User {{ userName }} hasn't added any posts yet.
     </div>
   </ng-template>
 

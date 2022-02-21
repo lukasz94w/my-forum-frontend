@@ -1,11 +1,11 @@
 <div class="col-md-10 user-settings-window">
 
   <div class="user-settings-window-header">
-    Topics of {{ username }}
+    Topics of {{ userName }}
   </div>
 
   <ng-container
-    *ngIf="topicsLength > 0; then showListOfTopics; else showNoTopicsInfo">
+    *ngIf="topicsLength === undefined || topicsLength > 0; then showListOfTopics; else showNoTopicsInfo">
   </ng-container>
 
   <ng-template #showListOfTopics>
@@ -93,7 +93,7 @@
 
   <ng-template #showNoTopicsInfo>
     <div class="text-center mt-10">
-      User {{ username }} hasn't added any topics yet.
+      User {{ userName }} hasn't added any topics yet.
     </div>
   </ng-template>
 

@@ -6,7 +6,7 @@ import {Subject} from "rxjs";
 })
 export class SignOutEvent {
 
-  private signOutEventSource = new Subject<string>();
+  private signOutEventSource = new Subject<void>();
 
   signOutEvent$ = this.signOutEventSource.asObservable();
 

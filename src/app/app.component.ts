@@ -117,8 +117,8 @@ export class AppComponent implements OnInit {
           this.isLoggedIn = this.localStorageService.isLoggedIn();
           this.webSocketService.connect();
           setTimeout(() => {
-              this.checkIfBanStatusHasChangedWhenAppWasClosed();
-            }, 5000);
+            this.checkIfBanStatusHasChangedWhenAppWasClosed();
+          }, 5000);
         }
       }
       lastTime = currentTime;

@@ -6,7 +6,7 @@
       <app-topic-admin-buttons
         class="ms-auto topic-admin-buttons-wrapper"
         *ngIf="showAdminButtons"
-        (isTopicOpenStatusHasChangedEvent)="findTopicById(); findPageablePostsOnPage()"
+        (isTopicOpenStatusHasChangedEvent)="reloadData()"
         [topicId]="topicId"
         [isTopicOpen]="!topic.closed">
       </app-topic-admin-buttons>
@@ -87,9 +87,10 @@
     <ng-container [ngTemplateOutlet]="pagination"></ng-container>
 
     <app-post-add
+      *ngIf="pageablePosts.length > 0"
       [topicId]="topicId"
       [isTopicOpen]="!topic.closed"
-      (reloadTopicAndPosts)="findTopicById(); findPageablePostsOnPage()">
+      (reloadTopicAndPosts)="reloadData()">
     </app-post-add>
 
   </div>
