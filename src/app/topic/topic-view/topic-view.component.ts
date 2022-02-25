@@ -12,6 +12,7 @@ import {Topic3} from "../../model/response/topic3";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {SignOutEvent} from "../../event/sign-out-event.service";
 import {PostStatus} from "../../model/request/post-status";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-topic-view',
@@ -51,9 +52,6 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
         if (params.number) {
           this.postNumber = params.number;
           if (params.number > 10) {
-            // this functions can use async/await (or promise)
-            // and then result of them can be passed
-            // to findTopicById and findPageable..
             this.recalculatePageNumber();
             this.recalculatePostNumber();
           }
@@ -90,7 +88,9 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
         (data: Topic3) => {
           this.topic = data;
         },
-        (error) => console.log(error)
+        (error) => {
+          this.handleError(error);
+        }
       );
   }
 
@@ -111,9 +111,8 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
         // it doesn't work correctly (doesn't scroll to chosen anchor)
         // probably its a bug in Angular
       },
-      () => {
-        alert("Error occurred. You will be navigated to main page")
-        this.router.navigate(['topic-categories'])
+      (error) => {
+        this.handleError(error);
       }
     );
   }
@@ -128,6 +127,15 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
       this.postNumber = -1;
       this.doScroll = false;
     }
+  }
+
+  handleError(error: HttpErrorResponse) {
+    this.router.navigate(['forum-item-not-found'], {
+      state: {
+        errorCode: error.status,
+        errorMessage: error.error.message
+      }
+    });
   }
 
   // didn't make separate admin component (with button)

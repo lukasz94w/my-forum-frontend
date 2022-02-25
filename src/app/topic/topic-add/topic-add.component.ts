@@ -39,8 +39,9 @@ export class TopicAddComponent implements OnInit {
       () => {
         this.router.navigate(['/']);
       },
-      () => {
-        alert("Error occurred. Please try again later");
+      (error) => {
+        alert(error.error.message);
+        this.router.navigate(['topic-categories']);
       }
     )
   }

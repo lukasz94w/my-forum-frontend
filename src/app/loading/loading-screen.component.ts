@@ -16,7 +16,7 @@ export class LoadingScreenComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadingStatusEvent.isLoadingActiveSource$
-      .pipe(debounceTime(1) // avoid showing loading screen when load last less than 100ms
+      .pipe(debounceTime(50) // avoid showing loading screen when load last less than 50ms
       ).subscribe(
       (isLoadingActive) => {
         this.showItSelf = isLoadingActive;

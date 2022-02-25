@@ -33,6 +33,9 @@ import {UserProfileSettingsAdminPanelComponent} from './user/user-profile-settin
 import {UserBanWindowComponent} from './user/user-ban-window/user-ban-window.component';
 import {TopicAdminButtonsComponent} from './topic/topic-admin-buttons/topic-admin-buttons.component';
 import {LoadingScreenComponent} from './loading/loading-screen.component';
+import {TemplateNotFoundComponent} from './error/template-not-found/template-not-found.component';
+import {ForumItemNotFoundComponent} from './error/forum-item-not-found/forum-item-not-found.component';
+import {PageNotFoundComponent} from './error/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +62,10 @@ import {LoadingScreenComponent} from './loading/loading-screen.component';
     UserProfileSettingsAdminPanelComponent,
     UserBanWindowComponent,
     TopicAdminButtonsComponent,
-    LoadingScreenComponent
+    LoadingScreenComponent,
+    TemplateNotFoundComponent,
+    ForumItemNotFoundComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
