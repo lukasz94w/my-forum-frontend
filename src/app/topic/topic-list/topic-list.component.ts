@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TopicService} from "../../service/topic.service";
 import {LocalStorageService} from "../../service/local-storage.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {LastTopicActivity} from "../../model/response/last-topic-activity";
 import {SignOutEvent} from "../../event/sign-out-event.service";
 import {Topic2} from "../../model/response/topic2";
@@ -34,21 +34,24 @@ export class TopicListComponent implements OnInit {
   searchQueryValue: string = '';
 
   constructor(private topicService: TopicService, private localStorageService: LocalStorageService,
-              private activatedRoute: ActivatedRoute, private signOutEvent: SignOutEvent) {
+              private activatedRoute: ActivatedRoute, private signOutEvent: SignOutEvent,
+              private router: Router) {
   }
 
   ngOnInit() {
     this.isUserWithoutBanLoggedIn = this.localStorageService.isUserWithoutBanLoggedIn();
 
     combineLatest([this.activatedRoute.params, this.activatedRoute.queryParams])
-      .pipe(map(results => ({param: results[0].param, query: results[1].query})), debounceTime(0))
+      .pipe(map(results => ({param: results[0].category, query: results[1].query})), debounceTime(0))
       .subscribe(results => {
-        if (results.param !== 'search') {
+        if (results.param === 'search' && results.query !== undefined ) {
+          this.searchQueryValue = results.query;
+          this.searchInTopicTitles(1);
+        } else if (results.param !== 'search') {
           this.category = results.param;
           this.findPageableTopicsInCategory(1)
         } else {
-          this.searchQueryValue = results.query;
-          this.searchInTopicTitles(1);
+          this.router.navigate(['page-not-found']);
         }
       });
 
@@ -67,8 +70,14 @@ export class TopicListComponent implements OnInit {
         this.searchModeActive = false;
         this.buildData(data);
       },
-      (error) =>
-        console.log(error)
+      (error) => {
+        this.router.navigate(['forum-item-not-found'], {
+          state: {
+            errorCode: error.status,
+            errorMessage: error.error.message
+          }
+        });
+      }
     );
   }
 

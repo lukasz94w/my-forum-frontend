@@ -13,11 +13,13 @@ import {ActivateAccountComponent} from "./auth/activate-account/activate-account
 import {TopicAddGuard} from "./guard/topic-add-guard.service";
 import {SignedInUserGuard} from "./guard/signed-in-user-guard.service";
 import {PostListComponent} from "./post/post-list/post-list.component";
+import {ForumItemNotFoundComponent} from "./error/forum-item-not-found/forum-item-not-found.component";
+import {PageNotFoundComponent} from "./error/page-not-found/page-not-found.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/topic-categories', pathMatch: 'full'},
   {path: 'topic-categories', component: TopicCategoriesComponent},
-  {path: 'topic-list/:param', component: TopicListComponent},
+  {path: 'topic-list/:category', component: TopicListComponent},
   {path: 'topic/:id', component: TopicViewComponent},
   {path: 'topic-add/:category', component: TopicAddComponent, canActivate: [TopicAddGuard]},
   {path: 'auth/sign-up', component: SignUpComponent, canActivate: [SignedInUserGuard]},
@@ -26,7 +28,10 @@ const routes: Routes = [
   {path: 'auth/change', component: ChangePasswordComponent, canActivate: [SignedInUserGuard]},
   {path: 'auth/activate', component: ActivateAccountComponent, canActivate: [SignedInUserGuard]},
   {path: 'user-profile-settings/:username', component: UserProfileSettingsComponent},
-  {path: 'post-list', component: PostListComponent}
+  {path: 'post-list/:query', component: PostListComponent},
+  {path: 'forum-item-not-found', component: ForumItemNotFoundComponent},
+  {path: 'page-not-found', component: PageNotFoundComponent},
+  {path: '**', component: PageNotFoundComponent}
 ];
 const routerOptions: ExtraOptions = {
   anchorScrolling: "enabled",

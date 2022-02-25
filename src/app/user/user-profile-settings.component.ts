@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../service/user.service";
 import {LocalStorageService} from "../service/local-storage.service";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {NavTabEvent} from "../event/nav-tab-event.service";
 import {SignOutEvent} from "../event/sign-out-event.service";
 import {User2} from "../model/response/user2";
@@ -37,7 +37,7 @@ export class UserProfileSettingsComponent implements OnInit {
               private activatedRoute: ActivatedRoute, private navTabService: NavTabEvent,
               private signOutEvent: SignOutEvent, private banUserService: BanUserEvent,
               private banService: BanService, private webSocketService: WebSocketService,
-              private textProviderService: TextProviderService) {
+              private textProviderService: TextProviderService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -71,6 +71,14 @@ export class UserProfileSettingsComponent implements OnInit {
       (data: User2) => {
         this.user = data;
         this.setWelcomeTextsAndCheckIfAdminMode();
+      },
+      (error) => {
+        this.router.navigate(['forum-item-not-found'], {
+          state: {
+            errorCode: error.status,
+            errorMessage: error.error.message
+          }
+        });
       })
   }
 

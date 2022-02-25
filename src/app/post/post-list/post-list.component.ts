@@ -24,14 +24,10 @@ export class PostListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(
-      (queryParam) => {
-        if (queryParam.query != undefined) {
-          this.searchQueryValue = queryParam.query;
-          this.searchPageablePosts(1);
-        } else {
-          // redirect to page not found component
-        }
+    this.activatedRoute.params.subscribe(
+      (param) => {
+        this.searchQueryValue = param.query;
+        this.searchPageablePosts(1);
       }
     )
   }

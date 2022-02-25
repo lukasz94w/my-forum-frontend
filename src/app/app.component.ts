@@ -78,7 +78,7 @@ export class AppComponent implements OnInit {
     if (this.searchCriteria === 'topics') {
       this.router.navigate(['topic-list/search'], {queryParams: {query: searchQuery}});
     } else {
-      this.router.navigate(['post-list'], {queryParams: {query: searchQuery}});
+      this.router.navigate(['post-list', searchQuery]);
     }
   }
 
