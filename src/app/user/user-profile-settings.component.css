@@ -23,9 +23,15 @@
   color: #000000;
 }
 
-.user-settings-panel {
+.user-settings-panel-wrapper {
   background-color: #FFFFFF;
   border-radius: 8px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.user-settings-panel-item {
+  margin: 3px 10px;
 }
 
 .user-settings-icon {
@@ -33,21 +39,7 @@
   margin-right: 10px;
 }
 
-.user-settings-panel-item-top {
-  margin: 15px 10px 3px;
-}
 
-.user-settings-panel-item-center {
-  margin-right: 10px;
-  margin-left: 10px;
-  margin-bottom: 3px;
-}
-
-.user-settings-panel-item-bottom {
-  margin-bottom: 15px;
-  margin-right: 10px;
-  margin-left: 10px;
-}
 
 
 

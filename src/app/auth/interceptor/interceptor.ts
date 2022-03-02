@@ -14,6 +14,7 @@ import {AuthService} from "../../service/auth.service";
 import {SignOutEvent} from "../../event/sign-out-event.service";
 import {TextProviderService} from "../../service/text-provider.service";
 import {LoadingStatusEvent} from "../../event/loading-status-event.service";
+import {environment} from "../../../environments/environment";
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
@@ -22,15 +23,33 @@ export class Interceptor implements HttpInterceptor {
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private activeRequests: number = 0;
 
+  private apiServerUrl = environment.apiBaseUrl;
+  requestsToWhichNotShowLoading = [
+    this.apiServerUrl + '/auth/resetPassword', this.apiServerUrl + '/user/changePassword',
+    this.apiServerUrl + '/user/changeProfilePic'
+  ];
+
   constructor(private localStorageService: LocalStorageService, private authService: AuthService,
               private signOutService: SignOutEvent, private textProviderService: TextProviderService,
               private loadingStatusEvent: LoadingStatusEvent) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if(this.activeRequests === 0) {
-      this.loadingStatusEvent.emitIsLoadingActive(true)
+    let displayLoadingScreen = true;
+
+    for (const requestToWhichNotShowLoading of this.requestsToWhichNotShowLoading) {
+      if (new RegExp(requestToWhichNotShowLoading).test(req.url)) {
+        displayLoadingScreen = false;
+        break;
+      }
     }
+
+    if (displayLoadingScreen) {
+      if (this.activeRequests === 0) {
+        this.loadingStatusEvent.emitIsLoadingActive(true)
+      }
+    }
+
     const accessToken = this.localStorageService.getAccessToken();
     let authReq = req;
 
@@ -42,17 +61,17 @@ export class Interceptor implements HttpInterceptor {
     return next.handle(authReq).pipe(
       finalize(() => {
         this.activeRequests--;
-        if(this.activeRequests === 0) {
+        if (this.activeRequests === 0) {
           this.loadingStatusEvent.emitIsLoadingActive(false);
         }
-    }),
+      }),
       catchError(error => {
-      if (error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized) {
-        return this.handleUnauthorized401Error(authReq, next);
-      }
+        if (error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized) {
+          return this.handleUnauthorized401Error(authReq, next);
+        }
 
-      return throwError(error);
-    }));
+        return throwError(error);
+      }));
   }
 
   private handleUnauthorized401Error(request: HttpRequest<any>, next: HttpHandler) {

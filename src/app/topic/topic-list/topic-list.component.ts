@@ -1,19 +1,20 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TopicService} from "../../service/topic.service";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LastTopicActivity} from "../../model/response/last-topic-activity";
 import {SignOutEvent} from "../../event/sign-out-event.service";
 import {Topic2} from "../../model/response/topic2";
-import {combineLatest} from "rxjs";
-import {debounceTime, map} from "rxjs/operators";
+import {combineLatest, Subject} from "rxjs";
+import {debounceTime, map, takeUntil} from "rxjs/operators";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-topic-list',
   templateUrl: './topic-list.component.html',
   styleUrls: ['./topic-list.component.css']
 })
-export class TopicListComponent implements OnInit {
+export class TopicListComponent implements OnInit, OnDestroy {
 
   pageableTopics: Topic2[] = [];
   numberOfAnswersInPageableTopics: number[] = [];
@@ -23,7 +24,7 @@ export class TopicListComponent implements OnInit {
   currentPage: number = 1;
   totalTopics: number = 0;
   totalPages: number = 0;
-  numberOfTopicsOnOnePage: number = 10;
+  numberOfTopicsOnOnePage: number = environment.pageableItemsNumber;
 
   isUserWithoutBanLoggedIn: boolean = false;
 
@@ -32,6 +33,8 @@ export class TopicListComponent implements OnInit {
   headerText = '';
   category: string = '';
   searchQueryValue: string = '';
+
+  componentDestroyedNotifier = new Subject();
 
   constructor(private topicService: TopicService, private localStorageService: LocalStorageService,
               private activatedRoute: ActivatedRoute, private signOutEvent: SignOutEvent,
@@ -55,7 +58,9 @@ export class TopicListComponent implements OnInit {
         }
       });
 
-    this.signOutEvent.signOutEvent$.subscribe(
+    this.signOutEvent.signOutEvent$
+      .pipe(takeUntil(this.componentDestroyedNotifier))
+      .subscribe(
       () => {
         this.isUserWithoutBanLoggedIn = false;
       });
@@ -106,5 +111,10 @@ export class TopicListComponent implements OnInit {
     this.topicsLength = this.pageableTopics.length;
     this.totalTopics = data.totalTopics;
     this.totalPages = data.totalPages;
+  }
+
+  ngOnDestroy(): void {
+    this.componentDestroyedNotifier.next();
+    this.componentDestroyedNotifier.complete();
   }
 }

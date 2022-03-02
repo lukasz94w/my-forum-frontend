@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {LocalStorageService} from "./service/local-storage.service";
 import {SignInEvent} from "./event/sign-in-event.service";
 import {SignOutEvent} from "./event/sign-out-event.service";
@@ -8,18 +8,22 @@ import {Router} from "@angular/router";
 import {WebSocketService} from "./service/web-socket.service";
 import {BanService} from "./service/ban.service";
 import {TextProviderService} from "./service/text-provider.service";
+import {Subject} from "rxjs";
+import {takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   isLoggedIn: boolean = false;
   userName: string = '';
-  autoLogoutTimeoutReference: any;
-  searchCriteria: string = 'topics';
+  autoLogoutIntervalReference: any;
+  searchCriteria: string = 'topic titles';
+
+  componentDestroyedNotifier = new Subject();
 
   constructor(private localStorageService: LocalStorageService, private signInService: SignInEvent,
               private signOutService: SignOutEvent, private topicService: TopicService,
@@ -34,34 +38,39 @@ export class AppComponent implements OnInit {
       this.checkIfBanStatusHasChangedWhenAppWasClosed();
     }
 
-    this.signInService.signInEvent$.subscribe(
-      () => {
-        this.isLoggedIn = true;
-        this.setLoggedInData();
-      }
-    )
+    this.signInService.signInEvent$
+      .pipe(takeUntil(this.componentDestroyedNotifier))
+      .subscribe(
+        () => {
+          this.isLoggedIn = true;
+          this.setLoggedInData();
+        }
+      )
 
-    this.signOutService.signOutEvent$.subscribe(
-      () => {
-        this.isLoggedIn = false
-        clearTimeout(this.autoLogoutTimeoutReference);
-        this.webSocketService.disconnect();
-        this.localStorageService.signOut();
-      }
-    );
+    this.signOutService.signOutEvent$
+      .pipe(takeUntil(this.componentDestroyedNotifier))
+      .subscribe(
+        () => {
+          this.isLoggedIn = false
+          clearInterval(this.autoLogoutIntervalReference);
+          this.webSocketService.disconnect();
+          this.localStorageService.signOut();
+        }
+      );
 
-    this.wakeUpObserver();
+    this.detectorOfWakeUpFromSleep();
   }
 
-  private setTimeoutToAutoLogout(): void {
-    // when user is not banned auto logout time is defined by refresh token expiration time
-    // other way user would be logout when the ban ends
-    const timeoutToAutomaticLogoutInSec = this.localStorageService.getTimeToAutoLogout() - Math.floor(Date.now() / 1000);
-    this.autoLogoutTimeoutReference = setTimeout(() => {
-      alert("Session has ended. Please login again")
-      this.localStorageService.signOut();
-      this.signOutService.emitSignOut();
-    }, timeoutToAutomaticLogoutInSec * 1000);
+  private setAutoLogout(): void {
+    // after successfully login check each 5 seconds if refresh token
+    // is expired, or ban time is up if so, logout
+    this.autoLogoutIntervalReference = setInterval(() => {
+      if (!this.localStorageService.isLoggedIn()) {
+        alert("Session has ended. Please login again")
+        this.localStorageService.signOut();
+        this.signOutService.emitSignOut();
+      }
+    }, 5000);
   }
 
   signOut() {
@@ -71,11 +80,11 @@ export class AppComponent implements OnInit {
   }
 
   searchCriteriaChanged(searchCriteria: string) {
-    this.searchCriteria = searchCriteria.toLowerCase();
+    this.searchCriteria = searchCriteria;
   }
 
   search(searchQuery: string) {
-    if (this.searchCriteria === 'topics') {
+    if (this.searchCriteria === 'topic titles') {
       this.router.navigate(['topic-list/search'], {queryParams: {query: searchQuery}});
     } else {
       this.router.navigate(['post-list', searchQuery]);
@@ -98,23 +107,21 @@ export class AppComponent implements OnInit {
   }
 
   setLoggedInData() {
-    this.setTimeoutToAutoLogout();
+    this.setAutoLogout();
     this.userName = this.localStorageService.getUsername();
     this.webSocketService.connect();
   }
 
-  private wakeUpObserver() {
+  private detectorOfWakeUpFromSleep() {
     const timeout = 5000;
     let lastTime = (new Date()).getTime();
 
     setInterval(() => {
       const currentTime = new Date().getTime();
       if (currentTime > (lastTime + timeout + 2000)) {
-        // if device wake up (from sleep state) and user is logged check if user is still logged in
-        // try to restore web socket connection and also check additionally if ban status has changed
-        // via banService method
+        // if device wake up (from sleep state) and user is logged in restore web socket connection
+        // and also check additionally if ban status has changed via banService method
         if (this.isLoggedIn) {
-          this.isLoggedIn = this.localStorageService.isLoggedIn();
           this.webSocketService.connect();
           setTimeout(() => {
             this.checkIfBanStatusHasChangedWhenAppWasClosed();
@@ -139,5 +146,10 @@ export class AppComponent implements OnInit {
         this.signOutService.emitSignOut();
       }
     }
+  }
+
+  ngOnDestroy(): void {
+    this.componentDestroyedNotifier.next();
+    this.componentDestroyedNotifier.complete();
   }
 }

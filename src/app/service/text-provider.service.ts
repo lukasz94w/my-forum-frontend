@@ -28,20 +28,20 @@ export class TextProviderService {
       "electronic equipment and find interesting projects.",
       "Here you can discuss cars. Old, new brands. From Mercedes to Lada.",
       "New to the community? Please stop by, say hi and tell us a bit about yourself.",
-      "Do you have any equipment you want to get rid of? Here you can list it and " +
+      "Have any equipment you want to get rid of? Here you can list it and " +
       "sell it without intermediaries and no additional costs.",
       "You can share here your life stories and read other"];
   }
 
   getTopicIconNames(): string[] {
     return [
-      "fa fa-shield",
-      'fa fa-bolt',
-      "fa fa-calendar",
-      "fa fa-star",
-      "fa fa-clock-o",
-      "fa fa-bookmark",
-      "fa fa-bomb"];
+      "fa fa-bug",
+      'fa fa-futbol-o',
+      "fa fa-bolt",
+      "fa fa-car",
+      "fa fa-users",
+      "fa fa-money",
+      "fa fa-wechat (alias)"];
   }
 
   getBanMessage(): string {

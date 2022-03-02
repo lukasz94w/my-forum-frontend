@@ -17,7 +17,6 @@ export class ActivateAccountComponent implements OnInit {
   activationMessage: string = '';
   showResetActivationTokenButton: boolean = false;
 
-  showPendingStatus: boolean = false;
   showResendSuccessfulMessage: boolean = false;
   showResendErrorMessage: boolean = false;
   resendMessage: string = '';
@@ -51,19 +50,17 @@ export class ActivateAccountComponent implements OnInit {
 
   resendToken(): void {
     const params = {'oldExpiredToken': this.activationToken};
-    this.showActivationErrorMessage = false;
-    this.showPendingStatus = true;
 
     this.authService.resendActivationToken(params).subscribe(
       (response) => {
         this.showResendSuccessfulMessage = true;
         this.resendMessage = response.message;
-        this.showPendingStatus = false;
+        this.showActivationErrorMessage = false;
       },
       (error) => {
         this.showResendErrorMessage = true;
         this.resendMessage = error.error.message;
-        this.showPendingStatus = false;
+        this.showActivationErrorMessage = false;
       }
     );
   }

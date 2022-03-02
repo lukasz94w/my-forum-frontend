@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {ChangePasswordThroughUserSettings} from "../../model/request/change-password-through-user-settings";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-user-profile-settings-password',
@@ -21,30 +22,21 @@ export class UserProfileSettingsPasswordComponent {
   constructor(private userService: UserService) {
   }
 
-  changePassword() {
+  changePassword(ngForm: NgForm) {
     if (this.form.newPasswordFirstTry === this.form.newPasswordSecondTry) {
+      this.doesPasswordsMatch = true;
       const changePassword = new ChangePasswordThroughUserSettings(this.form.currentPassword, this.form.newPasswordFirstTry);
       this.userService.changePassword(changePassword).subscribe(
         (response) => {
           alert(response.message)
-          // TODO redirect to account info
         },
         (error) => {
           alert(error.error.message)
-          // TODO clean form there
         }
-      )
-      // TODO przywrocic to, usunalem bo mi przeladowuje strone i wtedy cos z pierwszym odczytem isLoggedIn jest nie tak!
-      // this.reloadPage();
+      );
+      ngForm.resetForm();
     } else {
       this.doesPasswordsMatch = false;
     }
   }
-
-  reloadPage(): void {
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
-  }
-
 }

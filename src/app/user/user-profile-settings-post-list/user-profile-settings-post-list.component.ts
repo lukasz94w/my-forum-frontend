@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {Post2} from "../../model/response/post2";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-user-profile-settings-post-list',
@@ -18,7 +19,7 @@ export class UserProfileSettingsPostListComponent implements OnChanges {
   currentPage = 1;
   totalPosts = 0;
   totalPages = 0;
-  numberOfPostsOnOnePage = 10;
+  numberOfPostsOnOnePage = environment.pageableItemsNumber;
 
   constructor(private userService: UserService) {
   }

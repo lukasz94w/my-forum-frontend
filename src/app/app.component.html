@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">
+  <a class="navbar-brand" [routerLink]="['/topic-categories']">
     <img
       src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Placeholder_4_3_wmf_green.svg/1280px-Placeholder_4_3_wmf_green.svg.png"
       class="d-inline-block align-top img-style" alt="">
@@ -14,7 +14,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ms-3 me-auto">
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="/topic-categories">Main page</a>
+        <a class="nav-link" [routerLink]="['/topic-categories']">Main page</a>
       </li>
     </ul>
 
@@ -23,13 +23,13 @@
         <div class="input-group-text p-0">
           <select
             #searchCriteriaSelector
-            class="form-select shadow-none bg-light border-0"
+            class="form-select shadow-none bg-light border-0 input"
             (change)="searchCriteriaChanged(searchCriteriaSelector.value)">
-            <option>Topics</option>
-            <option>Posts</option>
+            <option value="topic titles">Topics</option>
+            <option value="posts">Posts</option>
           </select>
         </div>
-        <input type="search" class="form-control" placeholder="Search in {{ searchCriteria }}..." #searchQuery>
+        <input type="search" class="form-control input" placeholder="Search in {{ searchCriteria }}..." #searchQuery>
         <button class="input-group-text shadow-none px-4 btn-success" (click)="search(searchQuery.value)">
           <i class="bi bi-search"></i>
         </button>
@@ -50,7 +50,7 @@
         <a class="nav-link" [routerLink]="['/user-profile-settings/', userName]">My profile</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/auth/signout']" (click)="signOut()">Sign out</a>
+        <a class="nav-link hover-effect" (click)="signOut()">Sign out</a>
       </li>
     </ul>
   </div>

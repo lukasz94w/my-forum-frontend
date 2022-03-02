@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AuthService} from "../../service/auth.service";
 import {Router} from "@angular/router";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-reset-password',
@@ -18,13 +19,14 @@ export class ResetPasswordComponent {
   constructor(private authService: AuthService, private router: Router) {
   }
 
-  onResetPassword(): void {
+  onResetPassword(ngForm: NgForm): void {
     const {email} = this.form;
     // it is intentionally that request doesn't return any
     // result to not reveal if such mail exists in the database
     this.authService.askForEmailWithResetLink(email).subscribe();
     this.showSuccessMessage = true;
     this.navigateToMainPage();
+    ngForm.resetForm();
   }
 
   navigateToMainPage(): void {

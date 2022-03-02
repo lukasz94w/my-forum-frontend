@@ -1,6 +1,6 @@
 import {
   AfterViewChecked,
-  Component,
+  Component, OnDestroy,
   OnInit
 } from '@angular/core';
 import {TopicService} from "../../service/topic.service";
@@ -13,13 +13,16 @@ import {LocalStorageService} from "../../service/local-storage.service";
 import {SignOutEvent} from "../../event/sign-out-event.service";
 import {PostStatus} from "../../model/request/post-status";
 import {HttpErrorResponse} from "@angular/common/http";
+import {takeUntil} from "rxjs/operators";
+import {Subject} from "rxjs";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-topic-view',
   templateUrl: './topic-view.component.html',
   styleUrls: ['./topic-view.component.css']
 })
-export class TopicViewComponent implements OnInit, AfterViewChecked {
+export class TopicViewComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   topicId: number = 0;
   topic = {} as Topic3;
@@ -31,9 +34,11 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
 
   totalPosts: number = 0;
   totalPages: number = 0;
-  numberOfPostsOnOnePage: number = 10;
+  numberOfPostsOnOnePage: number = environment.pageableItemsNumber;
 
   showAdminButtons: boolean = false;
+
+  componentDestroyedNotifier = new Subject();
 
   constructor(private topicService: TopicService, private postService: PostService,
               private activatedRoute: ActivatedRoute, private router: Router,
@@ -51,7 +56,7 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
       params => {
         if (params.number) {
           this.postNumber = params.number;
-          if (params.number > 10) {
+          if (params.number > this.numberOfPostsOnOnePage) {
             this.recalculatePageNumber();
             this.recalculatePostNumber();
           }
@@ -62,7 +67,9 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
     this.findPageablePostsOnPage(this.pageNumber);
 
     this.showAdminButtons = this.localStorageService.isUserAdmin();
-    this.signOutEvent.signOutEvent$.subscribe(
+    this.signOutEvent.signOutEvent$
+      .pipe(takeUntil(this.componentDestroyedNotifier))
+      .subscribe(
       () => {
         this.showAdminButtons = false;
       }
@@ -78,7 +85,7 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
   private recalculatePostNumber() {
     const result = this.postNumber % this.numberOfPostsOnOnePage;
     result === 0 ?
-      this.postNumber = 10 :
+      this.postNumber = this.numberOfPostsOnOnePage :
       this.postNumber = result;
   }
 
@@ -143,7 +150,7 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
   changePostStatus(postId: number, moderatedStatus: boolean) {
     this.postService.changePostStatus(new PostStatus(postId, moderatedStatus)).subscribe(
       () => {
-        this.reloadData()
+        this.reloadData(false)
       },
       () => {
         alert("Error occurred. Try again later")
@@ -151,8 +158,20 @@ export class TopicViewComponent implements OnInit, AfterViewChecked {
     )
   }
 
-  reloadData(): void {
+  reloadData(hasNewPostBeenAdded: boolean): void {
     this.findTopicById();
-    this.findPageablePostsOnPage(this.pageNumber);
+
+    if (hasNewPostBeenAdded) {
+      const pageNumber = Math.ceil(this.totalPosts / this.numberOfPostsOnOnePage);
+      // if new post has been added check if need to change to next page
+      this.totalPosts % this.numberOfPostsOnOnePage === 0 ? this.findPageablePostsOnPage(pageNumber + 1) : this.findPageablePostsOnPage(pageNumber);
+    } else {
+      this.findPageablePostsOnPage(this.pageNumber);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.componentDestroyedNotifier.next();
+    this.componentDestroyedNotifier.complete();
   }
 }

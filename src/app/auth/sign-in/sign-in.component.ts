@@ -5,6 +5,7 @@ import {LocalStorageService} from "../../service/local-storage.service";
 import {HttpStatusCode} from "@angular/common/http";
 import {SignInEvent} from "../../event/sign-in-event.service";
 import {TextProviderService} from "../../service/text-provider.service";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-sign-in',
@@ -24,7 +25,7 @@ export class SignInComponent {
               private localStorageService: LocalStorageService, private signInEvent: SignInEvent) {
   }
 
-  signIn() {
+  signIn(ngForm: NgForm) {
     const {username, password} = this.form;
     this.authService.signIn(username, password).subscribe(
       (data) => {
@@ -59,6 +60,7 @@ export class SignInComponent {
             break;
           }
         }
+        ngForm.resetForm();
       }
     )
   }

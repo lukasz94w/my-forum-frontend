@@ -17,8 +17,8 @@ export class TopicService {
   constructor(private httpClient: HttpClient) {
   }
 
-  createNewTopic(topicContent: NewTopicContent): Observable<void> {
-    return this.httpClient.post<void>(`${this.apiServerUrl}/topic/addTopic`, topicContent);
+  createNewTopic(topicContent: NewTopicContent): Observable<number> {
+    return this.httpClient.post<number>(`${this.apiServerUrl}/topic/addTopic`, topicContent);
   }
 
   changeTopicStatus(topicStatus: TopicStatus): Observable<void> {

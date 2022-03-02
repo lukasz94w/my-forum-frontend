@@ -43,5 +43,4 @@ export class TopicCategoriesComponent implements OnInit {
         console.log(error);
       })
   }
-
 }
