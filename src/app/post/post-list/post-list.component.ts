@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {PostService} from "../../service/post.service";
 import {Post2} from "../../model/response/post2";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-post-list',
@@ -15,7 +16,7 @@ export class PostListComponent implements OnInit {
   currentPage: number = 1;
   totalPosts: number = 0;
   totalPages: number = 0;
-  numberOfPostsOnOnePage: number = 10;
+  numberOfPostsOnOnePage: number = environment.pageableItemsNumber;
 
   headerText: string = '';
   searchQueryValue: string = '';

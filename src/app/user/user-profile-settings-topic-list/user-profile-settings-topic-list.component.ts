@@ -2,6 +2,7 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {LastTopicActivity} from "../../model/response/last-topic-activity";
 import {UserService} from "../../service/user.service";
 import {Topic2} from "../../model/response/topic2";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-user-profile-settings-topic-list',
@@ -21,7 +22,7 @@ export class UserProfileSettingsTopicListComponent implements OnChanges {
   currentPage = 1;
   totalTopics = 0;
   totalPages = 0;
-  numberOfTopicsOnOnePage = 10;
+  numberOfTopicsOnOnePage = environment.pageableItemsNumber;
 
   constructor(private userService: UserService) {
   }

@@ -5,7 +5,7 @@
   <div class="card-body">
     <form
       name="form"
-      ngForm (ngSubmit)="f.form.valid && addPost()"
+      ngForm (ngSubmit)="f.form.valid && addPost(f)"
       #f="ngForm"
       novalidate>
       <div class="form-group">

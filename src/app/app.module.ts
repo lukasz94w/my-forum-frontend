@@ -36,6 +36,7 @@ import {LoadingScreenComponent} from './loading/loading-screen.component';
 import {TemplateNotFoundComponent} from './error/template-not-found/template-not-found.component';
 import {ForumItemNotFoundComponent} from './error/forum-item-not-found/forum-item-not-found.component';
 import {PageNotFoundComponent} from './error/page-not-found/page-not-found.component';
+import {SingularPluralPipe} from './pipe/singular-plural.pipe';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import {PageNotFoundComponent} from './error/page-not-found/page-not-found.compo
     LoadingScreenComponent,
     TemplateNotFoundComponent,
     ForumItemNotFoundComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    SingularPluralPipe
   ],
   imports: [
     BrowserModule,

@@ -17,24 +17,13 @@ export class TopicAdminButtonsComponent {
   constructor(private topicService: TopicService, private router: Router) {
   }
 
-  openTopic() {
-    this.topicService.changeTopicStatus(new TopicStatus(this.topicId, false)).subscribe(
+  changeTopicStatus(status: boolean) {
+    this.topicService.changeTopicStatus(new TopicStatus(this.topicId, status)).subscribe(
       () => {
         this.isTopicOpenStatusHasChangedEvent.emit();
       },
       () => {
-        alert("Error during opening topic. Try again later")
-      }
-    )
-  }
-
-  closeTopic() {
-    this.topicService.changeTopicStatus(new TopicStatus(this.topicId, true)).subscribe(
-      () => {
-        this.isTopicOpenStatusHasChangedEvent.emit();
-      },
-      () => {
-        alert("Error during closing topic. Try again later")
+        alert("Error occured. Try again later");
       }
     )
   }

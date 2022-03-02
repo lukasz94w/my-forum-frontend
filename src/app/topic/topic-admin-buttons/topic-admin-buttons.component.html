@@ -4,7 +4,7 @@
 
 <ng-template #showCloseTopicButton>
   <button
-    (click)="closeTopic()"
+    (click)="changeTopicStatus(true)"
     type="button"
     class="btn btn-warning mt-2 ms-3">Close topic
   </button>
@@ -12,7 +12,7 @@
 
 <ng-template #showOpenTopicButton>
   <button
-    (click)="openTopic()"
+    (click)="changeTopicStatus(false)"
     type="button"
     class="btn btn-info mt-2 ms-3">Open topic
   </button>

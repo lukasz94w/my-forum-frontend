@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {UserService} from "../service/user.service";
 import {LocalStorageService} from "../service/local-storage.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
@@ -10,13 +10,15 @@ import {BanService} from "../service/ban.service";
 import {WebSocketService} from "../service/web-socket.service";
 import {WebServiceMessage} from "../model/request/web-service-message";
 import {TextProviderService} from "../service/text-provider.service";
+import {Subject} from "rxjs";
+import {takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'app-user-profile-test',
   templateUrl: './user-profile-settings.component.html',
   styleUrls: ['./user-profile-settings.component.css']
 })
-export class UserProfileSettingsComponent implements OnInit {
+export class UserProfileSettingsComponent implements OnInit, OnDestroy {
 
   usernameFromUrl: string = ''
   user = {} as User2;
@@ -33,6 +35,8 @@ export class UserProfileSettingsComponent implements OnInit {
   welcomeTextHeader: string = '';
   welcomeTextSub: string = '';
 
+  componentDestroyedNotifier = new Subject();
+
   constructor(private userService: UserService, private localStorageService: LocalStorageService,
               private activatedRoute: ActivatedRoute, private navTabService: NavTabEvent,
               private signOutEvent: SignOutEvent, private banUserService: BanUserEvent,
@@ -46,17 +50,26 @@ export class UserProfileSettingsComponent implements OnInit {
         this.usernameFromUrl = params['username'];
         this.initializeComponent();
       });
-    this.navTabService.navTabChanged$.subscribe(
+
+    this.navTabService.navTabChanged$
+      .pipe(takeUntil(this.componentDestroyedNotifier))
+      .subscribe(
       (selectedNavTabName) => {
         this.selectActiveTab(selectedNavTabName);
       });
-    this.signOutEvent.signOutEvent$.subscribe(
+
+    this.signOutEvent.signOutEvent$
+      .pipe(takeUntil(this.componentDestroyedNotifier))
+      .subscribe(
       () => {
         this.showUserSettings = false;
         this.showAdminTab = false;
         this.initializeComponent();
       });
-    this.banUserService.userWasBannedSource$.subscribe(
+
+    this.banUserService.userWasBannedSource$
+      .pipe(takeUntil(this.componentDestroyedNotifier))
+      .subscribe(
       (sourceOfOpeningWindow) => {
         if (sourceOfOpeningWindow == 'upperButton') {
           this.showUnBanUserButton = true;
@@ -153,5 +166,10 @@ export class UserProfileSettingsComponent implements OnInit {
         alert("Cannot ban this user. Try again later");
       }
     )
+  }
+
+  ngOnDestroy(): void {
+    this.componentDestroyedNotifier.next();
+    this.componentDestroyedNotifier.complete();
   }
 }

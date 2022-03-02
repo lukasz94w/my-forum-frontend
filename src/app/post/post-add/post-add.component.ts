@@ -1,21 +1,24 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {PostService} from "../../service/post.service";
 import {Router} from "@angular/router";
 import {LocalStorageService} from "../../service/local-storage.service";
 import {NewPostContent} from "../../model/request/new-post-content";
 import {SignOutEvent} from "../../event/sign-out-event.service";
 import {HttpStatusCode} from "@angular/common/http";
+import {NgForm} from "@angular/forms";
+import {Subject} from "rxjs";
+import {takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'app-post-add',
   templateUrl: './post-add.component.html',
   styleUrls: ['./post-add.component.css']
 })
-export class PostAddComponent implements OnInit, OnChanges {
+export class PostAddComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() topicId: number = 0;
   @Input() isTopicOpen: boolean = true;
-  @Output() reloadTopicAndPosts = new EventEmitter();
+  @Output() postHasBeenAdded = new EventEmitter();
 
   form: any = {
     content: null
@@ -24,6 +27,8 @@ export class PostAddComponent implements OnInit, OnChanges {
   isUserWithoutBanLoggedIn: boolean = false;
   isUserWithBanLoggedIn: boolean = false;
   postTextAreaPlaceholder: string = '';
+
+  componentDestroyedNotifier = new Subject();
 
   constructor(private router: Router, private localStorageService: LocalStorageService,
               private postService: PostService, private signOutEvent: SignOutEvent) {
@@ -42,7 +47,9 @@ export class PostAddComponent implements OnInit, OnChanges {
     this.isUserWithBanLoggedIn = this.localStorageService.isUserWithBanLoggedIn();
     this.setPlaceHolder();
 
-    this.signOutEvent.signOutEvent$.subscribe(
+    this.signOutEvent.signOutEvent$
+      .pipe(takeUntil(this.componentDestroyedNotifier))
+      .subscribe(
       () => {
         this.isUserWithBanLoggedIn = false;
         this.isUserWithoutBanLoggedIn = false;
@@ -51,23 +58,16 @@ export class PostAddComponent implements OnInit, OnChanges {
     )
   }
 
-  addPost() {
-    const newPost = new NewPostContent(this.form.content, this.topicId);
-    this.postService.createNewPost(newPost).subscribe(
+  addPost(ngForm: NgForm) {
+    this.postService.createNewPost(new NewPostContent(this.form.content, this.topicId)).subscribe(
       () => {
-        this.form.content = '';
-        // this.form.resetForm();
-        // this.form.setErrors(null)
-        // this.form.content.errors.set(false);
-        // this.form.controls.content.setErrors(null);
-        this.reloadTopicAndPosts.emit();
+        this.postHasBeenAdded.emit();
       },
       (error) => {
         alert(error.error.message);
         switch (error.status) {
           case HttpStatusCode.Locked: {
-            this.form.content = '';
-            this.reloadTopicAndPosts.emit();
+            this.postHasBeenAdded.emit();
             break;
           }
           case HttpStatusCode.Gone: {
@@ -77,6 +77,7 @@ export class PostAddComponent implements OnInit, OnChanges {
         }
       },
     )
+    ngForm.resetForm();
   }
 
   setPlaceHolder(): void {
@@ -87,5 +88,10 @@ export class PostAddComponent implements OnInit, OnChanges {
     } else {
       this.postTextAreaPlaceholder = 'Login to add new post';
     }
+  }
+
+  ngOnDestroy(): void {
+    this.componentDestroyedNotifier.next();
+    this.componentDestroyedNotifier.complete();
   }
 }

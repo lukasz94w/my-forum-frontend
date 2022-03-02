@@ -73,7 +73,7 @@
                                           {{ numberOfTopicsInEachCategory[i + startIndex] }}
                                       </span>
           <div>
-            <small>Topics</small>
+            <small>{{ 'Topic' | singularPlural: numberOfTopicsInEachCategory[i + startIndex] }}</small>
           </div>
         </div>
 
@@ -82,7 +82,7 @@
                                           {{ numberOfPostsInEachCategory[i + startIndex] }}
                                       </span>
           <div>
-            <small>Posts</small>
+            <small>{{ 'Post' | singularPlural: numberOfPostsInEachCategory[i + startIndex] }}</small>
           </div>
         </div>
 
@@ -127,7 +127,7 @@
                       <small class="text-muted"><a class="user-profile-link"
                                                    [routerLink]="['/user-profile-settings/', lastPageableTopicActivities[i + startIndex].userName]">
                         {{ lastPageableTopicActivities[i + startIndex].userName }}</a>,
-                        {{ lastPageableTopicActivities[i + startIndex].timeOfLastActivity | timeAgo}} </small>
+                        {{ lastPageableTopicActivities[i + startIndex].timeOfLastActivity | timeAgo }} </small>
                     </p>
                   </div>
                 </div>

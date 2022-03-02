@@ -6,7 +6,7 @@
       <app-topic-admin-buttons
         class="ms-auto topic-admin-buttons-wrapper"
         *ngIf="showAdminButtons"
-        (isTopicOpenStatusHasChangedEvent)="reloadData()"
+        (isTopicOpenStatusHasChangedEvent)="reloadData(false)"
         [topicId]="topicId"
         [isTopicOpen]="!topic.closed">
       </app-topic-admin-buttons>
@@ -90,7 +90,7 @@
       *ngIf="pageablePosts.length > 0"
       [topicId]="topicId"
       [isTopicOpen]="!topic.closed"
-      (reloadTopicAndPosts)="reloadData()">
+      (postHasBeenAdded)="reloadData(true)">
     </app-post-add>
 
   </div>

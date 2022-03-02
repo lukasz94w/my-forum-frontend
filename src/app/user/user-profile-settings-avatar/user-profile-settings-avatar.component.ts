@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {ImageCroppedEvent} from "ngx-image-cropper";
 
@@ -12,6 +12,7 @@ export class UserProfileSettingsAvatarComponent {
   @Input() username: string = ''
   @Input() profilePic: [] = [];
   @Input() isUserBanned: boolean = false;
+  @Output() avatarHasChanged = new EventEmitter();
 
   isImageCorrect: boolean = true;
   whyIsImageNotCorrect: string = '';
@@ -30,7 +31,8 @@ export class UserProfileSettingsAvatarComponent {
     this.userService.changeProfilePic(imageAsRequestBody).subscribe(
       (response) => {
         alert(response.message)
-        this.reloadPage();
+        this.avatarHasChanged.emit();
+        this.imageChangedEvent = ''; // remove image from cropper
       },
       (error) => {
         alert(error.error.message)
@@ -95,11 +97,4 @@ export class UserProfileSettingsAvatarComponent {
 
     return new File([u8arr], filename, {type: mime});
   }
-
-  reloadPage(): void {
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000);
-  }
-
 }

@@ -3,6 +3,7 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 import {AuthService} from "../../service/auth.service";
 import {ChangePasswordViaEmailLink} from "../../model/request/change-password-via-email-link";
 import {HttpStatusCode} from "@angular/common/http";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-change-password',
@@ -30,7 +31,7 @@ export class ChangePasswordComponent implements OnInit {
       });
   }
 
-  changePassword() {
+  changePassword(ngForm: NgForm) {
     if (this.form.newPasswordFirstTry === this.form.newPasswordSecondTry) {
       this.doesPasswordsMatch = true;
       this.authService.changePassword(new ChangePasswordViaEmailLink(this.form.newPasswordFirstTry, this.receivedToken)).subscribe(

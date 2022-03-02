@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {AuthService} from "../../service/auth.service";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-sign-up',
@@ -21,7 +22,7 @@ export class SignUpComponent {
   constructor(private authService: AuthService) {
   }
 
-  signUp(): void {
+  signUp(ngForm: NgForm): void {
     this.resetFlags();
     const {username, email, password} = this.form;
     this.authService.signUp(username, email, password).subscribe(
@@ -34,6 +35,7 @@ export class SignUpComponent {
         this.wasSignupUnsuccessful = true;
       }
     )
+    ngForm.resetForm();
   }
 
   resetFlags() {
