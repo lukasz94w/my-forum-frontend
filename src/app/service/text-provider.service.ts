@@ -12,7 +12,7 @@ export class TextProviderService {
     return [
       "Programming",
       "Sport",
-      "Electronic",
+      "Electronics",
       "Car",
       "Introduction",
       "Advertisement",
@@ -24,7 +24,7 @@ export class TextProviderService {
       "Talk about programming, backend, frontend technologies and so on.",
       "Interested in sport? You can talk with people which share your " +
       "interest. Football, basketball, hockey - you find there everything you want.",
-      "Section where maniacs of electronic gathers. You can ask about mending " +
+      "Section where maniacs of electronics gathers. You can ask about mending " +
       "electronic equipment and find interesting projects.",
       "Here you can discuss cars. Old, new brands. From Mercedes to Lada.",
       "New to the community? Please stop by, say hi and tell us a bit about yourself.",

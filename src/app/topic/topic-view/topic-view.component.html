@@ -2,9 +2,9 @@
   <div class="col-12">
 
     <div class="col-md-10 mb-3 d-flex">
-      <h3>{{ topic.title }}</h3>
+      <h3 class="me-auto col-md-8 col-7">{{ topic.title }}</h3>
       <app-topic-admin-buttons
-        class="ms-auto topic-admin-buttons-wrapper"
+        class="topic-admin-buttons-wrapper col-md-4 col-5"
         *ngIf="showAdminButtons"
         (isTopicOpenStatusHasChangedEvent)="reloadData(false)"
         [topicId]="topicId"

@@ -52,8 +52,27 @@ a:hover {
 
 @media (max-width: 992px) {
   .topic-admin-buttons-wrapper {
+    height: 80px;
     display: flex;
     justify-content: flex-end
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+  .topic-admin-buttons-wrapper {
+    margin-right: -2%;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1400px) {
+  .topic-admin-buttons-wrapper {
+    margin-right: -6%;
+  }
+}
+
+@media (min-width: 1400px) {
+  .topic-admin-buttons-wrapper {
+    margin-right: -10%;
   }
 }
 

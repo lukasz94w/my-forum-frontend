@@ -20,13 +20,13 @@
           rows="4"
           required
           minlength="5"
-          maxlength="500"
+          maxlength="1000"
           #content="ngModel"
         ></textarea>
         <div class="alert-danger" *ngIf="content.errors && f.submitted">
           <div *ngIf="content.errors.required">Content is required</div>
           <div *ngIf="content.errors.minlength || content.errors.maxlength">Content must have at least 5 characters (max
-            500)
+            1000)
           </div>
         </div>
       </div>

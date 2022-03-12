@@ -23,7 +23,7 @@
                     [(ngModel)]="form.username"
                     required
                     minlength="4"
-                    maxlength="30"
+                    maxlength="20"
                     id="username"
                     #username="ngModel"
                   />
@@ -31,7 +31,7 @@
                   <div class="alert-danger" *ngIf="username.errors && f.submitted">
                     <div *ngIf="username.errors.required">Username is required</div>
                     <div *ngIf="username.errors.minlength">Username must have at least 4 characters</div>
-                    <div *ngIf="username.errors.maxlength">Maximum length of username (30) exceeded</div>
+                    <div *ngIf="username.errors.maxlength">Maximum length of username (20) exceeded</div>
                   </div>
                 </div>
 
@@ -41,6 +41,8 @@
                     class="form-control"
                     name="email"
                     [(ngModel)]="form.email"
+                    minlength="4"
+                    maxlength="20"
                     required
                     email
                     #email="ngModel"
