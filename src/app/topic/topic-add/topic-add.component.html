@@ -34,12 +34,12 @@
                   [(ngModel)]="form.content"
                   required
                   minlength="5"
-                  maxlength="500"
+                  maxlength="1000"
                   #content = "ngModel">
         </textarea>
         <div class="alert-danger" *ngIf ="content.errors && f.submitted">
           <div *ngIf ="content.errors.required">Content is required</div>
-          <div *ngIf ="content.errors.minlength || content.errors.maxlength">Size of content: between 5 and 500 characters</div>
+          <div *ngIf ="content.errors.minlength || content.errors.maxlength">Size of content: between 5 and 1000 characters</div>
         </div>
       </div>
       <button type="submit" class="btn btn-success mt-2">Create</button>

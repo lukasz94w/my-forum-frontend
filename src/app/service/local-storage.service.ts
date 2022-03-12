@@ -8,6 +8,7 @@ const BAN_EXPIRATION_TIME = "ban-expiration-time"
 const IS_USER_ADMIN = "is-user-admin"
 const WAS_ALERT_BAN_SHOWN = "was-alert-ban-shown"
 const REMEMBER_ME = "remember-me"
+const NUMBER_OF_OPENED_TABS = "number-of-opened-tabs"
 
 @Injectable({
   providedIn: 'root'
@@ -85,10 +86,6 @@ export class LocalStorageService {
     return userName !== null;
   }
 
-  getTimeToAutoLogout(): number {
-    return this.getRefreshTokenExpirationTime() || this.getBanExpirationTime();
-  }
-
   private isRefreshTokenExpired(): boolean {
     const expirationTime = this.getRefreshTokenExpirationTime();
     return this.checkIfUnixTimeStampIsExpired(expirationTime);
@@ -135,5 +132,31 @@ export class LocalStorageService {
 
   isRememberMeChecked(): boolean {
     return localStorage.getItem(REMEMBER_ME) === 'true';
+  }
+
+  increaseNumberOfOpenedTabs(): void {
+    let numberOfOpenedTabs = localStorage.getItem(NUMBER_OF_OPENED_TABS) || 0
+    if (numberOfOpenedTabs <= -1) {
+      numberOfOpenedTabs = 0;
+    }
+    localStorage.setItem(NUMBER_OF_OPENED_TABS, (Number(numberOfOpenedTabs) + 1).toString())
+  }
+
+  decreaseNumberOfOpenedTabs(): void {
+    let numberOfOpenedTabs = Number(localStorage.getItem(NUMBER_OF_OPENED_TABS));
+    localStorage.setItem(NUMBER_OF_OPENED_TABS, (Number(numberOfOpenedTabs) - 1).toString())
+  }
+
+  getNumberOfOpenedTabs(): Number {
+    return Number(localStorage.getItem(NUMBER_OF_OPENED_TABS));
+  }
+
+  restoreLocalStorageFromSessionStorage() {
+    this.saveAccessToken(String(sessionStorage.getItem(ACCESS_TOKEN)))
+    this.saveRefreshToken(String(sessionStorage.getItem(REFRESH_TOKEN)));
+    this.saveUserName(String(sessionStorage.getItem(USER_NAME)));
+    this.saveIsUserAdmin(Boolean(sessionStorage.getItem(IS_USER_ADMIN)));
+    this.saveRefreshTokenExpirationTime(Number(sessionStorage.getItem(REFRESH_TOKEN_EXPIRATION_TIME)));
+    this.saveBanExpirationTime(Number(sessionStorage.getItem(BAN_EXPIRATION_TIME)));
   }
 }

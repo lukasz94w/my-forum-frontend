@@ -10,6 +10,7 @@ import {BanService} from "./service/ban.service";
 import {TextProviderService} from "./service/text-provider.service";
 import {Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
+import {SessionStorageService} from "./service/session-storage.service";
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,17 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(private localStorageService: LocalStorageService, private signInService: SignInEvent,
               private signOutService: SignOutEvent, private topicService: TopicService,
               private postService: PostService, private router: Router, private banService: BanService,
-              private webSocketService: WebSocketService, private textProviderService: TextProviderService) {
+              private webSocketService: WebSocketService, private textProviderService: TextProviderService,
+              private sessionStorageService: SessionStorageService) {
+
+    this.localStorageService.increaseNumberOfOpenedTabs();
+    // check if there is only one tab opened and it has been refreshed,
+    // more information in beforeUnloadTabHandler() description
+    if (this.localStorageService.getNumberOfOpenedTabs() === 1 &&
+      this.sessionStorageService.checkIfLastTabHasBeenRefreshed() &&
+      !this.localStorageService.isRememberMeChecked()) {
+      this.localStorageService.restoreLocalStorageFromSessionStorage();
+    }
   }
 
   ngOnInit(): void {
@@ -52,9 +63,9 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(
         () => {
           this.isLoggedIn = false
-          clearInterval(this.autoLogoutIntervalReference);
           this.webSocketService.disconnect();
           this.localStorageService.signOut();
+          clearInterval(this.autoLogoutIntervalReference);
         }
       );
 
@@ -66,14 +77,15 @@ export class AppComponent implements OnInit, OnDestroy {
     // is expired, or ban time is up if so, logout
     this.autoLogoutIntervalReference = setInterval(() => {
       if (!this.localStorageService.isLoggedIn()) {
-        alert("Session has ended. Please login again")
         this.localStorageService.signOut();
         this.signOutService.emitSignOut();
+        // alert("Session has ended. Please login again")
       }
     }, 5000);
   }
 
   signOut() {
+    clearInterval(this.autoLogoutIntervalReference);
     this.isLoggedIn = false;
     this.localStorageService.signOut();
     this.signOutService.emitSignOut();
@@ -132,19 +144,49 @@ export class AppComponent implements OnInit, OnDestroy {
     }, timeout);
   }
 
+  @HostListener('window:beforeunload')
+  beforeUnloadTabHandler() {
+    this.localStorageService.decreaseNumberOfOpenedTabs();
+    const numberOfOpenedTabsLeft = this.localStorageService.getNumberOfOpenedTabs();
+    /**
+     * Application cannot distinguish between the following operations:
+     * - closing last tab,
+     * - refreshing last tab.
+     * Both of the events triggered window:beforeunload.
+     * So if remember me isn't checked app doesn't know if it should log out user or not (it should happened only
+     * when last tab is CLOSED not refreshed).
+     * Solution to resolve this is to set test variable in session storage (which can survive refreshing,
+     * NOT closing tab), and copy whole local storage (which store signed in user data) to session storage.
+     * After refresh in constructor there is checking if this test variable remained. If so it means that the last
+     * tab has been refreshed and logged user data will be restored from session storage to local storage.
+     * */
+    if (numberOfOpenedTabsLeft <= 0 && this.localStorageService.isLoggedIn()) {
+      this.sessionStorageService.setTestVariableToCheckIfLastTabHasBeenRefreshed();
+      this.sessionStorageService.copyLocalStorageToSessionStorage();
+      // in case when signed in user closing last tab (without remember me checked)
+      // app will clear his logged in session data from localstorage,
+      // also session storage will be lost so he'll be logout
+      if (!this.localStorageService.isRememberMeChecked()) {
+        this.localStorageService.signOut();
+      }
+    }
+  }
+
   @HostListener('window:storage', ['$event'])
   onLocalStorageChange(storageEvent: StorageEvent) {
     if (storageEvent.storageArea == localStorage) {
-      // if storage was cleared in main tab others tab will
-      // know that by checking login status
-      const wasUserLoggedOut = !this.localStorageService.isLoggedIn();
-      // situation when tricky user opened more than one sign-in tab and
-      // logged on more than one account simultaneously
-      const hasUserLoggedOnMoreThanOneAccount = this.userName != this.localStorageService.getUsername();
+      setTimeout(() => {
+        // if storage was cleared in main tab others tab will
+        // know that by checking login status
+        const wasUserLoggedOut = !this.localStorageService.isLoggedIn();
+        // situation when tricky user opened more than one sign-in tab and
+        // logged on more than one account simultaneously
+        const hasUserLoggedOnMoreThanOneAccount = this.userName != this.localStorageService.getUsername();
 
-      if (wasUserLoggedOut || hasUserLoggedOnMoreThanOneAccount) {
-        this.signOutService.emitSignOut();
-      }
+        if (wasUserLoggedOut || hasUserLoggedOnMoreThanOneAccount) {
+          this.signOutService.emitSignOut();
+        }
+      }, 25);
     }
   }
 
