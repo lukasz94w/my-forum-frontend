@@ -66,6 +66,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.webSocketService.disconnect();
           this.localStorageService.signOut();
           clearInterval(this.autoLogoutIntervalReference);
+          this.userName = '';
         }
       );
 
@@ -89,6 +90,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isLoggedIn = false;
     this.localStorageService.signOut();
     this.signOutService.emitSignOut();
+    this.userName = '';
   }
 
   searchCriteriaChanged(searchCriteria: string) {
@@ -178,15 +180,15 @@ export class AppComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         // if storage was cleared in main tab others tab will
         // know that by checking login status
-        const wasUserLoggedOut = !this.localStorageService.isLoggedIn();
+        const hasUserBeenLogout = !this.localStorageService.isLoggedIn();
         // situation when tricky user opened more than one sign-in tab and
         // logged on more than one account simultaneously
-        const hasUserLoggedOnMoreThanOneAccount = this.userName != this.localStorageService.getUsername();
+        const hasUserLoggedOnMoreThanOneAccount = (this.userName != '') && (this.userName != this.localStorageService.getUsername());
 
-        if (wasUserLoggedOut || hasUserLoggedOnMoreThanOneAccount) {
+        if (hasUserBeenLogout || hasUserLoggedOnMoreThanOneAccount) {
           this.signOutService.emitSignOut();
         }
-      }, 25);
+      }, 125);
     }
   }
 
