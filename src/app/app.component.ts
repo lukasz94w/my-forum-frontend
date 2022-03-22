@@ -39,6 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.sessionStorageService.checkIfLastTabHasBeenRefreshed() &&
       !this.localStorageService.isRememberMeChecked()) {
       this.localStorageService.restoreLocalStorageFromSessionStorage();
+      this.sessionStorageService.clearSessionStorage();
     }
   }
 
@@ -70,7 +71,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       );
 
-    this.detectorOfWakeUpFromSleep();
+    this.setOnWakeUpDetector();
   }
 
   private setAutoLogout(): void {
@@ -126,7 +127,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.webSocketService.connect();
   }
 
-  private detectorOfWakeUpFromSleep() {
+  private setOnWakeUpDetector() {
     const timeout = 5000;
     let lastTime = (new Date()).getTime();
 
@@ -188,7 +189,7 @@ export class AppComponent implements OnInit, OnDestroy {
         if (hasUserBeenLogout || hasUserLoggedOnMoreThanOneAccount) {
           this.signOutService.emitSignOut();
         }
-      }, 125);
+      }, 200);
     }
   }
 

@@ -6,7 +6,6 @@ const USER_NAME = "user-name"
 const REFRESH_TOKEN_EXPIRATION_TIME = "refresh-token-expiration-time"
 const BAN_EXPIRATION_TIME = "ban-expiration-time"
 const IS_USER_ADMIN = "is-user-admin"
-const WAS_ALERT_BAN_SHOWN = "was-alert-ban-shown"
 const REMEMBER_ME = "remember-me"
 const NUMBER_OF_OPENED_TABS = "number-of-opened-tabs"
 
@@ -73,11 +72,11 @@ export class LocalStorageService {
     return this.isUserWithBanLoggedIn() || this.isUserWithoutBanLoggedIn();
   }
 
-  public isUserWithoutBanLoggedIn() {
+  isUserWithoutBanLoggedIn() {
     return this.isUserNameInLocalStorage() && this.isRefreshTokenExpired()
   }
 
-  public isUserWithBanLoggedIn() {
+  isUserWithBanLoggedIn() {
     return this.isUserNameInLocalStorage() && this.isDateOfBanExpired()
   }
 
@@ -106,23 +105,8 @@ export class LocalStorageService {
     return false;
   }
 
-  saveAlertBanHasBeenShown() {
-    localStorage.removeItem(WAS_ALERT_BAN_SHOWN);
-    localStorage.setItem(WAS_ALERT_BAN_SHOWN, String(true));
-  }
-
-  hasAlertBanBeenShown() {
-    return localStorage.getItem(WAS_ALERT_BAN_SHOWN) === 'true';
-  }
-
   signOut() {
-    localStorage.removeItem(ACCESS_TOKEN);
-    localStorage.removeItem(REFRESH_TOKEN);
-    localStorage.removeItem(USER_NAME);
-    localStorage.removeItem(REFRESH_TOKEN_EXPIRATION_TIME);
-    localStorage.removeItem(BAN_EXPIRATION_TIME);
-    localStorage.removeItem(IS_USER_ADMIN);
-    localStorage.removeItem(REMEMBER_ME);
+    localStorage.clear();
   }
 
   saveRememberMe(rememberMe: boolean): void {
@@ -155,7 +139,7 @@ export class LocalStorageService {
     this.saveAccessToken(String(sessionStorage.getItem(ACCESS_TOKEN)))
     this.saveRefreshToken(String(sessionStorage.getItem(REFRESH_TOKEN)));
     this.saveUserName(String(sessionStorage.getItem(USER_NAME)));
-    this.saveIsUserAdmin(Boolean(sessionStorage.getItem(IS_USER_ADMIN)));
+    this.saveIsUserAdmin(sessionStorage.getItem(IS_USER_ADMIN) === 'true');
     this.saveRefreshTokenExpirationTime(Number(sessionStorage.getItem(REFRESH_TOKEN_EXPIRATION_TIME)));
     this.saveBanExpirationTime(Number(sessionStorage.getItem(BAN_EXPIRATION_TIME)));
   }

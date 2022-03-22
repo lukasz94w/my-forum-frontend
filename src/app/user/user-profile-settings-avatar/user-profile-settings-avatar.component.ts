@@ -33,6 +33,7 @@ export class UserProfileSettingsAvatarComponent {
         alert(response.message)
         this.avatarHasChanged.emit();
         this.imageChangedEvent = ''; // remove image from cropper
+        this.isAllowedImageToUpload = false;
       },
       (error) => {
         alert(error.error.message)

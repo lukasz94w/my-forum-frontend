@@ -51,11 +51,8 @@ export class SignInComponent {
             this.localStorageService.saveBanExpirationTime(error.error.parametersMap.dateOfBan);
             this.localStorageService.saveRememberMe(this.rememberMe);
             this.signInEvent.emitSignIn();
-            // show ban message only once
-            if (!this.localStorageService.hasAlertBanBeenShown()) {
-              alert(error.error.message);
-              this.localStorageService.saveAlertBanHasBeenShown();
-            }
+            // show ban message
+            alert(error.error.message);
             this.router.navigate(['topic-categories']);
             break;
           }

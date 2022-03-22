@@ -32,33 +32,33 @@
                 data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab"
                 aria-controls="v-pills-home" aria-selected="false"
                 [ngClass]="{'active':activeTabName==='password'}" (click)="selectActiveTab('password')">
-          <i class="fa fa-refresh user-settings-icon"></i>Password
+          <i class="fa fa-lock user-settings-icon"></i>Password
         </button>
         <button *ngIf="showUserSettings" class="nav-link text-lg-start user-settings-panel-item"
                 id="v-pills-profile-tab"
                 data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab"
                 aria-controls="v-pills-profile" aria-selected="false"
                 [ngClass]="{'active':activeTabName==='avatar'}" (click)="selectActiveTab('avatar')">
-          <i class="fa fa-shield user-settings-icon"></i>Avatar
+          <i class="fa fa-camera user-settings-icon"></i>Avatar
         </button>
         <button class="nav-link text-lg-start user-settings-panel-item" id="v-pills-messages-tab"
                 data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab"
                 aria-controls="v-pills-messages" aria-selected="false"
                 [ngClass]="{'active':activeTabName==='posts'}" (click)="selectActiveTab('posts')">
-          <i class="fa fa-bookmark user-settings-icon"></i>Posts
+          <i class="fa fa-comments user-settings-icon"></i>Posts
         </button>
         <button class="nav-link text-lg-start user-settings-panel-item" id="v-pills-settings-tab"
                 data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab"
                 aria-controls="v-pills-settings" aria-selected="false"
                 [ngClass]="{'active':activeTabName==='topics'}" (click)="selectActiveTab('topics')">
-          <i class="fa fa-clock-o user-settings-icon"></i>Topics
+          <i class="fa fa-weixin user-settings-icon"></i>Topics
         </button>
         <button *ngIf="showAdminTab" class="nav-link text-lg-start user-settings-panel-item"
                 id="v-pills-admin-tab"
                 data-bs-toggle="pill" data-bs-target="#v-pills-admin" type="button" role="tab"
                 aria-controls="v-pills-admin" aria-selected="false"
                 [ngClass]="{'active':activeTabName==='admin'}" (click)="selectActiveTab('admin')">
-          <i class="fa fa-road user-settings-icon"></i>Admin
+          <i class="fa fa-exclamation-triangle user-settings-icon"></i>Admin
         </button>
       </div>
     </div>
