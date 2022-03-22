@@ -66,14 +66,19 @@
     </div>
 
     <div class="d-flex buttons-wrapper">
-      <label class="btn btn-primary button-select-image">
-        Choose image
-        <input type="file" accept=".jpg, .png" style="display: none;" name="image" (change)="fileChangeEvent($event)">
+      <label [ngStyle]="isUserBanned ? {'background': '#5f9afc', 'border': '#5f9afc', 'pointer-events': 'none'} : {}"
+             class="btn btn-primary button-select-image">Choose image
+        <input
+          class="avatar-input"
+          type="file"
+          accept=".jpg, .png"
+          name="image"
+          (change)="fileChangeEvent($event)">
       </label>
 
       <div class="ms-auto">
         <button
-          [disabled]="!isAllowedImageToUpload && isUserBanned"
+          [disabled]="!isAllowedImageToUpload || isUserBanned"
           class="btn btn-success button-upload-image"
           (click)="onUpload()">
           Upload image
