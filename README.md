@@ -1,27 +1,33 @@
-# MyForumFrontend
+# my-forum-frontend
+This repository contains the frontend of the forum web application. It was developed using the Angular framework. The backend part can be found at this address: https://github.com/lukasz94w/my-forum-backend. The application uses all available endpoints (as well as WebSockets) provided by the backend. After startup, the application is available on port 4200 (localhost:4200). Its operation was tested on Google Chrome and Opera.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.7.
+The following technologies / libraries were used to develop the application:
+- Angular,
+- TypeScript,
+- HTML,
+- CSS,
+- ngx-image-cropper.
 
-## Development server
+## Description of forum functionalities
+The main view summarizes all topics and posts grouped by category (such as programming or electronics). You can browse the topics in a given category and search for them by name. The same goes for posts. Other implemented features of the standard forum include adding new topics or leaving comments (posts) under existing ones.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The application includes a dedicated view of the user profile, in which it is possible, for example, to view topics created by him or added posts. The logged in user can additionally change the password or profile picture.
 
-## Code scaffolding
+The administrator also has a tab at his disposal where he can ban or unbans forum users (the date and reason for the ban are given). A banned user (thanks to listening to the WebSocket stomp endpoint) will immediately find out about the ban and then be automatically logged out.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Yet another administrator's right is the ability to hide posts that violate the forum rules and to close or delete existing topics.
 
-## Build
+If case of forgetting the password it can be reset it via the e-mail provided in registration. The option of remembering the user has been added, thanks to which the user will remain logged in even after the browser is completely closed (an additional condition is the validity of the refresh token).
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+The forum has a simple protection against bot accounts in the form of the need to confirm the created account using the e-mail address provided during the registration process. Until that moment, the account will be inactive.
 
-## Running unit tests
+Other implemented functionalities include:
+- auto logout function after the refresh token expires,
+- scroll function to the last post added in the topic.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Screenshots
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Improvements
+It is possible to add new functionalities / improvements to the application, such as: 
+- use skeleton loader when fetching data, 
+- reuse PostListComponent in UserProfileSettingsPostListComponent (it is practically the same HTML/CSS code and using it in the mentioned component would prevent code duplication), the same applies to TopicListComponent and UserProfileSettingsTopicListComponent.
