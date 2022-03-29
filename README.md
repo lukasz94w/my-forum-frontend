@@ -30,6 +30,8 @@ Other implemented functionalities include:
 
 ![sign_up](https://user-images.githubusercontent.com/53697813/160447302-000c0037-1cf6-496b-b11e-6e305d80e796.png)
 
+![sign_in](https://user-images.githubusercontent.com/53697813/160652446-801d94ef-9519-435c-995e-646dfed508f7.png)
+
 ![category_programming](https://user-images.githubusercontent.com/53697813/160443157-d93e8adf-49f3-4bd0-99bb-d6d6c60dde10.png)
 
 ![new_topic](https://user-images.githubusercontent.com/53697813/160443442-d32b63d0-6229-4adf-9316-7f0fd106a76a.png)
