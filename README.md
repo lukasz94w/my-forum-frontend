@@ -6,6 +6,7 @@ The following technologies / libraries were used in the project:
 - TypeScript,
 - HTML,
 - CSS,
+- Bootstrap,
 - ngx-image-cropper.
 
 ## Description of forum functionalities
@@ -21,6 +22,8 @@ If case of forgetting the password it can be reset it via the e-mail provided in
 
 The forum has a simple protection against bot accounts in the form of the need to confirm the created account using the e-mail address provided during the registration process. Until that moment, the account will be inactive.
 
+The interceptor class ensures that the access token is refreshed when it is expired. At this point, a proper request is sent to the server containing a refresh token (valid for 24 hours by default). In response, a new access token is received.
+
 Other implemented functionalities include:
 - auto logout function after the refresh token / ban time expires,
 - scroll function to the last post added in the topic.
@@ -30,9 +33,17 @@ Other implemented functionalities include:
 
 ![sign_up](https://user-images.githubusercontent.com/53697813/160447302-000c0037-1cf6-496b-b11e-6e305d80e796.png)
 
+![confirm_mail](https://user-images.githubusercontent.com/53697813/171473497-d08f84a3-6157-4528-9be0-76ba7bc89d5b.png)
+
+![account_activation](https://user-images.githubusercontent.com/53697813/171473535-1741eaf0-a389-4083-ab4f-27483938f1c9.png)
+
 ![sign_in](https://user-images.githubusercontent.com/53697813/160652446-801d94ef-9519-435c-995e-646dfed508f7.png)
 
 ![category_programming](https://user-images.githubusercontent.com/53697813/160443157-d93e8adf-49f3-4bd0-99bb-d6d6c60dde10.png)
+
+![posts_search](https://user-images.githubusercontent.com/53697813/171473584-2bc8bce2-fc57-4a37-8c54-905ce6ced5d2.png)
+
+![posts_search_2](https://user-images.githubusercontent.com/53697813/171473597-284b6bdf-3a25-40a7-8128-1687da6b2291.png)
 
 ![new_topic](https://user-images.githubusercontent.com/53697813/160443442-d32b63d0-6229-4adf-9316-7f0fd106a76a.png)
 
